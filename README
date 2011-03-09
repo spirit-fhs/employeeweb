@@ -1,0 +1,56 @@
+EmployeeWeb ist another application for the Spirit project from the Faculty of 
+Computer Science of the University of Applied Sciences Schmalkalden.
+
+http://pads.fh-schmalkalden.de/spirit.html
+
+It will act as the frontend for employees.
+
+It is/will be developed with Scala 2.8.1 and Lift 2.2.
+
+http://www.scala-lang.org
+http://www.liftweb.net
+
+Features:
+* Usage of CSS Selectors in Lift.
+
+* Implemented Record for Persistence.
+
+* Working against MongoDB and H2 Database, switchable via TAG in the prop files.
+
+Hints:
+* The fhsldap_2.8.1-1.0.jar which is located in the lib/ folder 
+  is the module found at https://github.com/mdenison/FhS-LDAP-Module.
+  Of course it is possible to use the module as described in its README.
+
+* Working SBT 0.7.4 installation is needed http://code.google.com/p/simple-build-tool/.
+
+* Not fully functional yet....
+
+Getting Started:
+
+Clone this repository.
+run:
+$ sbt update compile
+
+If this works without any errors go on with editing the Prop file as needed.
+
+Using EmployeeWeb with H2 Database simply set 
+spirit.admin.record.backentry=h2db
+in the default.props file.
+
+Using EmployeeWeb with MongoDB it is necessary to do following on the mongo shell:
+spirit.admin.record.backentry=mongodb
+for specs:
+> use spirit_admin_test
+> db.addUser("spirit_admin_test","spirit_admin_test")
+for production:
+> use spirit_admin_employeeweb
+> db.addUser("spirit_admin_employeeweb","spirit_admin_employeeweb")
+
+Running
+$ sbt test
+should pass all tests with both Databases.
+
+After everything is set up, run:
+$ sbt ~jetty-run
+should give a Welcome screen at http://localhost:8080
