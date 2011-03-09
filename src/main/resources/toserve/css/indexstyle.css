@@ -1,0 +1,21 @@
+table {
+  border: solid 1px #D5D5D5;
+  border-collapse: collapse;
+	width:100%;
+}
+
+table td {
+	border:1px solid #D5D5D5;
+	font-size:12px;
+	padding:7px 5px;
+}
+
+table th {
+	color:#00386A;
+	border:1px solid #D5D5D5;
+	font-size:13.5px;
+	line-height:120%;
+	font-weight:bold;
+	padding:8px 5px;
+	text-align:left;
+}

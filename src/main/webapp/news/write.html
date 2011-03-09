@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+    <title>Test</title>
+  </head>
+  <body class="lift:content_id=main">
+    <div id="main" class="lift:surround?with=default;at=content">
+      <h2>News verfassen:</h2>
+        <div>
+            <form class="lift:WriteNews?form=post">
+                Name:<br>             <input name="displayName"><br>
+                Verf&auml;llt am:<br> <input name="expires"><br>
+                Betreff:<br>          <input name="subject"><br>
+                Semester:(Die Auswahl entspricht dem Aktuellen Mail Verteiler!)
+                <hr>
+                <table width="80%" >
+                    <tr>
+                        <td class="lift:WriteNews.makecheckboxlist?semester=Other" style="width:3%;border:0">
+                        <div class="checkbox_row">
+                            <div class="checkbox">Enabled</div>
+                            <div class="title">Semester</div>
+                        </div>
+                        </td>
+                        <td class="lift:WriteNews.makecheckboxlist?semester=BaI" style="width:3%;border:0">
+                        <div class="checkbox_row">
+                            <div class="checkbox">Enabled</div>
+                            <div class="title">Semester</div>
+                        </div>
+                        </td>
+                        <td class="lift:WriteNews.makecheckboxlist?semester=BaWI" style="width:3%;border:0">
+                        <div class="checkbox_row">
+                            <div class="checkbox">Enabled</div>
+                            <div class="title">Semester</div>
+                        </div>
+                        </td>
+                        <td class="lift:WriteNews.makecheckboxlist?semester=BaMuMa" style="width:3%;border:0">
+                        <div class="checkbox_row">
+                            <div class="checkbox">Enabled</div>
+                            <div class="title">Semester</div>
+                        </div>
+                        </td>
+                        <td class="lift:WriteNews.makecheckboxlist?semester=BaITS" style="width:3%;border:0">
+                        <div class="checkbox_row">
+                            <div class="checkbox">Enabled</div>
+                            <div class="title">Semester</div>
+                        </div>
+                        </td>
+                        <td class="lift:WriteNews.makecheckboxlist?semester=Ma" style="width:3%;border:0">
+                        <div class="checkbox_row">
+                            <div class="checkbox">Enabled</div>
+                            <div class="title">Semester</div>
+                        </div>
+                        </td>
+                    </tr>
+                </table>
+                <hr>
+                <input name="emailBool"> News als E-Mail verteilen.<br>
+                News:<br>   <input name="news" style="width:100%"><br>
+                            <input value="Submit" type="submit">
+            </form>
+
+        </div>
+
+    </div>
+  </body>
+</html>
