@@ -34,6 +34,7 @@ class Boot extends Loggable with DBChooser[Boot] with MenuBuilder[Boot] {
       case "images" :: _ => true
       case "css" :: _ => true
       case "blueprint" :: _ => true
+      case "jquery" :: _ => true
     }
 
     // Starting the FhS LDAP Module

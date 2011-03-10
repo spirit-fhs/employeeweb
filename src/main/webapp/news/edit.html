@@ -6,6 +6,17 @@
   </head>
   <body class="lift:content_id=main">
     <div id="main" class="lift:surround?with=default;at=content">
+
+        <link type="text/css" href="/classpath/jquery/css/cupertino/jquery-ui-1.8.10.custom.css" rel="Stylesheet" />
+        <script type="text/javascript" src="/classpath/jquery/js/jquery-1.4.4.min.js"></script>
+        <script type="text/javascript" src="/classpath/jquery/js/jquery-ui-1.8.10.custom.min.js"></script>
+        <script type="text/javascript" src="/classpath/jquery/js/jquery.ui.datepicker-de.js"></script>
+        <script type="text/javascript">
+        $(function() {
+          $( "#expires_id_field" ).datepicker($.datepicker.regional['de']);
+        });
+        </script>
+
       <h2>News editieren:</h2>
         <div>
             <form class="lift:WriteNews?form=post">
