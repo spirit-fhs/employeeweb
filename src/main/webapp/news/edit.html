@@ -7,15 +7,11 @@
   <body class="lift:content_id=main">
     <div id="main" class="lift:surround?with=default;at=content">
 
-        <link type="text/css" href="/classpath/jquery/css/cupertino/jquery-ui-1.8.10.custom.css" rel="Stylesheet" />
-        <script type="text/javascript" src="/classpath/jquery/js/jquery-1.4.4.min.js"></script>
-        <script type="text/javascript" src="/classpath/jquery/js/jquery-ui-1.8.10.custom.min.js"></script>
-        <script type="text/javascript" src="/classpath/jquery/js/jquery.ui.datepicker-de.js"></script>
-        <script type="text/javascript">
-        $(function() {
-          $( "#expires_id_field" ).datepicker($.datepicker.regional['de']);
-        });
-        </script>
+      <link type="text/css" href="/classpath/jquery/css/cupertino/jquery-ui-1.8.10.custom.css" rel="Stylesheet" />
+      <script type="text/javascript" src="/classpath/jquery/js/jquery-1.4.4.min.js"></script>
+      <script type="text/javascript" src="/classpath/jquery/js/jquery-ui-1.8.10.custom.min.js"></script>
+      <script type="text/javascript" src="/classpath/jquery/js/jquery.ui.datepicker-de.js"></script>
+      <script type="text/javascript" src="/classpath/js/spirit.js"></script>
 
       <h2>News editieren:</h2>
         <div>
@@ -70,10 +66,9 @@
                 <input name="twitterBool"> Update über Twitter und Facebook verteilen.
                 News:<br>   <input name="news" style="width:100%"><br>
                             <input value="Submit" type="submit">
+                            <input value="Vorschau" name="onclick" type="preview">
             </form>
-
         </div>
-
     </div>
   </body>
 </html>

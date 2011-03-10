@@ -4,6 +4,7 @@ class LiftProject(info: ProjectInfo) extends DefaultWebProject(info) {
   val liftVersion = "2.2"
 
   override def libraryDependencies = Set(
+    "net.liftweb" %% "lift-textile" % liftVersion % "compile->default" withSources(),
     "net.liftweb" %% "lift-util" % liftVersion % "compile->default" withSources(),
     "net.liftweb" %% "lift-webkit" % liftVersion % "compile->default" withSources(),
     "net.liftweb" %% "lift-mapper" % liftVersion % "compile->default" withSources(),

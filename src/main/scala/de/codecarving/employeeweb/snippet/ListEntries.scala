@@ -4,7 +4,7 @@ package snippet
 import de.codecarving.fhsldap.model.User
 import net.liftweb.http.SHtml._
 import net.liftweb.common.{Box, Empty, Full, Loggable}
-import net.liftweb.http.RequestVar
+import net.liftweb.textile._
 
 import scala.xml.Text
 import model.{GlobalRequests, SpiritEntry}
@@ -34,7 +34,7 @@ class ListEntries extends Loggable with GlobalRequests {
 					<td>Nr: {v.nr.value}</td>
 				</tr>
 				<tr>
-					<td colspan="4">{v.news.value}</td>
+					<td colspan="4">{TextileParser.toHtml(v.news.value)}</td>
 				</tr>
         <tr>
           <td colspan="4">Optionen: {link("/news/edit", () => CurrentEntry(Full(v)), Text("Editieren"))}

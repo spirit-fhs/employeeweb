@@ -11,15 +11,11 @@
         <script type="text/javascript" src="/classpath/jquery/js/jquery-1.4.4.min.js"></script>
         <script type="text/javascript" src="/classpath/jquery/js/jquery-ui-1.8.10.custom.min.js"></script>
         <script type="text/javascript" src="/classpath/jquery/js/jquery.ui.datepicker-de.js"></script>
-        <script type="text/javascript">
-        $(function() {
-          $( "#expires_id_field" ).datepicker($.datepicker.regional['de']);
-        });
-        </script>
+        <script type="text/javascript" src="/classpath/js/spirit.js"></script>
 
-      <h2>News verfassen:</h2>
+        <h2>News verfassen:</h2>
         <div>
-            <form class="lift:WriteNews?form=post">
+            <form class="lift:WriteNews" id="myform" action="menos">
                 Name:<br>             <input name="displayName"><br>
                 Verf&auml;llt am:<br> <input name="expires"><br>
                 Betreff:<br>          <input name="subject"><br>
@@ -68,11 +64,10 @@
                 <hr>
                 <input name="emailBool"> News als E-Mail verteilen.<br>
                 News:<br>   <input name="news" style="width:100%"><br>
-                            <input value="Submit" type="submit">
+                            <input value="Submit" type="submit" name="do_submit" id="do_submit">
+                            <input value="Vorschau" name="onclick" type="preview">
             </form>
-
         </div>
-
     </div>
   </body>
 </html>
