@@ -20,7 +20,7 @@ import model.{GlobalRequests, SpiritEntry}
 
 class WriteNews extends Loggable with GlobalRequests with EntryPreview {
 
-  private var semesterList = List[String]()
+  private var semesterList = Set[String]()
 
   lazy val openEntry =
     CurrentEntry.get match {
@@ -36,28 +36,31 @@ class WriteNews extends Loggable with GlobalRequests with EntryPreview {
         SpiritEntry.createRecord
     }
 
-  /**
-   * Processing the input page.
-   */
-  def process() {
 
-    openEntry.semester.setFromList(semesterList)
-    openEntry.save(openEntry.newEntry.value)
-    S.redirectTo("/index")
-  }
+
 
   /**
    * Rendering the input form for an entry.
    */
   def render = {
-    "#myform [action] " #> "/" &
+
+    /**
+     * Processing the input page.
+     */
+    def process(): JsCmd = {
+
+      openEntry.semester.setFromList(semesterList.toList)
+      openEntry.save(openEntry.newEntry.value)
+
+      S.redirectTo("/news/news")
+    }
+
     "name=twitterBool"  #> openEntry.twitterBool.toForm.open_! &
     "name=emailBool"    #> openEntry.emailBool.toForm.open_! &
     "name=displayName"  #> openEntry.displayName.toForm.open_! &
     "name=subject"      #> openEntry.subject.toForm.open_! &
     "name=expires"      #> openEntry.expires.toForm.open_! &
-    "name=news"         #> openEntry.news.toForm.open_! &
-    "type=submit"       #> SHtml.onSubmitUnit(process) &
+    "name=news"         #> (openEntry.news.toForm.open_! ++ SHtml.hidden(process)) &
     "type=preview"      #> <span class="lift:WriteNews.mkPreview">
                               <json:script></json:script>
                               <div id="dialog" title="Vorschau">
@@ -73,8 +76,8 @@ class WriteNews extends Loggable with GlobalRequests with EntryPreview {
       (".checkbox_row" #> Props.get(Props.get("Semester","") + "_" + S.attr("semester").open_!, "").split(";").toList
         .map ( sem =>
       ".title" #> sem &
-      ".checkbox" #> SHtml.checkbox(openEntry.semester.valueAsList contains sem,
-                                    if (_) semesterList = sem :: semesterList))
+      ".checkbox" #> SHtml.ajaxCheckbox(openEntry.semester.valueAsList contains sem,
+                                    { v => if(v) semesterList = semesterList + sem; Noop } ))
       ).apply(in)
   }
 

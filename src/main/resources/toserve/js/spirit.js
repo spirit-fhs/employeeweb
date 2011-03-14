@@ -20,7 +20,6 @@ $( "#dialog" ).dialog({
                     {
                         text: "Senden",
                         click: function() {
-                         $(this).trigger('click');
                          $("form:first").submit();
                         }
                     }
