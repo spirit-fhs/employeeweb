@@ -55,8 +55,7 @@ class EntrySpecs extends Specification with Contexts {
                 "jdbc:h2:spirit_admin_test.db;AUTO_SERVER=TRUE",
                 Empty, Empty)
 
-        DB.defineConnectionManager(
-              DefaultConnectionIdentifier, vendor)
+        DB.defineConnectionManager(DefaultConnectionIdentifier, vendor)
 
         Schemifier.schemify(true, Schemifier.infoF _, h2BE, h2BEC)
 
@@ -74,7 +73,7 @@ class EntrySpecs extends Specification with Contexts {
   }
 
   "WriteNews" should {
-    val newNews = new WriteNews
+    lazy val newNews = new WriteNews
     newNews.openEntry.subject.set("NewsSpec")
     newNews.openEntry.newEntry.set(true)
 
@@ -124,6 +123,7 @@ class EntrySpecs extends Specification with Contexts {
     }
 
     "update an existing Entry without inc its number (If not Tweeting Update)." in {
+
       newNews.openEntry.save(true)
 
       val oldEntry = SpiritEntry.findAll.head
@@ -131,6 +131,9 @@ class EntrySpecs extends Specification with Contexts {
 
       updateNews.CurrentEntry(Full(oldEntry))
       updateNews.openEntry.twitterBool.set(false)
+      println(updateNews.openEntry.newEntry.value + "test555")
+      //TODO this should be already set during line 133
+      updateNews.openEntry.newEntry.set(false)
       updateNews.openEntry.save(false)
 
       SpiritEntry.findAll.head.nr.value mustEqual oldNr

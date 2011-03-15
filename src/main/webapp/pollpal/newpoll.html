@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+    <title>Home</title>
+  </head>
+
+  <body class="lift:content_id=main">
+    <div id="main" class="lift:surround?with=default;at=content">
+
+    <link type="text/css" href="/classpath/jquery/css/cupertino/jquery-ui-1.8.10.custom.css" rel="Stylesheet" />
+    <script type="text/javascript" src="/classpath/jquery/js/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="/classpath/jquery/js/jquery-ui-1.8.10.custom.min.js"></script>
+    <script type="text/javascript" src="/classpath/jquery/js/jquery.ui.datepicker-de.js"></script>
+    <script type="text/javascript" src="/classpath/js/spirit.js"></script>
+
+    <h2>Neue Umfrage:</h2>
+        <form class="lift:PollPal" id="myform">
+          <table>
+              <tr>
+                  <td>Titel der Umfrage:</td>
+                  <td><input name="title"><br></td>
+              </tr>
+              <tr>
+                  <td>Bis wann soll die Umfrage laufen:</td>
+                  <td><input name="expires"></td>
+              </tr>
+              <tr>
+                  <td><div class="lift:PollPal.addTextfield?div=answer_fields">Neue Antwort</div></td>
+                  <td>Antworten:</td>
+              </tr>
+              <tr>
+                  <td></td>
+                  <td><div id="answer_fields" class="lift:PollPal.showLines">input goes here</div></td>
+              </tr>
+          </table>
+          <input value="Erstellen" type="submit" name="do_submit" id="do_submit">
+          <div class="lift:PollPal.reset">Reset</div>
+        </form>
+	</div>
+  </body>
+</html>

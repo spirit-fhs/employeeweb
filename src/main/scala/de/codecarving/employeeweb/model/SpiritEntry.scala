@@ -167,13 +167,18 @@ class SpiritEntry extends SpiritRecord[SpiritEntry] with SpiritHelpers {
 
   object expires extends StringField(this, ((new SimpleDateFormat("dd.MM.yyyy")).format(new Date)))
     with LifecycleCallbacks {
+
       override def beforeSave() {
         super.beforeSave
         this.setFromAny(dateValidator(this.value))
       }
     }
 
-  object news extends TextareaField(this, 100000)
+  object news extends TextareaField(this, 100000) {
+
+    override def textareaRows  = 12
+    override def textareaCols = 80
+  }
 
   object semester extends StringField(this, 100) {
 

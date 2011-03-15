@@ -25,10 +25,13 @@ trait MenuBuilder[T <: Boot] {
   val sitemap = List(
     Menu.i("Home") / "index",
     Menu.i("News") / "news" / "news" >> loggedInEmployeeorAdmin submenus (
-      Menu.i("Neu") / "news" / "write" >> loggedInEmployeeorAdmin,
+      Menu.i("News Anlegen") / "news" / "write" >> loggedInEmployeeorAdmin,
       Menu.i("Editieren") / "news" / "edit" >> loggedInEmployeeorAdmin >> Hidden
       ),
-    Menu.i("Talk Allocator") / "talkalloc" >> loggedInEmployeeorAdmin,
+    Menu.i("Talk Allocator") / "talkallocator" / "index" >> loggedInEmployeeorAdmin,
+    Menu.i("Poll Pal") / "pollpal" / "index" >> loggedInEmployeeorAdmin submenus (
+      Menu.i("Umfrage Anlegen") / "pollpal" / "newpoll" >> loggedInEmployeeorAdmin
+      ),
     Menu.i("Administration") / "administration" >> loggedInAdmin
 
 

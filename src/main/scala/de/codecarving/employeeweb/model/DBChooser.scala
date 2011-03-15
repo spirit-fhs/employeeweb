@@ -22,7 +22,7 @@ trait DBChooser[T <: Boot] {
 
     case H2DB =>
       import net.liftweb.mapper._
-      import de.codecarving.employeeweb.persistence.h2.{ BackendEntry, BackendEntryCounter }
+      import de.codecarving.employeeweb.persistence.h2.{ BackendEntry, BackendEntryCounter, BackendPoll, BackendPollAnswers }
       val vendor = new StandardDBVendor("org.h2.Driver",
                                         "jdbc:h2:spirit_admin_employeeweb.db;AUTO_SERVER=TRUE",
                                         Empty, Empty)
@@ -31,7 +31,7 @@ trait DBChooser[T <: Boot] {
 
       DB.defineConnectionManager(DefaultConnectionIdentifier, vendor)
 
-      Schemifier.schemify(true, Schemifier.infoF _, BackendEntry, BackendEntryCounter)
+      Schemifier.schemify(true, Schemifier.infoF _, BackendEntry, BackendEntryCounter, BackendPoll, BackendPollAnswers)
 
     case _ =>
   }

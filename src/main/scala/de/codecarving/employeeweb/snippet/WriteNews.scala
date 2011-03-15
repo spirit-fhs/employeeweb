@@ -20,8 +20,6 @@ import model.{GlobalRequests, SpiritEntry}
 
 class WriteNews extends Loggable with GlobalRequests with EntryPreview {
 
-  private var semesterList = Set[String]()
-
   lazy val openEntry =
     CurrentEntry.get match {
       case Full(entry) =>
@@ -36,7 +34,7 @@ class WriteNews extends Loggable with GlobalRequests with EntryPreview {
         SpiritEntry.createRecord
     }
 
-
+  private var semesterList = openEntry.semester.valueAsList.toSet
 
 
   /**
@@ -59,8 +57,8 @@ class WriteNews extends Loggable with GlobalRequests with EntryPreview {
     "name=emailBool"    #> openEntry.emailBool.toForm.open_! &
     "name=displayName"  #> openEntry.displayName.toForm.open_! &
     "name=subject"      #> openEntry.subject.toForm.open_! &
-    "name=expires"      #> openEntry.expires.toForm.open_! &
-    "name=news"         #> (openEntry.news.toForm.open_! ++ SHtml.hidden(process)) &
+    "name=news"         #> openEntry.news.toForm.open_! &
+    "name=expires"      #> (openEntry.expires.toForm.open_! ++ SHtml.hidden(process)) &
     "type=preview"      #> <span class="lift:WriteNews.mkPreview">
                               <json:script></json:script>
                               <div id="dialog" title="Vorschau">
@@ -76,9 +74,13 @@ class WriteNews extends Loggable with GlobalRequests with EntryPreview {
       (".checkbox_row" #> Props.get(Props.get("Semester","") + "_" + S.attr("semester").open_!, "").split(";").toList
         .map ( sem =>
       ".title" #> sem &
-      ".checkbox" #> SHtml.ajaxCheckbox(openEntry.semester.valueAsList contains sem,
-                                    { v => if(v) semesterList = semesterList + sem; Noop } ))
+      ".checkbox" #> SHtml.ajaxCheckbox(semesterList contains sem,
+                                    { v =>
+                                      if(v) semesterList = semesterList + sem;
+                                      if(!v) semesterList = semesterList - sem;
+                                    Noop } ))
       ).apply(in)
   }
+  //TODO ToolTip for textile
 
 }

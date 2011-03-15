@@ -24,7 +24,7 @@ $( "#dialog" ).dialog({
                         }
                     }
                     ],
-                    modal: true
+                    modal: false
 
                 });
 
