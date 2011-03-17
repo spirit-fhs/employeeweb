@@ -21,7 +21,8 @@ class ListPolls extends Loggable with GlobalRequests {
 			  </thead>
         <tbody>
         <tr>
-          <td colspan="4">Optionen: {SHtml.link("/pollpal/pollgraph", () => CurrentPoll(Full(sp)), Text("Als Grafik darstellen"))}
+          <td colspan="4">Optionen: {SHtml.link("/pollpal/pollgraph", () => { CurrentPoll(Full(sp)); ChartChooser("BarChart") }, Text("Als BarChart darstellen"))}
+                                    {SHtml.link("/pollpal/pollgraph", () => { CurrentPoll(Full(sp)); ChartChooser("PieChart") }, Text("Als PieChart darstellen"))}
                                     {SHtml.link("/pollpal/index", () => sp.delete_!, Text("Löschen"))}
           </td>
         </tr>

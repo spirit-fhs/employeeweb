@@ -24,10 +24,11 @@ class PollGraph extends Loggable with GlobalRequests with GraphCreators {
     ) yield (i.answer.value, i.votes.value)
 
   lazy val url =
-    if(currentPoll.open_!.answerCount.value > 9)
-      createPieChart(currentPoll.open_!.title.value, currentAnswers)
-    else
-      createBarChart(currentPoll.open_!.title.value, currentAnswers)
+    ChartChooser.get match {
+      case "PieChart" => createPieChart(currentPoll.open_!.title.value, currentAnswers)
+      case "BarChart" => createBarChart(currentPoll.open_!.title.value, currentAnswers)
+      case _ => ""
+    }
 
   def render = {
    //TODO Add handling if Google Api ist not reachable

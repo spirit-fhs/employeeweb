@@ -34,7 +34,7 @@ object Dummy extends Loggable {
       val secondPoll = SpiritPoll.createRecord
       secondPoll.title.set("Dummy Poll Nr. 2")
 
-      for(i <- 1 to 11){
+      for(i <- 1 to 9){
         val spa = SpiritPollAnswers.createRecord
         spa.title.set(secondPoll.title.value)
         spa.answer.set("Answer Nr." + i)
