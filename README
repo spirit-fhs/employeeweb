@@ -17,6 +17,8 @@ Features:
 
 * Working against MongoDB and H2 Database, switchable via TAG in the prop files.
 
+* Using charts4j http://code.google.com/p/charts4j/ for Poll evaluation.
+
 Hints:
 * The fhsldap_2.8.1-1.0.jar which is located in the lib/ folder 
   is the module found at https://github.com/mdenison/FhS-LDAP-Module.
