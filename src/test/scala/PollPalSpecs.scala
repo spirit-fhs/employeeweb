@@ -69,8 +69,9 @@ class PollPalSpecs extends Specification with Contexts {
 
   "PollPal" should {
     val pollpal = new PollPal
+    val pollpal2 = new PollPal
 
-    "create a Poll with 2 Answers" in {
+    "create a Poll with two Answers" in {
       pollpal.openPoll.title.set("Poll1")
 
       val spa1 = SpiritPollAnswers.createRecord
@@ -92,7 +93,7 @@ class PollPalSpecs extends Specification with Contexts {
       }.size mustBe 2
     }
 
-    "create a Poll with answerCount size 2" in {
+    "create one Poll with answerCount size 2" in {
       pollpal.openPoll.title.set("Poll1")
 
       val spa1 = SpiritPollAnswers.createRecord
@@ -109,7 +110,62 @@ class PollPalSpecs extends Specification with Contexts {
       pollpal.openPoll.save
 
       SpiritPoll.findAll.filter(_.title.value == "Poll1").head.answerCount.value mustEqual 2
+    }
 
+    "create two Polls and delete one of them with its Answers" in {
+      pollpal.openPoll.title.set("Poll 1")
+
+      for(i <- 0 to 4) {
+        val spa = SpiritPollAnswers.createRecord
+          spa.title(pollpal.openPoll.title.value)
+          spa.answer("Answer" + i)
+          spa.save
+      }
+
+      pollpal.openPoll.save
+
+      pollpal2.openPoll.title.set("Poll 2")
+
+      for(i <- 0 to 4) {
+        val spa = SpiritPollAnswers.createRecord
+          spa.title(pollpal2.openPoll.title.value)
+          spa.answer("Answer" + i)
+          spa.save
+      }
+
+      pollpal2.openPoll.save
+
+      SpiritPoll.findAll.filter(_.title.value == "Poll 1").map(_.delete_!)
+
+      val pollSize = SpiritPoll.findAll.size == 1
+      val answerSize = SpiritPollAnswers.findAll.filter(_.title.value == "Poll 1").size == 0
+
+      pollSize mustEqual answerSize
+    }
+
+    "create two Polls with a count of 14 Answers" in {
+      pollpal.openPoll.title.set("Poll 1")
+      for(i <- 0 to 6) {
+        val spa = SpiritPollAnswers.createRecord
+          spa.title(pollpal.openPoll.title.value)
+          spa.answer("Answer" + i)
+          spa.save
+      }
+      pollpal.openPoll.save
+
+      pollpal.openPoll.title.set("Poll 2")
+      for(i <- 0 to 6) {
+        val spa = SpiritPollAnswers.createRecord
+          spa.title(pollpal.openPoll.title.value)
+          spa.answer("Answer" + i)
+          spa.save
+      }
+      pollpal.openPoll.save
+
+
+      val poll1AnswerSize = SpiritPollAnswers.findAll.filter(_.title.value == "Poll 1").size
+      val poll2AnswerSize = SpiritPollAnswers.findAll.filter(_.title.value == "Poll 2").size
+      poll1AnswerSize mustEqual poll2AnswerSize
     }
 
   }
