@@ -35,7 +35,7 @@ class PollPal extends Loggable with GlobalRequests {
         logger info "This should not have happend, but why did it?!"
         SpiritPoll.createRecord
     }
-
+  //TODO Limit PollPal to 9 Answers.
   /**
    * Creating a Button which enables the User to add multiple Input Fields.
    */

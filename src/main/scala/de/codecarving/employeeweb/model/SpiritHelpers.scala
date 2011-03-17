@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 
 import net.liftweb.http.S
+import annotation.tailrec
 
 trait SpiritHelpers {
 
@@ -36,4 +37,26 @@ trait SpiritHelpers {
             returnDate
       }
   }
+
+  /**
+   * Extracts random fields from a List of any Type.
+   * If return size is bigger than in.length, Nil is returned.
+   * @param count How many fields should be returned.
+   * @param in From this List the fields will be extracted.
+   * @return List[T]
+   */
+  def randomFromList[T](count: Int, in: List[T]): List[T] = {
+    if(count > in.length) return Nil
+    @tailrec
+    def randomFromList[T](count: Int, in: List[T], result: List[T]): List[T] = {
+      count match {
+        case 0 => result
+        case _ =>
+          val c = in((new util.Random).nextInt(in.length))
+          randomFromList(count - 1, in.filterNot(_ == c), c :: result)
+      }
+    }
+    randomFromList(count, in, Nil)
+  }
+
 }

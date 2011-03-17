@@ -6,17 +6,34 @@ import com.googlecode.charts4j.Color._
 
 import scala.collection.JavaConversions._
 
-trait GraphCreators {
+trait GraphCreators extends SpiritHelpers {
 
   /**
-   * Creating a BarChart from a Poll.
+   * Creating a BarChart.
+   * @param title The Title which will be located above the BarChart.
+   * @param currentAnswers A Tuple containing the Answers with Votecount.
+   * @return String The URL to the Graph for Google Chart API.
    */
-  def createBarChart(title: String, currentAnswers: List[SpiritPollAnswers]): String = {
+  def createBarChart(title: String, data: List[(String, Int)]): String = {
 
-    //TODO random colors
+    lazy val colorList =
+      List(BLUE, RED,
+        BLACK, YELLOWGREEN,
+        VIOLET, STEELBLUE,
+        SLATEGRAY, SILVER,
+        ORANGE, SPRINGGREEN,
+        BROWN, SKYBLUE,
+        CHOCOLATE, ROSYBROWN,
+        ROYALBLUE, DARKBLUE,
+        DARKCYAN, OLIVE)
+
+    // Zipping the (String, Int) into ((String, Int), Color).
+    lazy val triple4graph = data zip randomFromList(data.size, colorList)
+
     //TODO Votes have to be between 0 and 100, what if we have more than 100 votes?!
-    val plotList = currentAnswers map { cur =>
-      Plots.newBarChartPlot(Data.newData(if(cur.votes.value < 101) cur.votes.value else 100), BLUE, cur.answer.value)
+    //TODO Clean up the Tuple mess!
+    val plotList = triple4graph map { cur =>
+      Plots.newBarChartPlot(Data.newData(if(cur._1._2 < 101) cur._1._2 else 100), cur._2 , cur._1._1)
     }
 
     val pollChart = GCharts.newBarChart(plotList)

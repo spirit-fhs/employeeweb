@@ -16,7 +16,12 @@ class PollGraph extends Loggable with GlobalRequests with GraphCreators {
   }
 
   lazy val currentPoll = CurrentPoll.get
-  lazy val currentAnswers = SpiritPollAnswers.findAll.filter(currentPoll.open_!.title.value == _.title.value)
+
+  lazy val currentAnswers =
+    for(
+      i <- SpiritPollAnswers.findAll.filter(currentPoll.open_!.title.value == _.title.value)
+    ) yield (i.answer.value, i.votes.value)
+
   lazy val url = createBarChart(currentPoll.open_!.title.value, currentAnswers)
 
   def render = {
