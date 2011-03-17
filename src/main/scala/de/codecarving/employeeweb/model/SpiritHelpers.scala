@@ -59,4 +59,18 @@ trait SpiritHelpers {
     randomFromList(count, in, Nil)
   }
 
+  /**
+   * Removes all duplicated Answers. If a User has put duplicated Answers in the
+   * Input fields, this method will help out!
+   * @param in Set[SpiritPollanswers]
+   * @return A clean Set without duplicated Answers.
+   */
+  def removeDuplicatesfromanswerSet(in: Set[SpiritPollAnswers]): Set[SpiritPollAnswers] = {
+    // A Tuple of our Result Set and a Akku Set with Strings
+    in.foldLeft((Set[SpiritPollAnswers](), Set[String]())) {(tuple, input) =>
+      if (tuple._2(input.answer.value)) tuple
+      else (tuple._1 + input, tuple._2 + input.answer.value)
+    }._1
+  }
+
 }

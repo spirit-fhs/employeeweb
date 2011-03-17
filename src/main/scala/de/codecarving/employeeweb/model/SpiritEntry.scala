@@ -183,7 +183,7 @@ class SpiritEntry extends SpiritRecord[SpiritEntry] with SpiritHelpers {
   object semester extends StringField(this, 100) {
 
     def setFromList(in: List[String]): Box[String] = in match {
-      case list: List[String] if !list.isEmpty => setFromAny(list.mkString(";"))
+      case list if list.nonEmpty => setFromAny(list.mkString(";"))
       case _ => genericSetFromAny("")
     }
 

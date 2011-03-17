@@ -17,9 +17,9 @@ import net.liftweb.util.BindHelpers._
 import net.liftweb.common.{Loggable, Empty, Full}
 import xml.{NodeSeq, Text}
 import net.liftweb.http.js.JsCommands
-import model.{GraphCreators, GlobalRequests, SpiritPollAnswers, SpiritPoll}
+import model._
 
-class PollPal extends Loggable with GlobalRequests {
+class PollPal extends Loggable with GlobalRequests with SpiritHelpers {
 
   var answerSet = Set[SpiritPollAnswers]()
 
@@ -35,7 +35,7 @@ class PollPal extends Loggable with GlobalRequests {
         logger info "This should not have happend, but why did it?!"
         SpiritPoll.createRecord
     }
-  //TODO Limit PollPal to 9 Answers.
+
   /**
    * Creating a Button which enables the User to add multiple Input Fields.
    */
@@ -50,6 +50,7 @@ class PollPal extends Loggable with GlobalRequests {
    * Creates an ajax input field, in order to have n Answers on a Poll.
    */
   private def renderTextfield(in: SpiritPollAnswers): NodeSeq = {
+    if(answerSet.size == 9) return <div></div>
     answerSet = answerSet + in
     <div id={in.answer.value}>{SHtml.ajaxText("", { s => in.answer.set(s); Noop })}</div>
   }
@@ -70,11 +71,16 @@ class PollPal extends Loggable with GlobalRequests {
           S.redirectTo("/pollpal/newpoll")
         }
       }
-
+      answerSet = removeDuplicatesfromanswerSet(answerSet)
       openPoll.answerCount.set(answerSet.size)
       for(cur <- answerSet) {
-        cur.title.set(openPoll.title.value)
-        cur.save
+        if(cur.answer.value == "") {
+          logger warn "Throwing away an answer since its empty!"
+        }
+        else {
+          cur.title.set(openPoll.title.value)
+          cur.save
+        }
       }
       openPoll.save
       S.redirectTo("/")
