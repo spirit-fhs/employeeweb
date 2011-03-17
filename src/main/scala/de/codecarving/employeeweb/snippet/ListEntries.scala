@@ -7,7 +7,7 @@ import net.liftweb.common.{Box, Empty, Full, Loggable}
 import net.liftweb.textile._
 
 import scala.xml.Text
-import model.{GlobalRequests, SpiritEntry}
+import model.{ GlobalRequests, SpiritEntry }
 
 class ListEntries extends Loggable with GlobalRequests {
   //TODO Delete different! This is too dirty! -> Line 41

@@ -15,6 +15,8 @@ import de.codecarving.employeeweb.model.{MenuBuilder, DBChooser}
 class Boot extends Loggable with DBChooser[Boot] with MenuBuilder[Boot] {
   def boot {
 
+    val useLDAP = Props.get("ldap.server.auth.use", "") == "true"
+
     LiftRules.addToPackages("de.codecarving.employeeweb")
 
     LiftRules.setSiteMap(SiteMap(sitemap:_*))
@@ -40,5 +42,10 @@ class Boot extends Loggable with DBChooser[Boot] with MenuBuilder[Boot] {
 
     // Starting the FhS LDAP Module
     fhsldap.init
+
+    if(!useLDAP) {
+      import de.codecarving.employeeweb.model.dummydata.Dummy
+      Dummy.createDummyData
+    }
   }
 }

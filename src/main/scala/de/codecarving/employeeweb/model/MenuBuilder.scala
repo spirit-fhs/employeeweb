@@ -30,7 +30,8 @@ trait MenuBuilder[T <: Boot] {
       ),
     Menu.i("Talk Allocator") / "talkallocator" / "index" >> loggedInEmployeeorAdmin,
     Menu.i("Poll Pal") / "pollpal" / "index" >> loggedInEmployeeorAdmin submenus (
-      Menu.i("Umfrage Anlegen") / "pollpal" / "newpoll" >> loggedInEmployeeorAdmin
+      Menu.i("Umfrage Anlegen") / "pollpal" / "newpoll" >> loggedInEmployeeorAdmin,
+      Menu.i("PollGraph") / "pollpal" / "pollgraph" >> loggedInEmployeeorAdmin >> Hidden
       ),
     Menu.i("Administration") / "administration" >> loggedInAdmin
 

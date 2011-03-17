@@ -4,16 +4,11 @@ package model
 import net.liftweb.record.field._
 import spiritrecord.{SpiritMetaRecord, SpiritRecord}
 
-import java.util.{ Calendar, TimeZone, Date }
-import java.text.SimpleDateFormat
 import net.liftweb.record.LifecycleCallbacks
-import net.liftweb.common.{Box, Full}
-
-import de.codecarving.fhsldap.model.User
 import net.liftweb.util.Props
 import persistence.mongo.{BackendEntryCounter => BEC, BackendEntry => BE}
 import persistence.h2.{BackendPollAnswers => BPA}
-import persistence.EntryCounter
+import net.liftweb.common.{Loggable, Box, Full}
 
 /**
  * The Record which will be used for the backend implementation of the persistence layer.
@@ -24,11 +19,14 @@ object SpiritPollAnswers extends SpiritPollAnswers with SpiritMetaRecord[SpiritP
   lazy val mongodb = "mongodb"
   lazy val h2db = "h2db"
 
+  //TODO Implement mongodb features for Concept of Proof ?!
+
   /**
    * Deleting the Poll by it's title.
    */
   override def delete_!(inst: SpiritPollAnswers): Boolean = db match {
     case this.mongodb =>
+      logger warn "Not Implemented yet..."
       true
     case this.h2db =>
       import net.liftweb.mapper._
@@ -44,6 +42,7 @@ object SpiritPollAnswers extends SpiritPollAnswers with SpiritMetaRecord[SpiritP
    */
   override def findAll: List[SpiritPollAnswers] = db match {
     case this.mongodb =>
+      logger warn "Not Implemented yet..."
       Nil
     case this.h2db =>
       lazy val bpa = BPA.findAll
@@ -64,8 +63,8 @@ object SpiritPollAnswers extends SpiritPollAnswers with SpiritMetaRecord[SpiritP
    */
   override def save(inst: SpiritPollAnswers): Boolean = db match {
     case this.mongodb =>
+      logger warn "Not Implemented yet..."
       true
-
     case this.h2db =>
       foreachCallback(inst, _.beforeSave)
       val in = inst.asInstanceOf[SpiritPollAnswers]
@@ -75,14 +74,13 @@ object SpiritPollAnswers extends SpiritPollAnswers with SpiritMetaRecord[SpiritP
       bpa.votes.set(in.votes.value)
       bpa.save
       true
-
     case _ =>
       println("not implemented")
       false
    }
 }
 
-class SpiritPollAnswers extends SpiritRecord[SpiritPollAnswers] {
+class SpiritPollAnswers extends SpiritRecord[SpiritPollAnswers] with Loggable {
   def meta = SpiritPollAnswers
 
   object title extends StringField(this, 100)

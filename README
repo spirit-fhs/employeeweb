@@ -26,6 +26,8 @@ Hints:
 
 * Not fully functional yet....
 
+* PollPalSpecs only work with H2 Database at the momemt.
+
 Getting Started:
 
 Clone this repository.
@@ -54,3 +56,5 @@ should pass all tests with both Databases.
 After everything is set up, run:
 $ sbt ~jetty-run
 should give a Welcome screen at http://localhost:8080
+
+Log In with the User "default" to see some DummyData on the PollPal stuff.

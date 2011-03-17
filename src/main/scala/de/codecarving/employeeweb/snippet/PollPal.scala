@@ -2,7 +2,6 @@ package de.codecarving.employeeweb
 package snippet
 
 import net.liftweb._
-import util.Helpers._
 import common.Loggable
 import http._
 import js.jquery.JqJsCmds
@@ -16,9 +15,9 @@ import net.liftweb.http.{SHtml, S}
 import net.liftweb.util.BindHelpers._
 
 import net.liftweb.common.{Loggable, Empty, Full}
-import model.{GlobalRequests, SpiritPollAnswers, SpiritPoll}
-import xml.NodeSeq
+import xml.{NodeSeq, Text}
 import net.liftweb.http.js.JsCommands
+import model.{GraphCreators, GlobalRequests, SpiritPollAnswers, SpiritPoll}
 
 class PollPal extends Loggable with GlobalRequests {
 
@@ -37,8 +36,9 @@ class PollPal extends Loggable with GlobalRequests {
         SpiritPoll.createRecord
     }
 
-  def showLines = "* *" #> (answerSet.toList.flatMap(renderTextfield): NodeSeq)
-
+  /**
+   * Creating a Button which enables the User to add multiple Input Fields.
+   */
   def addTextfield(ns: NodeSeq): NodeSeq = {
     val div = S.attr("div") openOr "where"
     SHtml.ajaxButton(ns, () => {
@@ -46,18 +46,35 @@ class PollPal extends Loggable with GlobalRequests {
     })
   }
 
+  /**
+   * Creates an ajax input field, in order to have n Answers on a Poll.
+   */
   private def renderTextfield(in: SpiritPollAnswers): NodeSeq = {
     answerSet = answerSet + in
     <div id={in.answer.value}>{SHtml.ajaxText("", { s => in.answer.set(s); Noop })}</div>
   }
 
+  /**
+   * Viewing the created input ajax fields.
+   */
+  def showLines = "* *" #> (answerSet.toList.flatMap(renderTextfield): NodeSeq)
+
+  //TODO Reset button.
   def render = {
 
     def process(): JsCmd = {
+      //TODO Create nicer way to tell the user that the poll with this name allready exists.
+      for(cur <- SpiritPoll.findAll){
+        if(cur.title.value == openPoll.title.value) {
+          S.error("Diese Umfrage existiert bereits. Bitte einen anderen Titel wählen!")
+          S.redirectTo("/pollpal/newpoll")
+        }
+      }
+
       openPoll.answerCount.set(answerSet.size)
-      for(i <- answerSet) {
-        i.title.set(openPoll.title.value)
-        i.save
+      for(cur <- answerSet) {
+        cur.title.set(openPoll.title.value)
+        cur.save
       }
       openPoll.save
       S.redirectTo("/")
@@ -65,7 +82,6 @@ class PollPal extends Loggable with GlobalRequests {
 
     "name=expires" #> openPoll.expires.toForm.open_! &
     "name=title" #> (openPoll.title.toForm.open_! ++ SHtml.hidden(process))
-
   }
 
 }
