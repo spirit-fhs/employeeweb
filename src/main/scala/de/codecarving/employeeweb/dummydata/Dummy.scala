@@ -19,37 +19,31 @@ object Dummy extends Loggable {
 
       val firstPoll = SpiritPoll.createRecord
       firstPoll.title.set("Dummy Poll Nr. 1")
+      firstPoll.answerCount.set(5)
 
-      val firstPollAnswer1 = SpiritPollAnswers.createRecord
-      val firstPollAnswer2 = SpiritPollAnswers.createRecord
-      val firstPollAnswer3 = SpiritPollAnswers.createRecord
-      val firstPollAnswer4 = SpiritPollAnswers.createRecord
-      val firstPollAnswer5 = SpiritPollAnswers.createRecord
-
-      firstPollAnswer1.title.set(firstPoll.title.value)
-      firstPollAnswer2.title.set(firstPoll.title.value)
-      firstPollAnswer3.title.set(firstPoll.title.value)
-      firstPollAnswer4.title.set(firstPoll.title.value)
-      firstPollAnswer5.title.set(firstPoll.title.value)
-
-      firstPollAnswer1.answer.set("Answer Nr. 1")
-      firstPollAnswer2.answer.set("Answer Nr. 2")
-      firstPollAnswer3.answer.set("Answer Nr. 3")
-      firstPollAnswer4.answer.set("Answer Nr. 4")
-      firstPollAnswer5.answer.set("Answer Nr. 5")
-
-      firstPollAnswer1.votes.set(10)
-      firstPollAnswer2.votes.set(20)
-      firstPollAnswer3.votes.set(30)
-      firstPollAnswer4.votes.set(20)
-      firstPollAnswer5.votes.set(110)
+      for(i <- 2 to 7){
+        val spa = SpiritPollAnswers.createRecord
+        spa.title.set(firstPoll.title.value)
+        spa.answer.set("Answer Nr." + i)
+        spa.votes(i * 9)
+        spa.save
+      }
 
       firstPoll.save
-      firstPollAnswer1.save
-      firstPollAnswer2.save
-      firstPollAnswer3.save
-      firstPollAnswer4.save
-      firstPollAnswer5.save
+
+      val secondPoll = SpiritPoll.createRecord
+      secondPoll.title.set("Dummy Poll Nr. 2")
+
+      for(i <- 1 to 11){
+        val spa = SpiritPollAnswers.createRecord
+        spa.title.set(secondPoll.title.value)
+        spa.answer.set("Answer Nr." + i)
+        spa.votes(i * 11)
+        spa.save
+      }
+
+      secondPoll.answerCount.set(10)
+      secondPoll.save
 
       logger info "Created Dummy Data...."
     }

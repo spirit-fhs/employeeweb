@@ -7,6 +7,7 @@ import net.liftweb.http.S
 
 class PollGraph extends Loggable with GlobalRequests with GraphCreators {
 
+  //TODO clean this mess up!
   CurrentPoll.get match {
     case Full(poll) =>
 
@@ -22,7 +23,11 @@ class PollGraph extends Loggable with GlobalRequests with GraphCreators {
       i <- SpiritPollAnswers.findAll.filter(currentPoll.open_!.title.value == _.title.value)
     ) yield (i.answer.value, i.votes.value)
 
-  lazy val url = createBarChart(currentPoll.open_!.title.value, currentAnswers)
+  lazy val url =
+    if(currentPoll.open_!.answerCount.value > 9)
+      createPieChart(currentPoll.open_!.title.value, currentAnswers)
+    else
+      createBarChart(currentPoll.open_!.title.value, currentAnswers)
 
   def render = {
    //TODO Add handling if Google Api ist not reachable

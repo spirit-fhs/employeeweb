@@ -8,15 +8,7 @@ import scala.collection.JavaConversions._
 
 trait GraphCreators extends SpiritHelpers {
 
-  /**
-   * Creating a BarChart.
-   * @param title The Title which will be located above the BarChart.
-   * @param currentAnswers A Tuple containing the Answers with Votecount.
-   * @return String The URL to the Graph for Google Chart API.
-   */
-  def createBarChart(title: String, data: List[(String, Int)]): String = {
-
-    lazy val colorList =
+  private[GraphCreators] val colorList =
       List(BLUE, RED,
         BLACK, YELLOWGREEN,
         VIOLET, STEELBLUE,
@@ -26,6 +18,14 @@ trait GraphCreators extends SpiritHelpers {
         CHOCOLATE, ROSYBROWN,
         ROYALBLUE, DARKBLUE,
         DARKCYAN, OLIVE)
+
+  /**
+   * Creating a BarChart.
+   * @param title The Title which will be located above the BarChart.
+   * @param currentAnswers A Tuple containing the Answers with Votecount.
+   * @return String The URL to the Graph for Google Chart API.
+   */
+  def createBarChart(title: String, data: List[(String, Int)]): String = {
 
     // Zipping the (String, Int) into ((String, Int), Color).
     lazy val triple4graph = data zip randomFromList(data.size, colorList)
@@ -54,5 +54,38 @@ trait GraphCreators extends SpiritHelpers {
     pollChart.toURLForHTML
   }
 
-  //TODO createPieChart
+  /**
+   * Creating a PieChart, if Answercount is bigger than 9 BarChart gets to big.
+   * @param title The Title which will be located above the PieChart.
+   * @param currentAnswers A Tuple containing the Answers with Votecount.
+   * @return String The URL to the Graph for Google Chart API.
+   */
+  def createPieChart(title: String, data: List[(String, Int)]): String = {
+
+    // Folding the data._2 into totalVotes.
+    val totalVotes = data.foldLeft(0)((result,tuple) => tuple._2 + result)
+
+    // Calculating the percentage of a number for the PieChart.
+    def getPercentage(in: Int, max: Int): Int = {
+      val result = (in.toDouble / max.toDouble) * (100.toDouble)
+      if(result <= 0) 1
+      else result.toInt
+    }
+
+    // Zipping the (String, Int) into ((String, Int), Color).
+    lazy val triple4graph = data zip randomFromList(data.size, colorList)
+
+    // Creating new Slices
+    val sliceList = triple4graph map { cur =>
+      Slice.newSlice(getPercentage(cur._1._2, totalVotes), cur._2, cur._1._2.toString, cur._1._1)
+    }
+
+    // Creating the PieChart with a List[Slice]
+    val pieChart = GCharts.newPieChart(sliceList)
+    pieChart.setTitle(title, BLACK, 14)
+    pieChart.setSize(600, 300)
+    pieChart.setThreeD(true)
+    pieChart.toURLForHTML
+
+  }
 }
