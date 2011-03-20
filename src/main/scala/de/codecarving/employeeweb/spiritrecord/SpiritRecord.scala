@@ -35,4 +35,9 @@ trait SpiritRecord[MyType <: SpiritRecord[MyType]] extends Record[MyType] {
     }
   }
 
+  def update : Boolean = {
+    meta.update(this)
+    true
+  }
+
 }

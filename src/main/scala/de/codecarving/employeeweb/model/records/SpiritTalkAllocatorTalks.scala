@@ -11,7 +11,7 @@ import net.liftweb.util.Props
 import java.text.SimpleDateFormat
 import net.liftweb.common.{Loggable, Box, Full}
 import net.liftweb.mapper.By
-import persistence.h2.{BackendPollAnswers, BackendTalkAllocator => BTA, BackendTalkAllocatorTalks => BTAT}
+import persistence.h2.{ BackendTalkAllocator => BTA, BackendTalkAllocatorTalks => BTAT}
 
 object SpiritTalkAllocatorTalks extends SpiritTalkAllocatorTalks with SpiritMetaRecord[SpiritTalkAllocatorTalks] {
 
@@ -77,6 +77,26 @@ object SpiritTalkAllocatorTalks extends SpiritTalkAllocatorTalks with SpiritMeta
       logger warn "Not Implemented yet..."
       false
    }
+
+  override def update(inst: SpiritTalkAllocatorTalks): Boolean = db match {
+    case this.mongodb =>
+      logger warn "Not Implemented yet..."
+      false
+    case this.h2db =>
+      foreachCallback(inst, _.beforeUpdate)
+      val in = inst.asInstanceOf[SpiritTalkAllocatorTalks]
+      val btat = BTAT.find(By(BTAT.talkTitle,inst.talkTitle.value)).openOr(BTAT.create)
+      btat.talkTitle.set(in.talkTitle.value)
+      btat.allocatorTitle.set(in.allocatorTitle.value)
+      btat.description.set(in.description.value)
+      btat.assigned.set(in.assigned.value)
+      btat.cospeakers.set(in.cospeakers.value)
+      btat.speaker.set(in.speaker.value)
+      btat.save
+    case _ =>
+      logger warn "Not Implemented yet..."
+      false
+  }
 }
 
 class SpiritTalkAllocatorTalks extends SpiritRecord[SpiritTalkAllocatorTalks] with SpiritHelpers with Loggable {

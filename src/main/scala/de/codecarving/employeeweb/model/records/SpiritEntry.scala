@@ -8,13 +8,14 @@ import spiritrecord.{SpiritMetaRecord, SpiritRecord}
 import java.util.{ Calendar, TimeZone, Date }
 import java.text.SimpleDateFormat
 import net.liftweb.record.LifecycleCallbacks
-import net.liftweb.common.{Box, Full}
-
 import de.codecarving.fhsldap.model.User
 import net.liftweb.util.Props
 import persistence.mongo.{BackendEntryCounter => BEC, BackendEntry => BE}
-import persistence.h2.{BackendEntry => h2BE, BackendEntryCounter => h2BEC}
 import persistence.EntryCounter
+import net.liftweb.mapper.By._
+import persistence.h2.{BackendTalkAllocatorTalks, BackendEntry => h2BE, BackendEntryCounter => h2BEC}
+import net.liftweb.common.Logger._
+import net.liftweb.common.{Loggable, Box, Full}
 
 /**
  * The Record which will be used for the backend implementation of the persistence layer.
@@ -118,9 +119,21 @@ object SpiritEntry extends SpiritEntry with SpiritMetaRecord[SpiritEntry] {
       println("not implemented")
       false
     }
+
+  override def update(inst: SpiritEntry): Boolean = db match {
+    case this.mongodb =>
+      logger warn "Not Implemented yet..."
+      false
+    case this.h2db =>
+      logger warn "Not Implemented yet..."
+      false
+    case _ =>
+      logger warn "Not Implemented yet..."
+      false
+  }
 }
 
-class SpiritEntry extends SpiritRecord[SpiritEntry] with SpiritHelpers {
+class SpiritEntry extends SpiritRecord[SpiritEntry] with SpiritHelpers with Loggable {
   def meta = SpiritEntry
 
   object newEntry extends BooleanField(this, true)

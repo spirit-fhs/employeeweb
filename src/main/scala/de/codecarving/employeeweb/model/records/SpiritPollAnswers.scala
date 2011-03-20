@@ -79,6 +79,18 @@ object SpiritPollAnswers extends SpiritPollAnswers with SpiritMetaRecord[SpiritP
       println("not implemented")
       false
    }
+
+  override def update(inst: SpiritPollAnswers): Boolean = db match {
+    case this.mongodb =>
+      logger warn "Not Implemented yet..."
+      false
+    case this.h2db =>
+      logger warn "Not Implemented yet..."
+      false
+    case _ =>
+      logger warn "Not Implemented yet..."
+      false
+  }
 }
 
 class SpiritPollAnswers extends SpiritRecord[SpiritPollAnswers] with Loggable {

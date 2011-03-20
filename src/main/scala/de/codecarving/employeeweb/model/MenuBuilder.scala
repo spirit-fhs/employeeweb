@@ -32,7 +32,8 @@ trait MenuBuilder[T <: Boot] {
       Menu.i("Talk Allocator Anlegen") / "talkallocator" / "newTalkAllocator" >> loggedInEmployeeorAdmin,
       Menu.i("Add TalkAllocator Talks") / "talkallocator" / "addTalkAllocatorTalks" >> loggedInEmployeeorAdmin >> Hidden,
       Menu.i("Edit TalkAllocator Talks") / "talkallocator" / "edit" >> loggedInEmployeeorAdmin >> Hidden,
-      Menu.i("Evaluate TalkAllocator Talks") / "talkallocator" / "evaluate" >> loggedInEmployeeorAdmin >> Hidden
+      Menu.i("Evaluate TalkAllocator Talks") / "talkallocator" / "evaluate" >> loggedInEmployeeorAdmin >> Hidden,
+      Menu.i("Edit TalkAllocator Talk") / "talkallocator" / "editTalk" >> loggedInEmployeeorAdmin >> Hidden
       ),
     Menu.i("Poll Pal") / "pollpal" / "index" >> loggedInEmployeeorAdmin submenus (
       Menu.i("Umfrage Anlegen") / "pollpal" / "newpoll" >> loggedInEmployeeorAdmin,
@@ -48,5 +49,5 @@ trait MenuBuilder[T <: Boot] {
     // /static path to be visible
     //Menu(Loc("Static", Link(List("static"), true, "/static/index"),
 	  //   "Static Content"))
-	  )
+	)
 }

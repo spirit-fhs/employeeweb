@@ -12,7 +12,8 @@ trait GlobalRequests {
    */
   object ChartChooser extends RequestVar[String]("")
 
-  object CurrentTalkAllocator extends RequestVar[Box[SpiritTalkAllocator]](Empty)
+  object CurrentTalkAllocatorTalk extends RequestVar[Box[SpiritTalkAllocatorTalks]](Empty)
+  object CurrentTalkAllocator extends SessionVar[Box[SpiritTalkAllocator]](Empty)
   object NewTalkAllocator extends SessionVar[Box[SpiritTalkAllocator]](Empty)
   object CurrentPollAnswers extends RequestVar[Box[SpiritPollAnswers]](Empty)
   object CurrentPoll extends RequestVar[Box[SpiritPoll]](Empty)

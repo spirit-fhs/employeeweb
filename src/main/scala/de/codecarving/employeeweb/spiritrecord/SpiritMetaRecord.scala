@@ -18,4 +18,7 @@ trait SpiritMetaRecord[BaseRecord <: SpiritRecord[BaseRecord]] extends MetaRecor
 
   // Override in implementation!
   def save(inst: BaseRecord): Boolean
+
+  def update(inst: BaseRecord): Boolean
+
 }

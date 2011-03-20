@@ -80,6 +80,18 @@ object SpiritTalkAllocator extends SpiritTalkAllocator with SpiritMetaRecord[Spi
       logger warn "Not Implemented yet..."
       false
    }
+
+  override def update(inst: SpiritTalkAllocator): Boolean = db match {
+    case this.mongodb =>
+      logger warn "Not Implemented yet..."
+      false
+    case this.h2db =>
+      logger warn "Not Implemented yet..."
+      false
+    case _ =>
+      logger warn "Not Implemented yet..."
+      false
+  }
 }
 
 class SpiritTalkAllocator extends SpiritRecord[SpiritTalkAllocator] with SpiritHelpers with Loggable {
