@@ -2,22 +2,19 @@ package de.codecarving.employeeweb
 package snippet
 
 import net.liftweb._
-import common.Loggable
 import http._
 import js.jquery.JqJsCmds
 
 import js._
 import JsCmds._
-import JE._
-
 import net.liftweb.http.js.JsCmd
 import net.liftweb.http.{SHtml, S}
 import net.liftweb.util.BindHelpers._
 
-import net.liftweb.common.{Loggable, Empty, Full}
-import xml.{NodeSeq, Text}
-import net.liftweb.http.js.JsCommands
-import model._
+import net.liftweb.common.{ Loggable, Empty, Full }
+import xml.NodeSeq
+import model.records.{ SpiritPoll, SpiritPollAnswers }
+import model.{ SpiritHelpers, GlobalRequests }
 
 class PollPal extends Loggable with GlobalRequests with SpiritHelpers {
 

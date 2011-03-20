@@ -28,7 +28,12 @@ trait MenuBuilder[T <: Boot] {
       Menu.i("News Anlegen") / "news" / "write" >> loggedInEmployeeorAdmin,
       Menu.i("Editieren") / "news" / "edit" >> loggedInEmployeeorAdmin >> Hidden
       ),
-    Menu.i("Talk Allocator") / "talkallocator" / "index" >> loggedInEmployeeorAdmin,
+    Menu.i("Talk Allocator") / "talkallocator" / "index" >> loggedInEmployeeorAdmin submenus (
+      Menu.i("Talk Allocator Anlegen") / "talkallocator" / "newTalkAllocator" >> loggedInEmployeeorAdmin,
+      Menu.i("Add TalkAllocator Talks") / "talkallocator" / "addTalkAllocatorTalks" >> loggedInEmployeeorAdmin >> Hidden,
+      Menu.i("Edit TalkAllocator Talks") / "talkallocator" / "edit" >> loggedInEmployeeorAdmin >> Hidden,
+      Menu.i("Evaluate TalkAllocator Talks") / "talkallocator" / "evaluate" >> loggedInEmployeeorAdmin >> Hidden
+      ),
     Menu.i("Poll Pal") / "pollpal" / "index" >> loggedInEmployeeorAdmin submenus (
       Menu.i("Umfrage Anlegen") / "pollpal" / "newpoll" >> loggedInEmployeeorAdmin,
       Menu.i("PollGraph") / "pollpal" / "pollgraph" >> loggedInEmployeeorAdmin >> Hidden

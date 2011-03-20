@@ -1,7 +1,8 @@
 package de.codecarving.employeeweb
+package specs
 
 import org.specs._
-import model._
+import model.records.SpiritEntry
 import persistence.EntryCounter
 import snippet._
 import net.liftweb.mapper.BaseMetaMapper
@@ -13,9 +14,8 @@ import de.codecarving.fhsldap.model.User
 import net.liftweb.http.{LiftRules, S, LiftSession}
 
 import persistence.mongo.{ BackendEntry, BackendEntryCounter }
-import persistence.h2.{BackendEntry => h2BE, BackendEntryCounter => h2BEC }
 
-class EntrySpecs extends Specification with Contexts {
+class EntrySpecs extends Specification with Contexts with SpecDBChooser {
   //TODO clean this mess up!
 
   /* This is from the Lift Wiki! https://www.assembla.com/wiki/show/liftweb/Unit_Testing_Snippets_With_A_Logged_In_User! THANKS!*/
@@ -32,35 +32,7 @@ class EntrySpecs extends Specification with Contexts {
   /* Defining what we'll do before and after an example.*/
   new SpecContext {
     beforeExample {
-      // Getting the Persistence layer up an running
-    lazy val db = Props.get("spirit.admin.record.backentry").openOr((""))
-    lazy val MONGODB = "mongodb"
-    lazy val H2DB = "h2db"
-
-    db match {
-      case MONGODB =>
-        import net.liftweb.mongodb._
-
-        MongoDB.defineDbAuth(DefaultMongoIdentifier,
-          MongoAddress(MongoHost("127.0.0.1", 27017), "spirit_admin_test"),
-          "spirit_admin_test",
-          "spirit_admin_test")
-
-      case H2DB =>
-        import net.liftweb.mapper._
-
-        val vendor =
-              new StandardDBVendor(
-                "org.h2.Driver",
-                "jdbc:h2:spirit_admin_test.db;AUTO_SERVER=TRUE",
-                Empty, Empty)
-
-        DB.defineConnectionManager(DefaultConnectionIdentifier, vendor)
-
-        Schemifier.schemify(true, Schemifier.infoF _, h2BE, h2BEC)
-
-      case _ =>
-    }
+      dbInit()
       EntryCounter.setCounter(0)
       SpiritEntry.findAll.foreach(_.delete_!)
       loginUser

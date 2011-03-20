@@ -4,7 +4,8 @@ package snippet
 import net.liftweb.http.SHtml
 import net.liftweb.common.{Full, Loggable}
 import scala.xml.Text
-import model.{SpiritPollAnswers, SpiritPoll, GlobalRequests}
+import model.GlobalRequests
+import model.records.{ SpiritPollAnswers, SpiritPoll }
 
 class ListPolls extends Loggable with GlobalRequests {
   import de.codecarving.fhsldap.model.User
@@ -12,7 +13,9 @@ class ListPolls extends Loggable with GlobalRequests {
   //TODO Delete different! This is too dirty! -> Line 21
   def render = {
 
-    SpiritPoll.findAll.filter(_.user.value == User.currentUserId.openOr("default")) flatMap { sp =>
+    SpiritPoll.findAll.filter(
+      _.user.value == User.currentUserId.openOr("default")
+    ) flatMap { sp =>
       <table style="border:1">
         <thead>
 				  <tr>

@@ -6,6 +6,7 @@ import java.util.Date
 
 import net.liftweb.http.S
 import annotation.tailrec
+import records._
 
 trait SpiritHelpers {
 
@@ -26,14 +27,14 @@ trait SpiritHelpers {
         date
       } else {
         val returnDate = checkDate.format(exceptionDate.getTime + 1209600000)
-        S warning "Ihr Beitrag verfaellt aumatisch in 14 Tagen, da das Datum in der Vergangenheit war!"
+        S warning "Das gewählte Datum war heute oder in der Vergangenheit, es wurden automatisch 14 Tage gesetzt!"
         returnDate
       }
 
       } catch {
           case pe: java.text.ParseException => pe
             val returnDate = checkDate.format(exceptionDate.getTime + 1209600000)
-            S warning "Ihr Beitrag verfaellt aumatisch in 14 Tagen, da das Datum nicht gültig war!"
+            S warning "Das gewählte Datum war heute oder in der Vergangenheit, es wurden automatisch 14 Tage gesetzt!"
             returnDate
       }
   }

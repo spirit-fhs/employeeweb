@@ -1,9 +1,10 @@
 package de.codecarving.employeeweb
 package snippet
 
-import de.codecarving.employeeweb.model.{SpiritPollAnswers, GraphCreators, GlobalRequests}
+import de.codecarving.employeeweb.model.{ GraphCreators, GlobalRequests }
 import net.liftweb.common.{Full, Loggable}
 import net.liftweb.http.S
+import model.records.SpiritPollAnswers
 
 class PollGraph extends Loggable with GlobalRequests with GraphCreators {
 

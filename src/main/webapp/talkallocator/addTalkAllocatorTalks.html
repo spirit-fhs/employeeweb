@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+    <title>Home</title>
+  </head>
+
+  <body class="lift:content_id=main">
+    <div id="main" class="lift:surround?with=default;at=content">
+    <link href="/classpath/css/talkallocator.css" type="text/css" rel="stylesheet" media="screen, projection" />
+    <link href="/classpath/css/indexstyle.css" type="text/css" rel="stylesheet" media="screen, projection" />
+    <link type="text/css" href="/classpath/jquery/css/cupertino/jquery-ui-1.8.10.custom.css" rel="Stylesheet" />
+    <script type="text/javascript" src="/classpath/jquery/js/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="/classpath/jquery/js/jquery-ui-1.8.10.custom.min.js"></script>
+    <script type="text/javascript" src="/classpath/jquery/js/jquery.ui.datepicker-de.js"></script>
+    <script type="text/javascript" src="/classpath/js/spirit.js"></script>
+
+        <form class="lift:NewTalkAllocatorTalks?form=post">
+        <h3><div name="title">Titel</div></h3>
+        <br>
+        <div name="description">Beschreibung</div></h3>
+        <hr>
+        <table style="border:0">
+          <tr>
+            <td style="border:0">
+              <div class="lift:NewTalkAllocatorTalks.createTalkFields">fields go here</div>
+            </td>
+            <td style="border:0">
+              Verf&auml;llt am: <input name="expires"><br><br><br><br><br>
+              <div name="released"></div>Freigeben f&uuml;r Studenten!<br><br><br><br>
+              <input value="TalkAllocator Speichern!" type="submit" name="do_submit" id="do_submit">
+            </td>
+          </tr>
+        </table>
+        <br>
+        Hinweis: Leere Themen werden ignoriert! Doppelte Themen sind m&ouml;lich!
+        <hr>
+        <div id="talk_fields" class="lift:NewTalkAllocatorTalks.showFields">input goes here</div><br>
+        </form>
+	</div>
+  </body>
+</html>

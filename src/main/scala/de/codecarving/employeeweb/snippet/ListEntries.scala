@@ -7,7 +7,8 @@ import net.liftweb.common.{Box, Empty, Full, Loggable}
 import net.liftweb.textile._
 
 import scala.xml.Text
-import model.{ GlobalRequests, SpiritEntry }
+import model.GlobalRequests
+import model.records.SpiritEntry
 
 class ListEntries extends Loggable with GlobalRequests {
   //TODO Delete different! This is too dirty! -> Line 41
@@ -17,7 +18,9 @@ class ListEntries extends Loggable with GlobalRequests {
    */
   def render = {
 
-    SpiritEntry.findAll.filter(_.user.value == User.currentUserId.openOr("default")).sortWith(
+    SpiritEntry.findAll.filter(
+      _.user.value == User.currentUserId.openOr("default")
+    ).sortWith(
       (entry1, entry2) => (entry1.nr.value > entry2.nr.value)
     ).flatMap(v =>
       <table style="border:1">

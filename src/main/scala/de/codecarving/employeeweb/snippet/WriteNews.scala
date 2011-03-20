@@ -15,8 +15,8 @@ import scala.xml._
 
 import scala.collection.immutable.List
 import util.{CssBind, Props}
-import model.{ SpiritEntry, GlobalRequests }
-
+import model.GlobalRequests
+import model.records.SpiritEntry
 
 class WriteNews extends Loggable with GlobalRequests with EntryPreview {
 

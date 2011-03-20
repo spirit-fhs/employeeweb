@@ -1,5 +1,6 @@
 package de.codecarving.employeeweb
 package model
+package records
 
 import net.liftweb.record.field._
 import spiritrecord.{SpiritMetaRecord, SpiritRecord}
