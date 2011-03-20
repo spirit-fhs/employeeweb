@@ -40,7 +40,6 @@ trait MenuBuilder[T <: Boot] {
       ),
     Menu.i("Administration") / "administration" >> loggedInAdmin
 
-
     // Examples -----------------------------------------
     //Menu.i("Student") / "test1" >> loggedInStudent,
     //Menu.i("Admin") / "test2" >> loggedInAdmin,
