@@ -128,5 +128,31 @@ class TalkAllocatorSpecs extends Specification with Contexts with SpecDBChooser 
         _.title.value == "TalkAlloc 1"
       ).head.released.value mustEqual false
     }
+
+    "update a Talk" in {
+      talkalloc.newTalkAlloc.title.set("TalkAlloc 1")
+
+      val tat = SpiritTalkAllocatorTalks.createRecord
+      tat.talkTitle.set("talk")
+      tat.description.set("New Desciption")
+      tat.allocatorTitle.set(talkalloc.newTalkAlloc.title.value)
+
+      tat.save
+      talkalloc.newTalkAlloc.save
+
+      val talk2update = SpiritTalkAllocatorTalks.findAll.filter(
+        _.allocatorTitle.value == "TalkAlloc 1").filter(
+        _.talkTitle.value == "talk").head
+
+      talk2update.description.set("Updated Description")
+      talk2update.update
+
+      val talk2check = SpiritTalkAllocatorTalks.findAll.filter(
+        _.allocatorTitle.value == "TalkAlloc 1").filter(
+        _.talkTitle.value == "talk").head
+
+      talk2check.description.value mustEqual "Updated Description"
+
+    }
   }
 }

@@ -103,7 +103,6 @@ class EntrySpecs extends Specification with Contexts with SpecDBChooser {
 
       updateNews.CurrentEntry(Full(oldEntry))
       updateNews.openEntry.twitterBool.set(false)
-      println(updateNews.openEntry.newEntry.value + "test555")
       //TODO this should be already set during line 133
       updateNews.openEntry.newEntry.set(false)
       updateNews.openEntry.save(false)
