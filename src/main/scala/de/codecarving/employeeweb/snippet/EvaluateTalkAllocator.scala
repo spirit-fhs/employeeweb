@@ -2,6 +2,7 @@ package de.codecarving.employeeweb
 package snippet
 
 import de.codecarving.employeeweb.model.GlobalRequests
+import de.codecarving.fhsldap.model.LDAPUtils._
 import net.liftweb.common.{Full, Loggable}
 import net.liftweb.textile._
 import model.records.{SpiritTalkAllocator, SpiritTalkAllocatorTalks}
@@ -36,10 +37,15 @@ class EvaluateTalkAllocator extends Loggable with GlobalRequests {
         <th>{ "Vergeben:" }</th>
       </tr>
     { talkAllocatorTalks.flatMap { talk =>
+      lazy val speakers = talk.speakers.valueAsSet
       <tr>
         <td>{ talk.talkTitle.value }</td>
         <td>{ talk.description.value }</td>
-        <td>{ talk.speakers.valueAsSet.mkString(" & ") }</td>
+        <td>{ if(speakers.head == "") { }
+              else for(speaker <- speakers.toList)
+                     yield getAttribute("displayName", speaker)
+                           .openOr("Oops!") + ", " }
+        </td>
         <td>{ if(talk.assigned.value) "Ja" } </td>
       </tr>
     }}

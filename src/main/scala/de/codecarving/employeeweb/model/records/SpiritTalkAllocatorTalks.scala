@@ -9,9 +9,9 @@ import net.liftweb.record.LifecycleCallbacks
 import de.codecarving.fhsldap.model.User
 import net.liftweb.util.Props
 import java.text.SimpleDateFormat
-import net.liftweb.common.{Loggable, Box, Full}
 import net.liftweb.mapper.By
 import persistence.h2.{ BackendTalkAllocator => BTA, BackendTalkAllocatorTalks => BTAT}
+import net.liftweb.common.{Empty, Loggable, Box, Full}
 
 object SpiritTalkAllocatorTalks extends SpiritTalkAllocatorTalks with SpiritMetaRecord[SpiritTalkAllocatorTalks] {
 
@@ -101,7 +101,7 @@ class SpiritTalkAllocatorTalks extends SpiritRecord[SpiritTalkAllocatorTalks] wi
 
   object allocatorTitle extends StringField(this,100)
   object talkTitle extends StringField(this,100)
-  object speakers extends StringField(this,100){
+  object speakers extends StringField(this,100) {
 
     def setFromSet(in: Set[String]): Box[String] = in match {
       case set if set.nonEmpty => setFromAny(set.mkString(";"))
