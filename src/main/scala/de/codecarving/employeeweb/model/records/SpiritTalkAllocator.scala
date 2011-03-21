@@ -105,6 +105,7 @@ class SpiritTalkAllocator extends SpiritRecord[SpiritTalkAllocator] with SpiritH
     override def textareaRows  = 12
     override def textareaCols = 80
   }
+  object speakerCount extends IntField(this, 1)
   object released extends BooleanField(this, false)
   object expires extends StringField(this, ((new SimpleDateFormat("dd.MM.yyyy")).format(new java.util.Date)))
     with LifecycleCallbacks {

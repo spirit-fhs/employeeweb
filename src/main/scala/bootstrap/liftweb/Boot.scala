@@ -47,6 +47,7 @@ class Boot extends Loggable with DBChooser[Boot] with MenuBuilder[Boot] {
       import de.codecarving.employeeweb.model.dummydata.Dummy
       Dummy.createDummyPolls
       Dummy.createDummyTalkAllocator
+      Dummy.createDummyEntrys
     }
   }
 }

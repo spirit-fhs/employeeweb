@@ -45,8 +45,7 @@ object SpiritTalkAllocatorTalks extends SpiritTalkAllocatorTalks with SpiritMeta
         stat.allocatorTitle.set(b.allocatorTitle)
         stat.description.set(b.description)
         stat.assigned.set(b.assigned)
-        stat.cospeakers.set(b.cospeakers)
-        stat.speaker.set(b.speaker)
+        stat.speakers.set(b.speakers)
         stat
       }
     case _ =>
@@ -69,8 +68,7 @@ object SpiritTalkAllocatorTalks extends SpiritTalkAllocatorTalks with SpiritMeta
       btat.allocatorTitle.set(in.allocatorTitle.value)
       btat.description.set(in.description.value)
       btat.assigned.set(in.assigned.value)
-      btat.cospeakers.set(in.cospeakers.value)
-      btat.speaker.set(in.speaker.value)
+      btat.speakers.set(in.speakers.value)
       btat.save
       true
     case _ =>
@@ -90,8 +88,7 @@ object SpiritTalkAllocatorTalks extends SpiritTalkAllocatorTalks with SpiritMeta
       btat.allocatorTitle.set(in.allocatorTitle.value)
       btat.description.set(in.description.value)
       btat.assigned.set(in.assigned.value)
-      btat.cospeakers.set(in.cospeakers.value)
-      btat.speaker.set(in.speaker.value)
+      btat.speakers.set(in.speakers.value)
       btat.save
     case _ =>
       logger warn "Not Implemented yet..."
@@ -104,8 +101,20 @@ class SpiritTalkAllocatorTalks extends SpiritRecord[SpiritTalkAllocatorTalks] wi
 
   object allocatorTitle extends StringField(this,100)
   object talkTitle extends StringField(this,100)
-  object speaker extends StringField(this,100)
-  object cospeakers extends StringField(this,100)
+  object speakers extends StringField(this,100){
+
+    def setFromSet(in: Set[String]): Box[String] = in match {
+      case set if set.nonEmpty => setFromAny(set.mkString(";"))
+      case _ => genericSetFromAny("")
+    }
+
+    def valueAsSet(): Set[String] = {
+      if(!this.valueBox.isEmpty)
+        this.value.split(";").toSet
+      else
+        Set("")
+    }
+  }
   object description extends TextareaField(this, 100000) {
 
     override def textareaRows  = 12

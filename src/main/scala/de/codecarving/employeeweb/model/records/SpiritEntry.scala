@@ -13,7 +13,7 @@ import net.liftweb.util.Props
 import persistence.mongo.{BackendEntryCounter => BEC, BackendEntry => BE}
 import persistence.EntryCounter
 import net.liftweb.mapper.By._
-import persistence.h2.{BackendTalkAllocatorTalks, BackendEntry => h2BE, BackendEntryCounter => h2BEC}
+import persistence.h2.{BackendEntryComments, BackendEntry => h2BE, BackendEntryCounter => h2BEC}
 import net.liftweb.common.Logger._
 import net.liftweb.common.{Loggable, Box, Full}
 
@@ -36,6 +36,8 @@ object SpiritEntry extends SpiritEntry with SpiritMetaRecord[SpiritEntry] {
     case this.h2db =>
       import net.liftweb.mapper._
       h2BE.findAll(By(h2BE.nr,inst.nr.value)).map(_.delete_!)
+      //TODO Comments should actually not be deleted here! Need an idea?!
+      SpiritEntryComments.findAll.filter(_.nr.value == inst.nr.value).map(_.delete_!)
       true
     case _=>
       println("not implemented yet")
@@ -202,7 +204,10 @@ class SpiritEntry extends SpiritRecord[SpiritEntry] with SpiritHelpers with Logg
     }
 
     def valueAsList(): List[String] = {
-      this.value.split(";").toList
+      if(!this.valueBox.isEmpty)
+        this.value.split(";").toList
+      else
+        List("")
     }
   }
 

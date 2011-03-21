@@ -8,7 +8,7 @@ import net.liftweb.textile._
 
 import scala.xml.Text
 import model.GlobalRequests
-import model.records.SpiritEntry
+import model.records.{ SpiritEntry, SpiritEntryComments }
 
 class ListEntries extends Loggable with GlobalRequests {
   //TODO Delete different! This is too dirty! -> Line 41
@@ -44,6 +44,14 @@ class ListEntries extends Loggable with GlobalRequests {
                                     {link("/news/news", () => v.delete_!, Text("Löschen"))}
           </td>
         </tr>
+        { SpiritEntryComments.findAll.filter(
+          _.nr.value == v.nr.value
+          ).flatMap( sec =>
+        <tr>
+          <td colspan="4">Kommentar von {sec.user.value} :
+          <br />{ sec.comment.value }</td>
+        </tr>
+        )}
 			</tbody>
 		  </table>
     )

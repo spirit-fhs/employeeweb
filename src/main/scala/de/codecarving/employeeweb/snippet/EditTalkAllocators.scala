@@ -41,7 +41,7 @@ class EditTalkAllocators extends Loggable with GlobalRequests {
       <tr>
         <td>{ talk.talkTitle.value }</td>
         <td>{ talk.description.value }</td>
-        <td>{ talk.speaker.value }</td>
+        <td>{ talk.speakers.valueAsSet.mkString(" & ") }</td>
         <td>{ if(talk.assigned.value) "Ja" } </td>
         <td>{ SHtml.link("/talkallocator/edit", () => talk.delete_!, Text("Löschen")) } <br />
             { SHtml.link("/talkallocator/editTalk", () => CurrentTalkAllocatorTalk(Full(talk)), Text("Ändern")) }</td>

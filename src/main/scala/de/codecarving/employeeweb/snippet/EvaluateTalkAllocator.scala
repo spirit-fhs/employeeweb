@@ -24,7 +24,7 @@ class EvaluateTalkAllocator extends Loggable with GlobalRequests {
     _.allocatorTitle.value == talkAllocator.title.value)
 
   def render = {
-
+    //TODO Render corrent data for students fhs-id.
     <h2>{ talkAllocator.title.value }</h2>
     <div>{ TextileParser.toHtml(talkAllocator.title.value) }</div>
     <hr />
@@ -39,7 +39,7 @@ class EvaluateTalkAllocator extends Loggable with GlobalRequests {
       <tr>
         <td>{ talk.talkTitle.value }</td>
         <td>{ talk.description.value }</td>
-        <td>{ talk.speaker.value }</td>
+        <td>{ talk.speakers.valueAsSet.mkString(" & ") }</td>
         <td>{ if(talk.assigned.value) "Ja" } </td>
       </tr>
     }}

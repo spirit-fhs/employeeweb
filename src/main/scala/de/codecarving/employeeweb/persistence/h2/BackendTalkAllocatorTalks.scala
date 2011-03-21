@@ -14,8 +14,7 @@ class BackendTalkAllocatorTalks extends LongKeyedMapper[BackendTalkAllocatorTalk
 
   object allocatorTitle extends MappedString(this,100)
   object talkTitle extends MappedString(this, 100)
-  object speaker extends MappedString(this, 100)
-  object cospeakers extends MappedString(this, 100)
+  object speakers extends MappedString(this, 100)
   object description extends MappedTextarea(this, 10000)
   object assigned extends MappedBoolean(this)
 }

@@ -6,7 +6,7 @@ import net.liftweb.common.Empty
 
 import persistence.h2.{BackendTalkAllocator => BTA, BackendTalkAllocatorTalks => BTAT }
 import persistence.h2.{BackendEntry => h2BE, BackendEntryCounter => h2BEC }
-import persistence.h2.{BackendPollAnswers => BPA, BackendPoll => BP }
+import persistence.h2.{BackendPollAnswers => BPA, BackendPoll => BP, BackendEntryComments }
 
 trait SpecDBChooser {
 
@@ -37,7 +37,7 @@ trait SpecDBChooser {
 
         DB.defineConnectionManager(DefaultConnectionIdentifier, vendor)
 
-        Schemifier.schemify(true, Schemifier.infoF _, BTA, BTAT, h2BE, h2BEC, BPA, BP)
+        Schemifier.schemify(true, Schemifier.infoF _, BTA, BTAT, h2BE, h2BEC, BPA, BP, BackendEntryComments)
 
       case _ =>
     }

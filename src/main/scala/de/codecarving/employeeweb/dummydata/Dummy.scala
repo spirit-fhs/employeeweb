@@ -2,7 +2,10 @@ package de.codecarving.employeeweb.model
 package dummydata
 
 import net.liftweb.common.Loggable
-import records.{SpiritTalkAllocator, SpiritTalkAllocatorTalks, SpiritPollAnswers, SpiritPoll}
+import records._
+import de.codecarving.employeeweb.persistence.EntryCounter
+import de.codecarving.employeeweb.snippet.WriteNews
+import de.codecarving.employeeweb.persistence.h2.BackendEntryComments
 
 object Dummy extends Loggable {
 
@@ -67,12 +70,14 @@ object Dummy extends Loggable {
         stat.save
       }
 
+      val speakers = Set("denison", "schmid11")
+
       for(i <- 6 to 10){
         val stat = SpiritTalkAllocatorTalks.createRecord
         stat.allocatorTitle.set(sta.title.value)
         stat.talkTitle.set("Talk Nr." + i)
         stat.description.set("Description Nr. " + i)
-        stat.speaker.set("Speaker Nr. " + i)
+        stat.speakers.setFromSet(speakers)
         stat.assigned.set(true)
         stat.save
       }
@@ -97,7 +102,7 @@ object Dummy extends Loggable {
         stat.allocatorTitle.set(sta2.title.value)
         stat.talkTitle.set("Talk Nr." + i)
         stat.description.set("Description Nr. " + i)
-        stat.speaker.set("Speaker Nr. " + i)
+        stat.speakers.setFromSet(speakers)
         stat.assigned.set(true)
         stat.save
       }
@@ -105,6 +110,35 @@ object Dummy extends Loggable {
       sta2.save
 
       logger info "Created Dummy TalkAllocator...."
+    }
+  }
+
+  def createDummyEntrys() {
+
+    if(SpiritEntry.findAll.isEmpty && SpiritEntryComments.findAll.isEmpty) {
+
+      logger info "Creating Dummy News with Dummy Comments..."
+
+      lazy val newNews = new WriteNews
+      newNews.openEntry.subject.set("Dummy News")
+      newNews.openEntry.newEntry.set(true)
+      newNews.openEntry.news.set("Dummy News")
+      newNews.openEntry.save(true)
+
+
+      val nr = SpiritEntry.findAll.filter(e =>
+        e.nr.value == (EntryCounter.getCounter - 1)
+      ).head.nr.value
+
+      for(com <- 1 to 10) {
+        val comment = BackendEntryComments.create
+        comment.nr.set(nr)
+        comment.user.set("denison")
+        comment.comment.set("Dummy Comment Nr. " + com)
+        comment.save
+      }
+
+      logger info "Created Dummy News with Dummy Comments..."
     }
   }
 }

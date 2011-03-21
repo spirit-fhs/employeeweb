@@ -31,7 +31,11 @@ trait DBChooser[T <: Boot] {
 
       DB.defineConnectionManager(DefaultConnectionIdentifier, vendor)
 
-      Schemifier.schemify(true, Schemifier.infoF _, BackendEntry, BackendEntryCounter, BackendPoll, BackendPollAnswers, BackendTalkAllocator, BackendTalkAllocatorTalks)
+      Schemifier.schemify(true, Schemifier.infoF _,
+        BackendEntry, BackendEntryCounter,
+        BackendPoll, BackendPollAnswers,
+        BackendTalkAllocator, BackendTalkAllocatorTalks,
+        BackendEntryComments)
 
     case _ =>
   }
