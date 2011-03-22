@@ -7,8 +7,22 @@ import java.util.Date
 import net.liftweb.http.S
 import annotation.tailrec
 import records._
+import net.liftweb.util.Props
 
 trait SpiritHelpers {
+
+  lazy val mailerActive = Props.get("spirit.employeeweb.mailer.active", "") == "true"
+  //TODO Move footer a props file or in a DB!
+  lazy val footer =
+    """<br><br><br>
+      |----------------------------------------------------------<br>
+      |Sent over FhS_Spirit!<br>
+      |<a href="http://spirit.fh-schmalkalden.de/">
+      | http://spirit.fh-schmalkalden.de/</a><br>
+      |Follow @<a href="http://www.twitter.com/fhs_spirit">
+      | FhS_Spirit</a> on Twitter<br>
+      |Visit <a href=http://www.facebook.com/fhs.spirit>
+      | FhS Spirit</a> on Facebook<br>""".stripMargin
 
   /**
    * Checks the input if it is a Valid date or not.

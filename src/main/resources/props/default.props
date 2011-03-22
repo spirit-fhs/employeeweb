@@ -22,7 +22,7 @@ spirit.default.email=dummy@localhost
 ldap.server.auth.use=false
 
 # section where we define default values if we wont use ldap auth
-default.email=dummy@localhost
+default.email=default@dummy
 # 1001 or 1002
 default.gidNumber=1001
 default.cn=testUser
@@ -36,7 +36,9 @@ spirit.admin.record.backentry=h2db
 ##################################################################
 # Mailinglist & Checkboxes
 # SS = SummerSemester, WS = WinterSemester
-Semester=WS
+
+Semester=SS
+SemesterMailTail=@informatik.fh-schmalkalden.de
 
 WS_Other=semester;alte_semester;alte_i;alte_wi
 WS_BaI=I1;I3;I5
@@ -55,7 +57,10 @@ SS_Ma=MAI2;MAI4
 ###################################################################
 # Stuff for Lift-Mailer
 mail.smtp.host=smtp.fh-schmalkalden.de
-
+# Set this to true to use emailing function.
+spirit.employeeweb.mailer.active=false
+# Set this to your email to see if the output is as wanted.
+spirit.employeeweb.mailer.testEmail=
 ###################################################################
 # Stuff for Spitter
 # If set to false Twitter messages will appear as log messages.

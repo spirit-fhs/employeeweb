@@ -18,6 +18,8 @@ import net.liftweb.common.Logger._
 import net.liftweb.common.{Loggable, Box, Full}
 import model.Spitter
 import model.tweetCases.TweetNews
+import net.liftweb.util.Mailer._
+import net.liftweb.textile.TextileParser
 
 /**
  * The Record which will be used for the backend implementation of the persistence layer.
@@ -140,6 +142,7 @@ object SpiritEntry extends SpiritEntry with SpiritMetaRecord[SpiritEntry] {
 class SpiritEntry extends SpiritRecord[SpiritEntry] with SpiritHelpers with Loggable {
   def meta = SpiritEntry
 
+
   object newEntry extends BooleanField(this, true)
 
   object twitterBool extends BooleanField(this, true)
@@ -154,15 +157,33 @@ class SpiritEntry extends SpiritRecord[SpiritEntry] with SpiritHelpers with Logg
   }
 
   object emailBool extends BooleanField(this, false)
-    //with LifecycleCallbacks {
-      //override def beforeSave() = {
-        //TODO Implement mailsender correctly
-        //if(this.value) {
-          // sendMail(From(User.ldapAttributes.email.open_!),Subject("test"),
-          // (To("") :: stringToMailBodyType("sending this test") :: Nil) :_* )
-        //}
-    //}
-  //}
+    with LifecycleCallbacks {
+      //TODO If mailing fails send a notice to User.
+      //TODO Maybe replace this with a own java mail wrapper?!
+      override def beforeSave() = {
+        if(this.value && mailerActive) {
+           sendMail(From(User.ldapAttributes.displayName.openOr("") +
+                    "<" + User.ldapAttributes.email.openOr("") + ">"),
+                    Subject(subject.value),
+                    (CC(User.ldapAttributes.email.openOr("")) ::
+                     xmlToMailBodyType(scala.xml.Unparsed(TextileParser.toHtml(news.value) + footer)) ::
+                     semester.valueAsList.map(x =>
+                       To(x + Props.get("SemesterMailTail", "")))) :_* )
+        } else if(this.value && !mailerActive) {
+          logger warn "Mailing ist not Active! Sending Dummy email to " +
+            Props.get("spirit.employeeweb.mailer.testEmail","")
+
+            sendMail(From(User.ldapAttributes.displayName.openOr("") +
+                     "<" + Props.get("spirit.employeeweb.mailer.testEmail","") + ">"),
+                     Subject(subject.value),
+                     (To(Props.get("spirit.employeeweb.mailer.testEmail","")) ::
+                      xmlToMailBodyType(scala.xml.Unparsed(semester.valueAsList.toString +
+                       TextileParser.toHtml(news.value) +
+                       footer)) ::
+                      Nil) :_* )
+        } else { }
+    }
+  }
 
   object nr extends IntField(this) with LifecycleCallbacks {
 
@@ -211,7 +232,7 @@ class SpiritEntry extends SpiritRecord[SpiritEntry] with SpiritHelpers with Logg
       if(!this.valueBox.isEmpty)
         this.value.split(";").toList
       else
-        List("")
+        Nil
     }
   }
 

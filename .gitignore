@@ -54,3 +54,4 @@ runner
 
 # H2 Databases
 *.db
+sslstore
