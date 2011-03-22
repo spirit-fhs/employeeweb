@@ -16,6 +16,8 @@ import net.liftweb.mapper.By._
 import persistence.h2.{BackendEntryComments, BackendEntry => h2BE, BackendEntryCounter => h2BEC}
 import net.liftweb.common.Logger._
 import net.liftweb.common.{Loggable, Box, Full}
+import model.Spitter
+import model.tweetCases.TweetNews
 
 /**
  * The Record which will be used for the backend implementation of the persistence layer.
@@ -141,14 +143,15 @@ class SpiritEntry extends SpiritRecord[SpiritEntry] with SpiritHelpers with Logg
   object newEntry extends BooleanField(this, true)
 
   object twitterBool extends BooleanField(this, true)
-    //with LifecycleCallbacks {
-      //override def beforeSave() = {
-        //TODO Implement twitter functionality
-        //if(this.value) {
-        //  // Twitter stuff goes here
-        //}
-      //}
-  //}
+    with LifecycleCallbacks {
+      override def beforeSave() = {
+        if(this.value && newEntry.value) {
+          Spitter ! TweetNews(subject.value, semester.valueAsList.map(" #"+_).mkString, nr.value.toString)
+        } else if(this.value && !newEntry.value) {
+          Spitter ! TweetNews("[Update] " + subject.value, semester.valueAsList.map(" #"+_).mkString, nr.value.toString)
+        } else { }
+      }
+  }
 
   object emailBool extends BooleanField(this, false)
     //with LifecycleCallbacks {
@@ -199,7 +202,8 @@ class SpiritEntry extends SpiritRecord[SpiritEntry] with SpiritHelpers with Logg
   object semester extends StringField(this, 100) {
 
     def setFromList(in: List[String]): Box[String] = in match {
-      case list if list.nonEmpty => setFromAny(list.mkString(";"))
+      case dirty if dirty.contains("") => setFromList(dirty.filterNot(_ == ""))
+      case clean if clean.nonEmpty => setFromAny(clean.mkString(";"))
       case _ => genericSetFromAny("")
     }
 

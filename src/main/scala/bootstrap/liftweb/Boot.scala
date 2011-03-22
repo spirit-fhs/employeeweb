@@ -10,7 +10,7 @@ import sitemap._
 import Loc._
 
 import de.codecarving.fhsldap.fhsldap
-import de.codecarving.employeeweb.model.{MenuBuilder, DBChooser}
+import de.codecarving.employeeweb.model.{MenuBuilder, DBChooser, Spitter}
 
 class Boot extends Loggable with DBChooser[Boot] with MenuBuilder[Boot] {
   def boot {
@@ -41,6 +41,12 @@ class Boot extends Loggable with DBChooser[Boot] with MenuBuilder[Boot] {
 
     // Starting the FhS LDAP Module
     fhsldap.init
+
+    // Starting our Actors
+    Spitter.start()
+
+
+
 
     val useLDAP = Props.get("ldap.server.auth.use", "") == "true"
     if(!useLDAP) {

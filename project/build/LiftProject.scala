@@ -4,6 +4,7 @@ class LiftProject(info: ProjectInfo) extends DefaultWebProject(info) {
   val liftVersion = "2.2"
 
   override def libraryDependencies = Set(
+    "net.databinder" %% "dispatch" % "0.7.8",
     "com.googlecode.charts4j" % "charts4j" % "1.3" % "compile->default" withSources(),
     "net.liftweb" %% "lift-textile" % liftVersion % "compile->default" withSources(),
     "net.liftweb" %% "lift-util" % liftVersion % "compile->default" withSources(),

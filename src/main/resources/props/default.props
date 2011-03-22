@@ -55,3 +55,12 @@ SS_Ma=MAI2;MAI4
 ###################################################################
 # Stuff for Lift-Mailer
 mail.smtp.host=smtp.fh-schmalkalden.de
+
+###################################################################
+# Stuff for Spitter
+# If set to false Twitter messages will appear as log messages.
+spirit.employeeweb.spitter.Active=false
+spirit.employeeweb.spitter.Consumer=""
+spirit.employeeweb.spitter.ConsumerSecret=""
+spirit.employeeweb.spitter.Token=""
+spirit.employeeweb.spitter.TokenSecret=""
