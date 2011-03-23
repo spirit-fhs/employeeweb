@@ -3,12 +3,12 @@ package specs
 
 import org.specs._
 import model.records.{ SpiritTalkAllocator, SpiritTalkAllocatorTalks }
-import snippet._
 import net.liftweb.util._
 import net.liftweb.common._
 import specification.Contexts
 import de.codecarving.fhsldap.model.User
 import net.liftweb.http.{LiftRules, S, LiftSession}
+import de.codecarving.employeeweb.snippet.talkallocator.snippet.NewTalkAllocator
 
 class TalkAllocatorSpecs extends Specification with Contexts with SpecDBChooser {
 

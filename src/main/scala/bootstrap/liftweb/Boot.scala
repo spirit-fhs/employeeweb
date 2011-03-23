@@ -17,6 +17,10 @@ class Boot extends Loggable with DBChooser[Boot] with MenuBuilder[Boot] {
 
 
     LiftRules.addToPackages("de.codecarving.employeeweb")
+    // Registering the snippet packages.
+    LiftRules.addToPackages("de.codecarving.employeeweb.snippet.talkallocator")
+    LiftRules.addToPackages("de.codecarving.employeeweb.snippet.news")
+    LiftRules.addToPackages("de.codecarving.employeeweb.snippet.pollpal")
 
     LiftRules.setSiteMap(SiteMap(sitemap:_*))
 
@@ -44,9 +48,6 @@ class Boot extends Loggable with DBChooser[Boot] with MenuBuilder[Boot] {
 
     // Starting our Actors
     Spitter.start()
-
-
-
 
     val useLDAP = Props.get("ldap.server.auth.use", "") == "true"
     if(!useLDAP) {

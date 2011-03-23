@@ -1,11 +1,10 @@
-package de.codecarving.employeeweb
-package snippet
+package de.codecarving.employeeweb.snippet.talkallocator.snippet
 
 import net.liftweb.http.{S, SHtml}
 import net.liftweb.util.Helpers._
-import model.GlobalRequests
+import de.codecarving.employeeweb.model.GlobalRequests
 import net.liftweb.common.{Full, Loggable}
-import model.records.SpiritTalkAllocator
+import de.codecarving.employeeweb.model.records.SpiritTalkAllocator
 
 class NewTalkAllocator extends Loggable with GlobalRequests {
 

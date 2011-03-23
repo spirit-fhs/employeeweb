@@ -1,5 +1,7 @@
 package de.codecarving.employeeweb
 package snippet
+package pollpal
+package snippet
 
 import net.liftweb._
 import http._
@@ -13,8 +15,8 @@ import net.liftweb.util.BindHelpers._
 
 import net.liftweb.common.{ Loggable, Empty, Full }
 import xml.NodeSeq
-import model.records.{ SpiritPoll, SpiritPollAnswers }
-import model.{ SpiritHelpers, GlobalRequests }
+import de.codecarving.employeeweb.model.records.{ SpiritPoll, SpiritPollAnswers }
+import de.codecarving.employeeweb.model.{ SpiritHelpers, GlobalRequests }
 
 class PollPal extends Loggable with GlobalRequests with SpiritHelpers {
 

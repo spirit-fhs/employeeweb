@@ -1,5 +1,7 @@
 package de.codecarving.employeeweb
 package snippet
+package news
+package snippet
 
 import net.liftweb.http._
 import S._

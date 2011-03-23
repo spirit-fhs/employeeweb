@@ -1,11 +1,13 @@
 package de.codecarving.employeeweb
 package snippet
+package pollpal
+package snippet
 
 import net.liftweb.http.SHtml
 import net.liftweb.common.{Full, Loggable}
 import scala.xml.Text
-import model.GlobalRequests
-import model.records.{ SpiritPollAnswers, SpiritPoll }
+import de.codecarving.employeeweb.model.GlobalRequests
+import de.codecarving.employeeweb.model.records.{ SpiritPollAnswers, SpiritPoll }
 
 class ListPolls extends Loggable with GlobalRequests {
   import de.codecarving.fhsldap.model.User

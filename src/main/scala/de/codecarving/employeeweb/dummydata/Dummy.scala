@@ -4,7 +4,7 @@ package dummydata
 import net.liftweb.common.Loggable
 import records._
 import de.codecarving.employeeweb.persistence.EntryCounter
-import de.codecarving.employeeweb.snippet.WriteNews
+import de.codecarving.employeeweb.snippet.news.snippet.WriteNews
 import de.codecarving.employeeweb.persistence.h2.BackendEntryComments
 
 object Dummy extends Loggable {

@@ -1,11 +1,13 @@
 package de.codecarving.employeeweb
 package snippet
+package talkallocator
+package snippet
 
-import model.GlobalRequests
 import net.liftweb.common.Full._
 import net.liftweb.common.{Full, Loggable}
 import net.liftweb.http.{SHtml, S}
 import net.liftweb.util.Helpers._
+import de.codecarving.employeeweb.model.GlobalRequests
 
 class EditTalkAllocatorTalk extends Loggable with GlobalRequests {
 

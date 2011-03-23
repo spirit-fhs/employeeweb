@@ -9,6 +9,7 @@ import net.liftweb.mapper.BaseMetaMapper
 import net.liftweb.util._
 import net.liftweb.common._
 import net.liftweb.mongodb._
+import news.snippet.WriteNews
 import specification.Contexts
 import de.codecarving.fhsldap.model.User
 import net.liftweb.http.{LiftRules, S, LiftSession}

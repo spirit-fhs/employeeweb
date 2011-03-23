@@ -1,11 +1,10 @@
-package de.codecarving.employeeweb
-package snippet
+package de.codecarving.employeeweb.snippet.talkallocator.snippet
 
 import de.codecarving.employeeweb.model.GlobalRequests
 import de.codecarving.fhsldap.model.LDAPUtils._
 import net.liftweb.common.{Full, Loggable}
 import net.liftweb.textile._
-import model.records.{SpiritTalkAllocator, SpiritTalkAllocatorTalks}
+import de.codecarving.employeeweb.model.records.{SpiritTalkAllocator, SpiritTalkAllocatorTalks}
 import net.liftweb.http.{SHtml, S}
 import xml.Text._
 import xml.Text

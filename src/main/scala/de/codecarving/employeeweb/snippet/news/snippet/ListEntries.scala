@@ -1,5 +1,7 @@
 package de.codecarving.employeeweb
 package snippet
+package news
+package snippet
 
 import de.codecarving.fhsldap.model.User
 import net.liftweb.http.SHtml._
@@ -7,8 +9,8 @@ import net.liftweb.common.{Box, Empty, Full, Loggable}
 import net.liftweb.textile._
 
 import scala.xml.Text
-import model.GlobalRequests
-import model.records.{ SpiritEntry, SpiritEntryComments }
+import de.codecarving.employeeweb.model.GlobalRequests
+import de.codecarving.employeeweb.model.records.{ SpiritEntry, SpiritEntryComments }
 
 class ListEntries extends Loggable with GlobalRequests {
   //TODO Delete different! This is too dirty! -> Line 41

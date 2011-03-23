@@ -6,6 +6,7 @@ import model.records.{ SpiritPollAnswers, SpiritPoll }
 import snippet._
 import net.liftweb.util._
 import net.liftweb.common._
+import pollpal.snippet.PollPal
 import specification.Contexts
 import de.codecarving.fhsldap.model.User
 import net.liftweb.http.{LiftRules, S, LiftSession}

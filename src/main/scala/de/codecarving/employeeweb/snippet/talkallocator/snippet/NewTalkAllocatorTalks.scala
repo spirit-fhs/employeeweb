@@ -1,5 +1,7 @@
 package de.codecarving.employeeweb
 package snippet
+package talkallocator
+package snippet
 
 import net.liftweb.util.Helpers._
 import net.liftweb.http.{S, SHtml}
@@ -9,8 +11,8 @@ import xml.NodeSeq
 import net.liftweb.http.js.jquery.JqJsCmds
 
 import net.liftweb.util.BindHelpers
-import model.GlobalRequests
-import model.records.SpiritTalkAllocatorTalks
+import de.codecarving.employeeweb.model.GlobalRequests
+import de.codecarving.employeeweb.model.records.SpiritTalkAllocatorTalks
 import net.liftweb.http.js._
 import JsCmds._
 

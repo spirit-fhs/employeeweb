@@ -1,13 +1,15 @@
 package de.codecarving.employeeweb
 package snippet
+package talkallocator
+package snippet
 
 import net.liftweb.http.SHtml
-import model.GlobalRequests
+import de.codecarving.employeeweb.model.GlobalRequests
 import net.liftweb.common.{Full, Loggable}
 import de.codecarving.fhsldap.model.User
 import scala.xml.{ Text, NodeSeq }
 
-import model.records.{ SpiritTalkAllocator, SpiritTalkAllocatorTalks}
+import de.codecarving.employeeweb.model.records.{ SpiritTalkAllocator, SpiritTalkAllocatorTalks}
 
 class ListTalkAllocators extends Loggable with GlobalRequests {
 

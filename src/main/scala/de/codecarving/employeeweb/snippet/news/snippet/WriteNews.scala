@@ -1,5 +1,7 @@
 package de.codecarving.employeeweb
 package snippet
+package news
+package snippet
 
 import net.liftweb._
 import util.Helpers._
@@ -15,8 +17,8 @@ import scala.xml._
 
 import scala.collection.immutable.List
 import util.{CssBind, Props}
-import model.GlobalRequests
-import model.records.SpiritEntry
+import de.codecarving.employeeweb.model.GlobalRequests
+import de.codecarving.employeeweb.model.records.SpiritEntry
 
 class WriteNews extends Loggable with GlobalRequests with EntryPreview {
 
