@@ -10,11 +10,15 @@ import sitemap._
 import Loc._
 
 import de.codecarving.fhsldap.fhsldap
-import de.codecarving.employeeweb.model.{MenuBuilder, DBChooser, Spitter}
+import de.codecarving.employeeweb.model.{GlobalRequests, MenuBuilder, DBChooser, Spitter}
 
-class Boot extends Loggable with DBChooser[Boot] with MenuBuilder[Boot] {
+class Boot extends Loggable with DBChooser[Boot] with MenuBuilder[Boot] with GlobalRequests {
   def boot {
 
+    LiftRules.dispatch.append {
+      case Req("download" :: _, _, GetRequest) =>
+        () => CurrentDownload
+    }
 
     LiftRules.addToPackages("de.codecarving.employeeweb")
     // Registering the snippet packages.

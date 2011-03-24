@@ -2,15 +2,16 @@ package de.codecarving.employeeweb.snippet.talkallocator.snippet
 
 import de.codecarving.employeeweb.model.GlobalRequests
 import de.codecarving.fhsldap.model.LDAPUtils._
-import net.liftweb.common.{Full, Loggable}
 import net.liftweb.textile._
 import de.codecarving.employeeweb.model.records.{SpiritTalkAllocator, SpiritTalkAllocatorTalks}
-import net.liftweb.http.{SHtml, S}
-import xml.Text._
 import xml.Text
+import net.liftweb.common.{Box, Full, Loggable}
+import net.liftweb.http.{LiftResponse, StreamingResponse, SHtml, S}
+import scala.collection.mutable.ArrayBuffer
 
 class EvaluateTalkAllocator extends Loggable with GlobalRequests {
-
+  //TODO generate a nice filename for download.
+  // Taking a look if CurrentTalkAllocator is full or not.
   CurrentTalkAllocator.get match {
     case Full(talkallocator) =>
       logger info "Found TalkAllocator for Evaluation!"
@@ -23,10 +24,46 @@ class EvaluateTalkAllocator extends Loggable with GlobalRequests {
   lazy val talkAllocatorTalks = SpiritTalkAllocatorTalks.findAll.filter(
     _.allocatorTitle.value == talkAllocator.title.value)
 
+  lazy val data = buildCSVString(talkAllocator, talkAllocatorTalks)
+
+  private def buildCSVString(alloc: SpiritTalkAllocator,
+                             talks: List[SpiritTalkAllocatorTalks]): Array[Byte] = {
+    lazy val csvHead = alloc.title.value.replaceAll(";", " ") + ";" +
+                       alloc.description.value.replaceAll(";", " ") + "\n"
+    lazy val csvBodyHead = "Thema;Beschreibung;Studenten;Vergeben\n"
+    lazy val csvBody = for(talk <- talks)
+                    yield talk.talkTitle.value.replaceAll(";"," ") + ";" +
+                          talk.description.value.replaceAll(";"," ") + ";" +
+                          talk.speakers.value.split(";").map(s =>
+                            getAttribute("displayName", s).openOr("")).mkString(" - ") + ";" +
+                          (if(talk.assigned.value) "Ja" else "") + "\n"
+
+    (csvHead + csvBodyHead + csvBody.mkString)./:(ArrayBuffer[Byte]()) {
+      (o, i) => o += i.toByte
+    }.toArray
+  }
+
+  private def headers(in: Array[Byte]) = {
+      ("Content-type" -> "application/csv") ::
+      ("Content-length" -> in.length.toString) ::
+      ("Content-disposition" -> "attachment; filename=download.csv") :: Nil
+  }
+
+  private def return4Download(in: Array[Byte]): Box[LiftResponse] = {
+    Full(StreamingResponse(
+      new java.io.ByteArrayInputStream(in),
+      () => {},
+      in.length,
+      headers(in), Nil, 200)
+    )
+  }
+
   def render = {
     //TODO Render corrent data for students fhs-id.
     <h2>{ talkAllocator.title.value }</h2>
     <div>{ TextileParser.toHtml(talkAllocator.title.value) }</div>
+    <div>{ SHtml.link("/download", () => CurrentDownload(return4Download(data)),
+                                   Text("Als CSV exportieren")) }</div>
     <hr />
     <table>
       <tr>
