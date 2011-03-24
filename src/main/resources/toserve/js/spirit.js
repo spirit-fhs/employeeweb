@@ -33,3 +33,8 @@ $( "#onclick" ).click(function() {
         return false;
     });
 });
+
+$(function() {
+    $( "#tabs" ).tabs();
+});
+

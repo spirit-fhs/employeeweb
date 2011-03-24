@@ -25,6 +25,7 @@ class Boot extends Loggable with DBChooser[Boot] with MenuBuilder[Boot] with Glo
     LiftRules.addToPackages("de.codecarving.employeeweb.snippet.talkallocator")
     LiftRules.addToPackages("de.codecarving.employeeweb.snippet.news")
     LiftRules.addToPackages("de.codecarving.employeeweb.snippet.pollpal")
+    LiftRules.addToPackages("de.codecarving.employeeweb.snippet.admin")
 
     LiftRules.setSiteMap(SiteMap(sitemap:_*))
 

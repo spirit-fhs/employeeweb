@@ -39,7 +39,7 @@ trait MenuBuilder[T <: Boot] {
       Menu.i("Umfrage Anlegen") / "pollpal" / "newpoll" >> loggedInEmployeeorAdmin,
       Menu.i("PollGraph") / "pollpal" / "pollgraph" >> loggedInEmployeeorAdmin >> Hidden
       ),
-    Menu.i("Administration") / "administration" >> loggedInAdmin
+    Menu.i("Administration") / "administration" / "index" >> loggedInAdmin
 
     // Examples -----------------------------------------
     //Menu.i("Student") / "test1" >> loggedInStudent,
