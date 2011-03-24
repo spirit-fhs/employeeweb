@@ -38,9 +38,7 @@ class EvaluateTalkAllocator extends Loggable with GlobalRequests {
                             getAttribute("displayName", s).openOr("")).mkString(" - ") + ";" +
                           (if(talk.assigned.value) "Ja" else "") + "\n"
 
-    (csvHead + csvBodyHead + csvBody.mkString)./:(ArrayBuffer[Byte]()) {
-      (o, i) => o += i.toByte
-    }.toArray
+    (csvHead + csvBodyHead + csvBody.mkString)./:(ArrayBuffer[Byte]()) { _ += _.toByte }.toArray
   }
 
   private def headers(in: Array[Byte]) = {
