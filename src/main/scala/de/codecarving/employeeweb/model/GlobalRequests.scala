@@ -4,6 +4,7 @@ package model
 import net.liftweb.common.{Box, Empty}
 import records._
 import net.liftweb.http.{LiftResponse, SessionVar, RequestVar}
+import spiritrecord.SpiritRecord
 
 trait GlobalRequests {
 
@@ -12,6 +13,7 @@ trait GlobalRequests {
    */
   object ChartChooser extends RequestVar[String]("")
 
+  object CurrentSpiritRecord extends RequestVar[Box[SpiritRecord[_]]](Empty)
   object CurrentDownload extends RequestVar[Box[LiftResponse]](Empty)
   object CurrentTalkAllocatorTalks extends RequestVar[Box[List[SpiritTalkAllocatorTalks]]](Empty)
   object CurrentTalkAllocatorTalk extends RequestVar[Box[SpiritTalkAllocatorTalks]](Empty)

@@ -3,18 +3,18 @@ package snippet
 package pollpal
 package snippet
 
-import net.liftweb.http.SHtml
 import net.liftweb.common.{Full, Loggable}
 import scala.xml.Text
-import de.codecarving.employeeweb.model.GlobalRequests
 import de.codecarving.employeeweb.model.records.{ SpiritPollAnswers, SpiritPoll }
+import model.blockUI
+import net.liftweb.http.{S, SHtml}
 
-class ListPolls extends Loggable with GlobalRequests {
+class ListPolls extends Loggable with blockUI {
   import de.codecarving.fhsldap.model.User
 
   //TODO Delete different! This is too dirty! -> Line 21
   def render = {
-
+    reloadAfterDelete("/pollpal/index")
     SpiritPoll.findAll.filter(
       _.user.value == User.currentUserId.openOr("default")
     ) flatMap { sp =>
@@ -28,7 +28,7 @@ class ListPolls extends Loggable with GlobalRequests {
         <tr>
           <td colspan="4">Optionen: {SHtml.link("/pollpal/pollgraph", () => { CurrentPoll(Full(sp)); ChartChooser("BarChart") }, Text("Als BarChart darstellen"))}
                                     {SHtml.link("/pollpal/pollgraph", () => { CurrentPoll(Full(sp)); ChartChooser("PieChart") }, Text("Als PieChart darstellen"))}
-                                    {SHtml.link("/pollpal/index", () => sp.delete_!, Text("Löschen"))}
+                                    {deleteLink(sp)}
           </td>
         </tr>
         {SpiritPollAnswers.findAll.filter(_.title.value == sp.title.value) flatMap { spa =>

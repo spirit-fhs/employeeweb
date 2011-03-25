@@ -11,8 +11,9 @@ import net.liftweb.http.{SHtml, S}
 import xml.Text._
 import xml.Text
 import de.codecarving.employeeweb.model.records.SpiritTalkAllocatorTalks
+import model.blockUI
 
-class EditTalkAllocators extends Loggable with GlobalRequests {
+class EditTalkAllocators extends Loggable with blockUI {
 
   CurrentTalkAllocator.get match {
     case Full(talkallocator) =>
@@ -27,7 +28,7 @@ class EditTalkAllocators extends Loggable with GlobalRequests {
     _.allocatorTitle.value == talkAllocator.title.value)
 
   def render = {
-
+    reloadAfterDelete("/talkallocator/edit")
     <h2>{ talkAllocator.title.value }</h2>
     <div>{ TextileParser.toHtml(talkAllocator.title.value) }</div>
     <hr />
@@ -45,7 +46,7 @@ class EditTalkAllocators extends Loggable with GlobalRequests {
         <td>{ talk.description.value }</td>
         <td>{ talk.speakers.valueAsSet.mkString(" & ") }</td>
         <td>{ if(talk.assigned.value) "Ja" } </td>
-        <td>{ SHtml.link("/talkallocator/edit", () => talk.delete_!, Text("Löschen")) } <br />
+        <td>{deleteLink(talk)} <br />
             { SHtml.link("/talkallocator/editTalk", () => CurrentTalkAllocatorTalk(Full(talk)), Text("Ändern")) }</td>
       </tr>
     }}

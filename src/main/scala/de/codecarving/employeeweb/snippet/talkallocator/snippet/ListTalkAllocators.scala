@@ -3,17 +3,18 @@ package snippet
 package talkallocator
 package snippet
 
-import net.liftweb.http.SHtml
-import de.codecarving.employeeweb.model.GlobalRequests
+import de.codecarving.employeeweb.model.blockUI
 import net.liftweb.common.{Full, Loggable}
 import de.codecarving.fhsldap.model.User
 import scala.xml.{ Text, NodeSeq }
 
 import de.codecarving.employeeweb.model.records.{ SpiritTalkAllocator, SpiritTalkAllocatorTalks}
+import net.liftweb.http.{S, SHtml}
 
-class ListTalkAllocators extends Loggable with GlobalRequests {
+class ListTalkAllocators extends Loggable with blockUI {
 
   def render = {
+    reloadAfterDelete("/talkallocator/index")
     //TODO Implement editing TalkAllocators.
     //TODO Implement evaluating TalkAllocators.
 
@@ -30,7 +31,7 @@ class ListTalkAllocators extends Loggable with GlobalRequests {
         <tr>
           <td colspan="4">Optionen: {SHtml.link("/talkallocator/edit", () => CurrentTalkAllocator(Full(sta)), Text("Editieren"))}
                                     {SHtml.link("/talkallocator/evaluate", () => CurrentTalkAllocator(Full(sta)), Text("Auswerten"))}
-                                    {SHtml.link("/talkallocator/index", () => sta.delete_!, Text("Löschen"))}
+                                    {deleteLink(sta)}
           </td>
         </tr>
         </tbody>
