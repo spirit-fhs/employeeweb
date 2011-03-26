@@ -77,7 +77,7 @@ trait SpiritHelpers {
   /**
    * Removes all duplicated Answers. If a User has put duplicated Answers in the
    * Input fields, this method will help out!
-   * @param in Set[SpiritPollanswers]
+   * @param in Set[SpiritPollAnswers].
    * @return A clean Set without duplicated Answers.
    */
   def removeDuplicatesfromanswerSet(in: Set[SpiritPollAnswers]): Set[SpiritPollAnswers] = {

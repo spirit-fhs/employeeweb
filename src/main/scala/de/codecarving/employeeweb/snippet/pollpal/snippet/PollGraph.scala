@@ -8,6 +8,9 @@ import net.liftweb.common.{Full, Loggable}
 import net.liftweb.http.S
 import de.codecarving.employeeweb.model.records.SpiritPollAnswers
 
+/**
+ * Graphical evaluation of a Poll.
+ */
 class PollGraph extends Loggable with GlobalRequests with GraphCreators {
 
   //TODO clean this mess up!
@@ -33,6 +36,9 @@ class PollGraph extends Loggable with GlobalRequests with GraphCreators {
       case _ => ""
     }
 
+  /**
+   * Rendering the current image via the Google Chart API.
+   */
   def render = {
    //TODO Add handling if Google Api ist not reachable
    <img src={url}></img>

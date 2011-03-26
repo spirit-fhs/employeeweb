@@ -6,6 +6,9 @@ import de.codecarving.employeeweb.model.GlobalRequests
 import net.liftweb.common.{Full, Loggable}
 import de.codecarving.employeeweb.model.records.SpiritTalkAllocator
 
+/**
+ * Creating a new TalkAllocator.
+ */
 class NewTalkAllocator extends Loggable with GlobalRequests {
 
   lazy val newTalkAlloc = SpiritTalkAllocator.createRecord

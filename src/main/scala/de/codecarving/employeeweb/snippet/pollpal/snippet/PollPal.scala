@@ -18,6 +18,9 @@ import xml.NodeSeq
 import de.codecarving.employeeweb.model.records.{ SpiritPoll, SpiritPollAnswers }
 import de.codecarving.employeeweb.model.{ SpiritHelpers, GlobalRequests }
 
+/**
+ * Creating the View and Methods which lets a User create Polls for Students.
+ */
 class PollPal extends Loggable with GlobalRequests with SpiritHelpers {
 
   var answerSet = Set[SpiritPollAnswers]()

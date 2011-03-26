@@ -9,10 +9,12 @@ import de.codecarving.employeeweb.model.records.{ SpiritPollAnswers, SpiritPoll 
 import model.blockUI
 import net.liftweb.http.{S, SHtml}
 
+/**
+ * Creating a view of all Polls from the Current User in order for evaluation.
+ */
 class ListPolls extends Loggable with blockUI {
   import de.codecarving.fhsldap.model.User
 
-  //TODO Delete different! This is too dirty! -> Line 21
   def render = {
     reloadAfterDelete("/pollpal/index")
     SpiritPoll.findAll.filter(

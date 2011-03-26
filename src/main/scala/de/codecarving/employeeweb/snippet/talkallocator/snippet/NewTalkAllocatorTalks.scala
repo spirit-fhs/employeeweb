@@ -16,6 +16,9 @@ import de.codecarving.employeeweb.model.records.SpiritTalkAllocatorTalks
 import net.liftweb.http.js._
 import JsCmds._
 
+/**
+ * Adding Talks to a created TalkAllocator.
+ */
 class NewTalkAllocatorTalks extends Loggable with GlobalRequests {
 
   //TODO Wrap tryo around this!

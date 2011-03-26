@@ -13,10 +13,6 @@ import persistence.h2.{BackendEntry, BackendEntryComments => BEC}
  */
 object SpiritEntryComments extends SpiritEntryComments with SpiritMetaRecord[SpiritEntryComments] {
 
-  lazy val db = Props.get("spirit.admin.record.backentry").openOr((""))
-  lazy val mongodb = "mongodb"
-  lazy val h2db = "h2db"
-
   //TODO Implement mongodb features for Concept of Proof ?!
 
   /**

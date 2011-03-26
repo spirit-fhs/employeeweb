@@ -15,6 +15,8 @@ class EntryCounter {
 
   /**
    * Setting the Counter to an exact Value.
+   * @param in Number to set the counter.
+   * @return Counter number.
    */
   def setCounter(in: Int): Int = db match {
     case MONGODB =>
@@ -32,6 +34,7 @@ class EntryCounter {
 
   /**
    * Getting the current Counter.
+   * @return Current counter number.
    */
   def getCounter(): Int = db match {
     case MONGODB =>
@@ -46,6 +49,7 @@ class EntryCounter {
 
   /**
    * Getting a newNumber and Incrementing the counter.
+   * @return New counter number,
    */
   def newNumber(): Int = {
     val nr = getCounter
@@ -55,6 +59,8 @@ class EntryCounter {
 
   /**
    * Getting a new Number but only Incrementing if twitter is True.
+   * @param twitter If Entry will be twittered or not.
+   * @param oldNr oldNr of the Entry.
    */
   def updateNumber(twitter: Boolean, oldNr: Int): Int = {
     val newNr: Int = {

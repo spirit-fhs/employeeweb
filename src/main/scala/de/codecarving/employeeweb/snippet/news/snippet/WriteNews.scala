@@ -20,6 +20,9 @@ import util.{CssBind, Props}
 import de.codecarving.employeeweb.model.GlobalRequests
 import de.codecarving.employeeweb.model.records.SpiritEntry
 
+/**
+ * Creating the UI for writing Entrys.
+ */
 class WriteNews extends Loggable with GlobalRequests with EntryPreview {
 
   lazy val openEntry =

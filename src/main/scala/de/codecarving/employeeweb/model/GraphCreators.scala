@@ -55,7 +55,7 @@ trait GraphCreators extends SpiritHelpers {
   }
 
   /**
-   * Creating a PieChart, if Answercount is bigger than 9 BarChart gets to big.
+   * Creating a PieChart..
    * @param title The Title which will be located above the PieChart.
    * @param currentAnswers A Tuple containing the Answers with Votecount.
    * @return String The URL to the Graph for Google Chart API.

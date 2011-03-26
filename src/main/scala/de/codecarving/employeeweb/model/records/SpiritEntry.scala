@@ -26,10 +26,6 @@ import net.liftweb.textile.TextileParser
  */
 object SpiritEntry extends SpiritEntry with SpiritMetaRecord[SpiritEntry] {
 
-  lazy val db = Props.get("spirit.admin.record.backentry").openOr((""))
-  lazy val mongodb = "mongodb"
-  lazy val h2db = "h2db"
-
   /**
    * Deleting the Entry by it's Number.
    */

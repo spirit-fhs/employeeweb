@@ -15,10 +15,6 @@ import net.liftweb.common.{Empty, Loggable, Box, Full}
 
 object SpiritTalkAllocatorTalks extends SpiritTalkAllocatorTalks with SpiritMetaRecord[SpiritTalkAllocatorTalks] {
 
-  lazy val db = Props.get("spirit.admin.record.backentry").openOr((""))
-  lazy val mongodb = "mongodb"
-  lazy val h2db = "h2db"
-
   //TODO Implement mongodb features for Concept of Proof ?!
 
   override def delete_!(inst: SpiritTalkAllocatorTalks): Boolean = db match {

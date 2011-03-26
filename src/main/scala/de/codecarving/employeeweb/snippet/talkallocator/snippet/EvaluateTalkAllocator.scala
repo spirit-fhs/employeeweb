@@ -9,6 +9,10 @@ import net.liftweb.common.{Box, Full, Loggable}
 import net.liftweb.http.{LiftResponse, StreamingResponse, SHtml, S}
 import scala.collection.mutable.ArrayBuffer
 
+/**
+ * Creating a List of a TalkAllocator with its Talks and Speakers.
+ * With the option for CSV Export.
+ */
 class EvaluateTalkAllocator extends Loggable with GlobalRequests {
   //TODO generate a nice filename for download.
   // Taking a look if CurrentTalkAllocator is full or not.

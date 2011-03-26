@@ -14,6 +14,9 @@ import Helpers._
 import scala.xml._
 import net.liftweb.textile._
 
+/**
+ * Creating a preview of the Entry which is currently typed by a User.
+ */
 trait EntryPreview {
 
   object jsonPreview extends JsonHandler {

@@ -11,6 +11,10 @@ import scala.xml.{ Text, NodeSeq }
 import de.codecarving.employeeweb.model.records.{ SpiritTalkAllocator, SpiritTalkAllocatorTalks}
 import net.liftweb.http.{S, SHtml}
 
+/**
+ * Listing all TalkAllocators from the current User in order
+ * to evaluate, delete or edit them.
+ */
 class ListTalkAllocators extends Loggable with blockUI {
 
   def render = {

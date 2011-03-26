@@ -13,6 +13,9 @@ import xml.Text
 import de.codecarving.employeeweb.model.records.SpiritTalkAllocatorTalks
 import model.blockUI
 
+/**
+ * Edit or Delete Talks from a TalkAllocator.
+ */
 class EditTalkAllocators extends Loggable with blockUI {
 
   CurrentTalkAllocator.get match {

@@ -17,10 +17,6 @@ import net.liftweb.common.{Loggable, Box, Full}
  */
 object SpiritPoll extends SpiritPoll with SpiritMetaRecord[SpiritPoll] {
 
-  lazy val db = Props.get("spirit.admin.record.backentry").openOr((""))
-  lazy val mongodb = "mongodb"
-  lazy val h2db = "h2db"
-
   //TODO Implement mongodb features for Concept of Proof ?!
 
   /**

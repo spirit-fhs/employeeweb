@@ -9,6 +9,9 @@ import net.liftweb.http.{SessionInfo, SessionMaster, SessionWatcherInfo}
 import net.liftweb.common.{Empty, Loggable}
 import model.SessionMonitor
 
+/**
+ * Creating Real Time Data about Users and Sessions.
+ */
 class RealTimeData extends Loggable {
 
   SessionMaster.sessionWatchers = SessionMonitor :: SessionMaster.sessionWatchers

@@ -4,6 +4,9 @@ package spiritrecord
 import net.liftweb.common.{Box, Full}
 import net.liftweb.record.{MetaRecord, Record}
 
+/**
+ * Mixin providing Record capabilities.
+ */
 trait SpiritRecord[MyType <: SpiritRecord[MyType]] extends Record[MyType] {
   self: MyType =>
 

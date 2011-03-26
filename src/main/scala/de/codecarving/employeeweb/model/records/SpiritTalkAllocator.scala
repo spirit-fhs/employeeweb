@@ -16,10 +16,6 @@ import persistence.h2.{ BackendTalkAllocator => BTA, BackendTalkAllocatorTalks =
 
 object SpiritTalkAllocator extends SpiritTalkAllocator with SpiritMetaRecord[SpiritTalkAllocator] {
 
-  lazy val db = Props.get("spirit.admin.record.backentry").openOr((""))
-  lazy val mongodb = "mongodb"
-  lazy val h2db = "h2db"
-
   //TODO Implement mongodb features for Concept of Proof ?!
 
   override def delete_!(inst: SpiritTalkAllocator): Boolean = db match {

@@ -9,6 +9,9 @@ import net.liftweb.http.{SHtml, S}
 import net.liftweb.util.Helpers._
 import de.codecarving.employeeweb.model.GlobalRequests
 
+/**
+ * Editing a specific Talk.
+ */
 class EditTalkAllocatorTalk extends Loggable with GlobalRequests {
 
   CurrentTalkAllocatorTalk.get match {
