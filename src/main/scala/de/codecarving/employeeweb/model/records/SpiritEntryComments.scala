@@ -24,7 +24,7 @@ object SpiritEntryComments extends SpiritEntryComments with SpiritMetaRecord[Spi
       true
     case this.h2db =>
       import net.liftweb.mapper._
-      BEC.findAll(By(BEC.nr,inst.nr.value)).map(_.delete_!)
+      BEC.findAll(By(BEC.id,inst.id.value)).map(_.delete_!)
       true
     case _=>
       println("not implemented yet")
@@ -43,7 +43,7 @@ object SpiritEntryComments extends SpiritEntryComments with SpiritMetaRecord[Spi
       bec map { b =>
         lazy val sec = SpiritEntryComments.createRecord
         sec.user.set(b.user)
-        sec.nr.set(b.nr)
+        sec.id.set(b._id_)
         sec.comment.set(b.comment)
         sec
       }
@@ -86,8 +86,10 @@ object SpiritEntryComments extends SpiritEntryComments with SpiritMetaRecord[Spi
 class SpiritEntryComments extends SpiritRecord[SpiritEntryComments] with Loggable {
   def meta = SpiritEntryComments
 
-  object nr extends IntField(this)
+  object id extends IntField(this)
+  object entryId extends IntField(this)
   object user extends StringField(this, 100)
   object comment extends StringField(this, 1000)
+  object crdate extends StringField(this, 100)
 
 }

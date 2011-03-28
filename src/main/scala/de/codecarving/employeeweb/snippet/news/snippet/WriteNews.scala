@@ -28,7 +28,7 @@ class WriteNews extends Loggable with GlobalRequests with EntryPreview {
   lazy val openEntry =
     CurrentEntry.get match {
       case Full(entry) =>
-        logger info "Entry was found: " + entry.nr.value + "!"
+        logger info "Entry was found: " + entry.id.value + "!"
         entry.newEntry.set(false)
         entry
       case Empty =>

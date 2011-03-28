@@ -11,11 +11,11 @@ object BackendEntry extends BackendEntry with LongKeyedMetaMapper[BackendEntry] 
 class BackendEntry extends LongKeyedMapper[BackendEntry] with IdPK {
   def getSingleton = BackendEntry
 
-  object nr extends MappedInt(this)
+  object _id_ extends MappedInt(this)
   object user extends MappedString(this, 100)
   object displayName extends MappedString(this, 100)
   object subject extends MappedString(this, 100)
-  object from extends MappedString(this, 100)
+  object crdate extends MappedString(this, 100)
   object expires extends MappedString(this, 100)
   object news extends MappedTextarea(this, 100000)
   object semester extends MappedString(this, 100)

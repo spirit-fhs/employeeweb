@@ -24,7 +24,7 @@ class ListEntries extends Loggable with blockUI {
     SpiritEntry.findAll.filter(
       _.user.value == User.currentUserId.openOr("default")
     ).sortWith(
-      (entry1, entry2) => (entry1.nr.value > entry2.nr.value)
+      (entry1, entry2) => (entry1.id.value > entry2.id.value)
     ).flatMap(entry =>
       <table style="border:1">
 			<thead>
@@ -36,8 +36,8 @@ class ListEntries extends Loggable with blockUI {
 				<tr>
 					<td>Semester: {entry.semester.value.split(";").mkString(" ")}</td>
 					<td>Verfasser: {entry.displayName.value}</td>
-					<td>Vom: {entry.from.value}</td>
-					<td>Nr: {entry.nr.value}</td>
+					<td>Vom: {entry.crdate.value}</td>
+					<td>Nr: {entry.id.value}</td>
 				</tr>
 				<tr>
 					<td colspan="4">{TextileParser.toHtml(entry.news.value)}</td>
@@ -48,7 +48,7 @@ class ListEntries extends Loggable with blockUI {
           </td>
         </tr>
         { SpiritEntryComments.findAll.filter(
-          _.nr.value == entry.nr.value
+          _.id.value == entry.id.value
           ).flatMap( sec =>
         <tr>
           <td colspan="4">Kommentar von {sec.user.value} :

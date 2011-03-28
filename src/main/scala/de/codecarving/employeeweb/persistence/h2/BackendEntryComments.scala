@@ -11,7 +11,8 @@ object BackendEntryComments extends BackendEntryComments with LongKeyedMetaMappe
 class BackendEntryComments extends LongKeyedMapper[BackendEntryComments] with IdPK {
   def getSingleton = BackendEntryComments
 
-  object nr extends MappedInt(this)
+  object _id_ extends MappedInt(this)
   object user extends MappedString(this, 100)
   object comment extends MappedString(this, 1000)
+  object crdate extends MappedString(this, 100)
 }

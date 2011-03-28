@@ -31,13 +31,13 @@ object SpiritEntry extends SpiritEntry with SpiritMetaRecord[SpiritEntry] {
    */
   override def delete_!(inst: SpiritEntry): Boolean = db match {
     case this.mongodb =>
-      BE.findAll("nr", inst.nr.value).map(_.delete_!)
+      BE.findAll("_id_", inst.id.value).map(_.delete_!)
       true
     case this.h2db =>
       import net.liftweb.mapper._
-      h2BE.findAll(By(h2BE.nr,inst.nr.value)).map(_.delete_!)
+      h2BE.findAll(By(h2BE._id_,inst.id.value)).map(_.delete_!)
       //TODO Comments should actually not be deleted here! Need an idea?!
-      SpiritEntryComments.findAll.filter(_.nr.value == inst.nr.value).map(_.delete_!)
+      SpiritEntryComments.findAll.filter(_.id.value == inst.id.value).map(_.delete_!)
       true
     case _=>
       println("not implemented yet")
@@ -52,10 +52,10 @@ object SpiritEntry extends SpiritEntry with SpiritMetaRecord[SpiritEntry] {
       lazy val be = BE.findAll
       be map { b =>
         lazy val se = SpiritEntry.createRecord
-        se.nr.set(b.nr.value)
+        se.id.set(b._id_.value)
         se.user.set(b.user.value)
         se.displayName.set(b.displayName.value)
-        se.from.set(b.from.value)
+        se.crdate.set(b.crdate.value)
         se.expires.set(b.expires.value)
         se.news.set(b.news.value)
         se.semester.set(b.semester.value)
@@ -67,10 +67,10 @@ object SpiritEntry extends SpiritEntry with SpiritMetaRecord[SpiritEntry] {
       lazy val be = h2BE.findAll
       be map { b =>
         lazy val se = SpiritEntry.createRecord
-        se.nr.set(b.nr)
+        se.id.set(b._id_)
         se.user.set(b.user)
         se.displayName.set(b.displayName)
-        se.from.set(b.from)
+        se.crdate.set(b.crdate)
         se.expires.set(b.expires)
         se.news.set(b.news)
         se.semester.set(b.semester)
@@ -92,10 +92,10 @@ object SpiritEntry extends SpiritEntry with SpiritMetaRecord[SpiritEntry] {
       val in = inst.asInstanceOf[SpiritEntry]
       lazy val be = BE.createRecord
       be.user.set(in.user.value)
-      be.nr.set(in.nr.value)
+      be._id_.set(in.id.value)
       be.displayName.set(in.displayName.value)
       be.semester.set(in.semester.value)
-      be.from.set(in.from.value)
+      be.crdate.set(in.crdate.value)
       be.expires.set(in.expires.value)
       be.news.set(in.news.value)
       be.subject.set(in.subject.value)
@@ -107,10 +107,10 @@ object SpiritEntry extends SpiritEntry with SpiritMetaRecord[SpiritEntry] {
       val in = inst.asInstanceOf[SpiritEntry]
       lazy val be = h2BE.create
       be.user.set(in.user.value)
-      be.nr.set(in.nr.value)
+      be._id_.set(in.id.value)
       be.displayName.set(in.displayName.value)
       be.semester.set(in.semester.value)
-      be.from.set(in.from.value)
+      be.crdate.set(in.crdate.value)
       be.expires.set(in.expires.value)
       be.news.set(in.news.value)
       be.subject.set(in.subject.value)
@@ -145,9 +145,9 @@ class SpiritEntry extends SpiritRecord[SpiritEntry] with SpiritHelpers with Logg
     with LifecycleCallbacks {
       override def beforeSave() = {
         if(this.value && newEntry.value) {
-          Spitter ! TweetNews(subject.value, semester.valueAsList.map(" #"+_).mkString, nr.value.toString)
+          Spitter ! TweetNews(subject.value, semester.valueAsList.map(" #"+_).mkString, id.value.toString)
         } else if(this.value && !newEntry.value) {
-          Spitter ! TweetNews("[Update] " + subject.value, semester.valueAsList.map(" #"+_).mkString, nr.value.toString)
+          Spitter ! TweetNews("[Update] " + subject.value, semester.valueAsList.map(" #"+_).mkString, id.value.toString)
         } else { }
       }
   }
@@ -181,7 +181,7 @@ class SpiritEntry extends SpiritRecord[SpiritEntry] with SpiritHelpers with Logg
     }
   }
 
-  object nr extends IntField(this) with LifecycleCallbacks {
+  object id extends IntField(this) with LifecycleCallbacks {
 
     override def beforeSave() = {
       super.beforeSave
@@ -199,7 +199,7 @@ class SpiritEntry extends SpiritRecord[SpiritEntry] with SpiritHelpers with Logg
 
   object subject extends StringField(this, 100)
 
-  object from extends StringField(this, ((new SimpleDateFormat("dd.MM.yyyy")).format(new Date)))
+  object crdate extends StringField(this, ((new SimpleDateFormat("dd.MM.yyyy")).format(new Date)))
 
   object expires extends StringField(this, ((new SimpleDateFormat("dd.MM.yyyy")).format(new Date)))
     with LifecycleCallbacks {

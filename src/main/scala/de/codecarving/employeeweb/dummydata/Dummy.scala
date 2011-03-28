@@ -126,13 +126,13 @@ object Dummy extends Loggable {
       newNews.openEntry.save(true)
 
 
-      val nr = SpiritEntry.findAll.filter(e =>
-        e.nr.value == (EntryCounter.getCounter - 1)
-      ).head.nr.value
+      val id = SpiritEntry.findAll.filter(e =>
+        e.id.value == (EntryCounter.getCounter - 1)
+      ).head.id.value
 
       for(com <- 1 to 10) {
         val comment = BackendEntryComments.create
-        comment.nr.set(nr)
+        comment._id_.set(id)
         comment.user.set("denison")
         comment.comment.set("Dummy Comment Nr. " + com)
         comment.save
