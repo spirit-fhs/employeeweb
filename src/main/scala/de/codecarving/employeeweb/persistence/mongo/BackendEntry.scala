@@ -11,6 +11,7 @@ object BackendEntry extends BackendEntry with MongoMetaRecord[BackendEntry] {
 
 class BackendEntry extends MongoRecord[BackendEntry] with MongoId[BackendEntry] {
   def meta = BackendEntry
+
   object _id_ extends IntField(this, 4)
   object user extends StringField(this, 100)
   object displayName extends StringField(this, 100)

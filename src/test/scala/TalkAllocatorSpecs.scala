@@ -45,7 +45,6 @@ class TalkAllocatorSpecs extends Specification with Contexts with SpecDBChooser 
       talkalloc.newTalkAlloc.title.set("TalkAlloc 1")
 
       for(i <- 1 to 15) {
-        println(i)
         val tat = SpiritTalkAllocatorTalks.createRecord
         tat.talkTitle.set("Talk Nr. " + i)
         tat.allocatorTitle.set(talkalloc.newTalkAlloc.title.value)

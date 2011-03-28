@@ -13,14 +13,14 @@ import net.liftweb.common.{Loggable, Box, Full}
 import xml.NodeSeq
 import net.liftweb.mapper.By
 import persistence.h2.{ BackendTalkAllocator => BTA, BackendTalkAllocatorTalks => BTAT }
+import persistence.mongo.{BackendEntry, BackendTalkAllocator => mongoBTA, BackendTalkAllocatorTalks => mongoBTAT}
 
 object SpiritTalkAllocator extends SpiritTalkAllocator with SpiritMetaRecord[SpiritTalkAllocator] {
 
-  //TODO Implement mongodb features for Concept of Proof ?!
-
   override def delete_!(inst: SpiritTalkAllocator): Boolean = db match {
     case this.mongodb =>
-      logger warn "Not Implemented yet..."
+      mongoBTA.findAll("title", inst.title.value).map(_.delete_!)
+      mongoBTAT.findAll("allocatorTitle", inst.title.value).map(_.delete_!)
       true
     case this.h2db =>
       BTA.findAll(By(BTA.title,inst.title.value)).map(_.delete_!)
@@ -33,8 +33,17 @@ object SpiritTalkAllocator extends SpiritTalkAllocator with SpiritMetaRecord[Spi
 
   override def findAll: List[SpiritTalkAllocator] = db match {
     case this.mongodb =>
-      logger warn "Not Implemented yet..."
-      Nil
+      lazy val bta = mongoBTA.findAll
+      bta map { b =>
+        lazy val sta = SpiritTalkAllocator.createRecord
+        sta.user.set(b.user.value)
+        sta.displayName.set(b.displayName.value)
+        sta.title.set(b.title.value)
+        sta.description.set(b.description.value)
+        sta.released.set(b.released.value)
+        sta.expires.set(b.expires.value)
+        sta
+      }
     case this.h2db =>
       lazy val bta = BTA.findAll
       bta map { b =>
@@ -57,7 +66,16 @@ object SpiritTalkAllocator extends SpiritTalkAllocator with SpiritMetaRecord[Spi
    */
   override def save(inst: SpiritTalkAllocator): Boolean = db match {
     case this.mongodb =>
-      logger warn "Not Implemented yet..."
+      foreachCallback(inst, _.beforeSave)
+      val in = inst.asInstanceOf[SpiritTalkAllocator]
+      lazy val bta = mongoBTA.createRecord
+      bta.user.set(in.user.value)
+      bta.displayName.set(in.displayName.value)
+      bta.title.set(in.title.value)
+      bta.description.set(in.description.value)
+      bta.released.set(in.released.value)
+      bta.expires.set(in.expires.value)
+      bta.save
       true
     case this.h2db =>
       foreachCallback(inst, _.beforeSave)
@@ -70,7 +88,6 @@ object SpiritTalkAllocator extends SpiritTalkAllocator with SpiritMetaRecord[Spi
       bta.released.set(in.released.value)
       bta.expires.set(in.expires.value)
       bta.save
-      true
       true
     case _ =>
       logger warn "Not Implemented yet..."

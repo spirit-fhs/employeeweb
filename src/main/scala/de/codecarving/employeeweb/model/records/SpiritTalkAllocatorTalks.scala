@@ -11,15 +11,14 @@ import net.liftweb.util.Props
 import java.text.SimpleDateFormat
 import net.liftweb.mapper.By
 import persistence.h2.{ BackendTalkAllocator => BTA, BackendTalkAllocatorTalks => BTAT}
+import persistence.mongo.{BackendEntry, BackendTalkAllocator => mongoBTA, BackendTalkAllocatorTalks => mongoBTAT}
 import net.liftweb.common.{Empty, Loggable, Box, Full}
 
 object SpiritTalkAllocatorTalks extends SpiritTalkAllocatorTalks with SpiritMetaRecord[SpiritTalkAllocatorTalks] {
 
-  //TODO Implement mongodb features for Concept of Proof ?!
-
   override def delete_!(inst: SpiritTalkAllocatorTalks): Boolean = db match {
     case this.mongodb =>
-      logger warn "Not Implemented yet..."
+      mongoBTAT.findAll("talkTitle",inst.talkTitle.value).map(_.delete_!)
       true
     case this.h2db =>
       BTAT.findAll(By(BTAT.talkTitle,inst.talkTitle.value)).map(_.delete_!)
@@ -31,8 +30,16 @@ object SpiritTalkAllocatorTalks extends SpiritTalkAllocatorTalks with SpiritMeta
 
   override def findAll: List[SpiritTalkAllocatorTalks] = db match {
     case this.mongodb =>
-      logger warn "Not Implemented yet..."
-      Nil
+      lazy val btat = mongoBTAT.findAll
+      btat map { b =>
+        lazy val stat = SpiritTalkAllocatorTalks.createRecord
+        stat.talkTitle.set(b.talkTitle.value)
+        stat.allocatorTitle.set(b.allocatorTitle.value)
+        stat.description.set(b.description.value)
+        stat.assigned.set(b.assigned.value)
+        stat.speakers.set(b.speakers.value)
+        stat
+      }
     case this.h2db =>
       lazy val btat = BTAT.findAll
       btat map { b =>
@@ -54,7 +61,15 @@ object SpiritTalkAllocatorTalks extends SpiritTalkAllocatorTalks with SpiritMeta
    */
   override def save(inst: SpiritTalkAllocatorTalks): Boolean = db match {
     case this.mongodb =>
-      logger warn "Not Implemented yet..."
+      foreachCallback(inst, _.beforeSave)
+      val in = inst.asInstanceOf[SpiritTalkAllocatorTalks]
+      lazy val btat = mongoBTAT.createRecord
+      btat.talkTitle.set(in.talkTitle.value)
+      btat.allocatorTitle.set(in.allocatorTitle.value)
+      btat.description.set(in.description.value)
+      btat.assigned.set(in.assigned.value)
+      btat.speakers.set(in.speakers.value)
+      btat.save
       true
     case this.h2db =>
       foreachCallback(inst, _.beforeSave)
@@ -74,8 +89,16 @@ object SpiritTalkAllocatorTalks extends SpiritTalkAllocatorTalks with SpiritMeta
 
   override def update(inst: SpiritTalkAllocatorTalks): Boolean = db match {
     case this.mongodb =>
-      logger warn "Not Implemented yet..."
-      false
+      foreachCallback(inst, _.beforeUpdate)
+      val in = inst.asInstanceOf[SpiritTalkAllocatorTalks]
+      val btat = mongoBTAT.find("talkTitle", inst.talkTitle.value).openOr(mongoBTAT.createRecord)
+      btat.talkTitle.set(in.talkTitle.value)
+      btat.allocatorTitle.set(in.allocatorTitle.value)
+      btat.description.set(in.description.value)
+      btat.assigned.set(in.assigned.value)
+      btat.speakers.set(in.speakers.value)
+      btat.save
+      true
     case this.h2db =>
       foreachCallback(inst, _.beforeUpdate)
       val in = inst.asInstanceOf[SpiritTalkAllocatorTalks]
