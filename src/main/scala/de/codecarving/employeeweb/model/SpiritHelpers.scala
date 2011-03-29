@@ -4,10 +4,13 @@ package model
 import java.text.SimpleDateFormat
 import java.util.Date
 
-import net.liftweb.http.S
 import annotation.tailrec
 import records._
 import net.liftweb.util.Props
+import net.liftweb.common.Full._
+import net.liftweb.http.StreamingResponse._
+import net.liftweb.http.{StreamingResponse, LiftResponse, S}
+import net.liftweb.common.{Full, Box}
 
 trait SpiritHelpers {
 
@@ -86,6 +89,32 @@ trait SpiritHelpers {
       if (tuple._2(input.answer.value)) tuple
       else (tuple._1 + input, tuple._2 + input.answer.value)
     }._1
+  }
+
+  /**
+   * Generating the headers for the return4Download method.
+   */
+  private def headers(in: Array[Byte], filename: String) = {
+      ("Content-type" -> "application/csv") ::
+      ("Content-length" -> in.length.toString) ::
+      ("Content-disposition" -> ("attachment; filename=" + filename.replaceAll(" ","_") + ".csv")) :: Nil
+  }
+
+  /**
+   * For the creation of download links of generated files this method sets
+   * a Box[LiftResponse] which will return a Array[Byte] to the User which
+   * requests a file.
+   * @param in The file as an Array[Byte].
+   * @param filename The filename which will be viewed to the User.
+   * @return The LiftResponse which will be returned to the User.
+   */
+  def return4Download(in: Array[Byte], filename: String): Box[LiftResponse] = {
+    Full(StreamingResponse(
+      new java.io.ByteArrayInputStream(in),
+      () => {},
+      in.length,
+      headers(in, filename), Nil, 200)
+    )
   }
 
 }

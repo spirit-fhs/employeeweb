@@ -15,6 +15,9 @@ import de.codecarving.employeeweb.model.{GlobalRequests, MenuBuilder, DBChooser,
 class Boot extends Loggable with DBChooser[Boot] with MenuBuilder[Boot] with GlobalRequests {
   def boot {
 
+    /**
+     * We need to dispatch /download in order to provide files to download for a User.
+     */
     LiftRules.dispatch.append {
       case Req("download" :: _, _, GetRequest) =>
         () => CurrentDownload
