@@ -2,6 +2,7 @@ package de.codecarving.employeeweb.persistence
 package mongo
 
 import net.liftweb.mongodb._
+import record.field.MongoListField
 import record.{MongoRecord, MongoId, MongoMetaRecord}
 import net.liftweb.record.field._
 
@@ -19,6 +20,6 @@ class BackendEntry extends MongoRecord[BackendEntry] with MongoId[BackendEntry] 
   object crdate extends StringField(this, 100)
   object expires extends StringField(this, 100)
   object news extends TextareaField(this, 100000)
-  object semester extends StringField(this, 100)
+  object semester extends MongoListField[BackendEntry, String](this)
 
 }

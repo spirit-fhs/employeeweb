@@ -39,7 +39,7 @@ class WriteNews extends Loggable with GlobalRequests with EntryPreview {
         SpiritEntry.createRecord
     }
 
-  private var semesterList = openEntry.semester.valueAsList.toSet
+  private var semesterList = openEntry.semester.value.toSet
 
 
   /**
@@ -52,7 +52,8 @@ class WriteNews extends Loggable with GlobalRequests with EntryPreview {
      */
     def process(): JsCmd = {
 
-      openEntry.semester.setFromList(semesterList.toList)
+      //TODO Move filterNot == "" to ListField!
+      openEntry.semester.set(semesterList.filterNot(_ == "").toList)
       openEntry.save(openEntry.newEntry.value)
 
       S.redirectTo("/news/news")

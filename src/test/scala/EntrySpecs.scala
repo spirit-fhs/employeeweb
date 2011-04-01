@@ -110,5 +110,12 @@ class EntrySpecs extends Specification with Contexts with SpecDBChooser {
 
       SpiritEntry.findAll.head.id.value mustEqual oldNr
     }
+
+    "create an Entry for three semesters" in {
+      newNews.openEntry.semester.set(List("I1", "I3", "I5"))
+      newNews.openEntry.save
+
+      SpiritEntry.findAll.head.semester.value.size mustEqual 3
+    }
   }
 }

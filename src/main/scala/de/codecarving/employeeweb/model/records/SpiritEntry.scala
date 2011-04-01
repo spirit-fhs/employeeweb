@@ -3,7 +3,8 @@ package model
 package records
 
 import net.liftweb.record.field._
-import spiritrecord.{SpiritMetaRecord, SpiritRecord}
+import spiritrecord._
+import fields.SpiritListField
 
 import java.util.{ Calendar, TimeZone, Date }
 import java.text.SimpleDateFormat
@@ -74,7 +75,7 @@ object SpiritEntry extends SpiritEntry with SpiritMetaRecord[SpiritEntry] {
         se.crdate.set(b.crdate)
         se.expires.set(b.expires)
         se.news.set(b.news)
-        se.semester.set(b.semester)
+        se.semester.set(b.semester.split(";").toList)
         se.subject.set(b.subject)
         se
       }
@@ -110,7 +111,7 @@ object SpiritEntry extends SpiritEntry with SpiritMetaRecord[SpiritEntry] {
       be.user.set(in.user.value)
       be._id_.set(in.id.value)
       be.displayName.set(in.displayName.value)
-      be.semester.set(in.semester.value)
+      be.semester.set(in.semester.value.mkString(";"))
       be.crdate.set(in.crdate.value)
       be.expires.set(in.expires.value)
       be.news.set(in.news.value)
@@ -146,9 +147,9 @@ class SpiritEntry extends SpiritRecord[SpiritEntry] with SpiritHelpers with Logg
     with LifecycleCallbacks {
       override def beforeSave() = {
         if(this.value && newEntry.value) {
-          Spitter ! TweetNews(subject.value, semester.valueAsList.map(" #"+_).mkString, id.value.toString)
+          Spitter ! TweetNews(subject.value, semester.value.map(" #"+_).mkString, id.value.toString)
         } else if(this.value && !newEntry.value) {
-          Spitter ! TweetNews("[Update] " + subject.value, semester.valueAsList.map(" #"+_).mkString, id.value.toString)
+          Spitter ! TweetNews("[Update] " + subject.value, semester.value.map(" #"+_).mkString, id.value.toString)
         } else { }
       }
   }
@@ -164,7 +165,7 @@ class SpiritEntry extends SpiritRecord[SpiritEntry] with SpiritHelpers with Logg
                     Subject(subject.value),
                     (CC(User.ldapAttributes.email.openOr("")) ::
                      xmlToMailBodyType(scala.xml.Unparsed(TextileParser.toHtml(news.value) + footer)) ::
-                     semester.valueAsList.map(x =>
+                     semester.value.map(x =>
                        To(x + Props.get("SemesterMailTail", "")))) :_* )
         } else if(this.value && !mailerActive) {
           logger warn "Mailing ist not Active! Sending Dummy email to " +
@@ -174,7 +175,7 @@ class SpiritEntry extends SpiritRecord[SpiritEntry] with SpiritHelpers with Logg
                      "<" + Props.get("spirit.employeeweb.mailer.testEmail","") + ">"),
                      Subject(subject.value),
                      (To(Props.get("spirit.employeeweb.mailer.testEmail","")) ::
-                      xmlToMailBodyType(scala.xml.Unparsed(semester.valueAsList.toString +
+                      xmlToMailBodyType(scala.xml.Unparsed(semester.value.toString +
                        TextileParser.toHtml(news.value) +
                        footer)) ::
                       Nil) :_* )
@@ -217,20 +218,6 @@ class SpiritEntry extends SpiritRecord[SpiritEntry] with SpiritHelpers with Logg
     override def textareaCols = 80
   }
 
-  object semester extends StringField(this, 100) {
-
-    def setFromList(in: List[String]): Box[String] = in match {
-      case dirty if dirty.contains("") => setFromList(dirty.filterNot(_ == ""))
-      case clean if clean.nonEmpty => setFromAny(clean.mkString(";"))
-      case _ => genericSetFromAny("")
-    }
-
-    def valueAsList(): List[String] = {
-      if(!this.valueBox.isEmpty)
-        this.value.split(";").toList
-      else
-        Nil
-    }
-  }
+  object semester extends SpiritListField[SpiritEntry, String](this)
 
 }

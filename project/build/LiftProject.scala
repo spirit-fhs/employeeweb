@@ -3,6 +3,8 @@ import sbt._
 class LiftProject(info: ProjectInfo) extends DefaultWebProject(info) {
   val liftVersion = "2.2"
 
+  override def compileOptions = super.compileOptions ++ Seq(Unchecked)
+
   override def libraryDependencies = Set(
     "net.databinder" %% "dispatch" % "0.7.8",
     "com.googlecode.charts4j" % "charts4j" % "1.3" % "compile->default" withSources(),

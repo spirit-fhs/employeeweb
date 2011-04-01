@@ -43,7 +43,7 @@ class CommentNews extends Loggable with GlobalRequests {
 			</thead>
 			<tbody>
 				<tr>
-					<td>Semester: {entry.semester.value.split(";").mkString(" ")}</td>
+					<td>Semester: {entry.semester.value.mkString(" ")}</td>
 					<td>Verfasser: {entry.displayName.value}</td>
 					<td>Vom: {entry.crdate.value}</td>
 					<td>Nr: {entry.id.value}</td>
