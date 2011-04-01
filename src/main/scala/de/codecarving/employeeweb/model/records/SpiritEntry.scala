@@ -10,7 +10,7 @@ import java.text.SimpleDateFormat
 import net.liftweb.record.LifecycleCallbacks
 import de.codecarving.fhsldap.model.User
 import net.liftweb.util.Props
-import persistence.mongo.{BackendEntryCounter => BEC, BackendEntry => BE}
+import persistence.mongo.{BackendEntryCounter => BEC, BackendEntry => BE, BackendEntryComments => BECO}
 import persistence.EntryCounter
 import net.liftweb.mapper.By._
 import persistence.h2.{BackendEntryComments, BackendEntry => h2BE, BackendEntryCounter => h2BEC}
@@ -32,12 +32,13 @@ object SpiritEntry extends SpiritEntry with SpiritMetaRecord[SpiritEntry] {
   override def delete_!(inst: SpiritEntry): Boolean = db match {
     case this.mongodb =>
       BE.findAll("_id_", inst.id.value).map(_.delete_!)
+      BECO.findAll("_id_", inst.id.value).map(_.delete_!)
       true
     case this.h2db =>
       import net.liftweb.mapper._
       h2BE.findAll(By(h2BE._id_,inst.id.value)).map(_.delete_!)
       //TODO Comments should actually not be deleted here! Need an idea?!
-      SpiritEntryComments.findAll.filter(_.id.value == inst.id.value).map(_.delete_!)
+      BackendEntryComments.findAll.filter(_._id_ == inst.id.value).map(_.delete_!)
       true
     case _=>
       println("not implemented yet")

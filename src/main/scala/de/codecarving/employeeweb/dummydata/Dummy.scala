@@ -138,6 +138,24 @@ object Dummy extends Loggable {
         comment.save
       }
 
+      lazy val newNews2 = new WriteNews
+      newNews2.openEntry.subject.set("Dummy News")
+      newNews2.openEntry.newEntry.set(true)
+      newNews2.openEntry.news.set("Dummy News")
+      newNews2.openEntry.save(true)
+
+      val id2 = SpiritEntry.findAll.filter(e =>
+        e.id.value == (EntryCounter.getCounter - 1)
+      ).head.id.value
+
+      for(com <- 1 to 10) {
+        val comment = BackendEntryComments.create
+        comment._id_.set(id2)
+        comment.user.set("denison")
+        comment.comment.set("Dummy Comment Nr. " + com)
+        comment.save
+      }
+
       logger info "Created Dummy News with Dummy Comments..."
     }
   }

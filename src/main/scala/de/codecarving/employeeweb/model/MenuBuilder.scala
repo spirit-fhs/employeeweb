@@ -26,7 +26,8 @@ trait MenuBuilder[T <: Boot] {
     Menu.i("Home") / "index",
     Menu.i("News") / "news" / "news" >> loggedInEmployeeorAdmin submenus (
       Menu.i("News Anlegen") / "news" / "write" >> loggedInEmployeeorAdmin,
-      Menu.i("Editieren") / "news" / "edit" >> loggedInEmployeeorAdmin >> Hidden
+      Menu.i("Editieren") / "news" / "edit" >> loggedInEmployeeorAdmin >> Hidden,
+      Menu.i("Kommentieren") / "news" / "comment" >> loggedInEmployeeorAdmin >> Hidden
       ),
     Menu.i("Talk Allocator") / "talkallocator" / "index" >> loggedInEmployeeorAdmin submenus (
       Menu.i("Talk Allocator Anlegen") / "talkallocator" / "newTalkAllocator" >> loggedInEmployeeorAdmin,

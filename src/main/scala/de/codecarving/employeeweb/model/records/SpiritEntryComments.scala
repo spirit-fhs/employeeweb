@@ -6,7 +6,11 @@ import net.liftweb.record.field._
 import spiritrecord.{SpiritMetaRecord, SpiritRecord}
 import net.liftweb.util.Props
 import net.liftweb.common.{Loggable, Box, Full}
-import persistence.h2.{BackendEntry, BackendEntryComments => BEC}
+import persistence.mongo.{BackendEntry, BackendEntryComments => BEC}
+import persistence.h2.{BackendEntry, BackendEntryComments => h2BEC}
+import de.codecarving.fhsldap.model.User
+import java.text.SimpleDateFormat
+import java.util.Date
 
 /**
  * The Record which will be used for the backend implementation of the persistence layer.
@@ -20,11 +24,11 @@ object SpiritEntryComments extends SpiritEntryComments with SpiritMetaRecord[Spi
    */
   override def delete_!(inst: SpiritEntryComments): Boolean = db match {
     case this.mongodb =>
-      logger warn "Not Implemented yet..."
+      BEC.findAll("_id_", inst.id.value).map(_.delete_!)
       true
     case this.h2db =>
       import net.liftweb.mapper._
-      BEC.findAll(By(BEC.id,inst.id.value)).map(_.delete_!)
+      h2BEC.findAll(By(h2BEC.id,inst.id.value)).map(_.delete_!)
       true
     case _=>
       println("not implemented yet")
@@ -36,10 +40,16 @@ object SpiritEntryComments extends SpiritEntryComments with SpiritMetaRecord[Spi
    */
   override def findAll: List[SpiritEntryComments] = db match {
     case this.mongodb =>
-      logger warn "Not Implemented yet..."
-      Nil
-    case this.h2db =>
       lazy val bec = BEC.findAll
+      bec map { b =>
+        lazy val sec = SpiritEntryComments.createRecord
+        sec.user.set(b.user.value)
+        sec.id.set(b._id_.value)
+        sec.comment.set(b.comment.value)
+        sec
+      }
+    case this.h2db =>
+      lazy val bec = h2BEC.findAll
       bec map { b =>
         lazy val sec = SpiritEntryComments.createRecord
         sec.user.set(b.user)
@@ -53,14 +63,28 @@ object SpiritEntryComments extends SpiritEntryComments with SpiritMetaRecord[Spi
   }
 
   /**
-   * SpiritEntryComments shall not be saved from here.
+   * Saving SpiritEntryComments.
    */
   override def save(inst: SpiritEntryComments): Boolean = db match {
     case this.mongodb =>
-      logger warn "Not Implemented yet..."
+      foreachCallback(inst, _.beforeSave)
+      val in = inst.asInstanceOf[SpiritEntryComments]
+      lazy val be = BEC.createRecord
+      be.user.set(in.user.value)
+      be._id_.set(in.id.value)
+      be.crdate.set(in.crdate.value)
+      be.comment.set(in.comment.value)
+      be.save
       true
     case this.h2db =>
-      logger warn "Not Implemented yet..."
+      foreachCallback(inst, _.beforeSave)
+      val in = inst.asInstanceOf[SpiritEntryComments]
+      lazy val be = h2BEC.create
+      be.user.set(in.user.value)
+      be._id_.set(in.id.value)
+      be.crdate.set(in.crdate.value)
+      be.comment.set(in.comment.value)
+      be.save
       true
     case _ =>
       println("not implemented")
@@ -68,7 +92,7 @@ object SpiritEntryComments extends SpiritEntryComments with SpiritMetaRecord[Spi
    }
 
   /**
-   * SpiritEntryComments shall not be updated from here.
+   * Updating shall not happen.
    */
   override def update(inst: SpiritEntryComments): Boolean = db match {
     case this.mongodb =>
@@ -88,8 +112,12 @@ class SpiritEntryComments extends SpiritRecord[SpiritEntryComments] with Loggabl
 
   object id extends IntField(this)
   object entryId extends IntField(this)
-  object user extends StringField(this, 100)
-  object comment extends StringField(this, 1000)
-  object crdate extends StringField(this, 100)
+  object user extends StringField(this, User.currentUserId.openOr(""))
+  object comment extends TextareaField(this, 1000){
+
+    override def textareaRows  = 6
+    override def textareaCols = 40
+  }
+  object crdate extends StringField(this, ((new SimpleDateFormat("dd.MM.yyyy")).format(new Date)))
 
 }

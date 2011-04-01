@@ -45,6 +45,7 @@ class ListEntries extends Loggable with blockUI {
         <tr>
           <td colspan="4">Optionen: {link("/news/edit", () => CurrentEntry(Full(entry)), Text("Editieren"))}
                                     {deleteLink(entry)}
+                                    {link("/news/comment", () => CurrentEntry(Full(entry)), Text("Kommentieren"))}
           </td>
         </tr>
         { SpiritEntryComments.findAll.filter(
