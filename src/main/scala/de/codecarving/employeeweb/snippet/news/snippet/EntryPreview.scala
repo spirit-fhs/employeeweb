@@ -28,9 +28,24 @@ trait EntryPreview {
       })
   }
 
+  /**
+   * Creating a Preview of the text in news_id_field.
+   * This will help in order to inject the Preview into a
+   * JQuery Modal Dialog.
+   */
   def mkPreview(in: NodeSeq): NodeSeq = {
     bind("json", in,
       "script" -> Script(jsonPreview.jsCmd),
       AttrBindParam("onclick", Text(jsonPreview.call("preview", ElemById("news_id_field")~>Value).toJsCmd), "onclick"))
   }
-}
+
+  /**
+   * Creates the Preview Button.
+   */
+  def createPreviewButton = {
+    <span class="lift:WriteNews.mkPreview">
+      <json:script></json:script>
+      <div id="dialog" title="Vorschau">
+      <div id="news_preview"></div></div>
+    <button json:onclick="onclick" id="onclick">Vorschau</button></span>
+  }                                                                                            }

@@ -17,13 +17,13 @@ import scala.xml._
 
 import scala.collection.immutable.List
 import util.{CssBind, Props}
-import de.codecarving.employeeweb.model.GlobalRequests
 import de.codecarving.employeeweb.model.records.SpiritEntry
+import model.{SpiritHelpers, GlobalRequests}
 
 /**
  * Creating the UI for writing Entrys.
  */
-class WriteNews extends Loggable with GlobalRequests with EntryPreview {
+class WriteNews extends Loggable with GlobalRequests with EntryPreview with SpiritHelpers {
 
   lazy val openEntry =
     CurrentEntry.get match {
@@ -64,11 +64,8 @@ class WriteNews extends Loggable with GlobalRequests with EntryPreview {
     "name=subject"      #> openEntry.subject.toForm.open_! &
     "name=news"         #> openEntry.news.toForm.open_! &
     "name=expires"      #> (openEntry.expires.toForm.open_! ++ SHtml.hidden(process)) &
-    "type=preview"      #> <span class="lift:WriteNews.mkPreview">
-                              <json:script></json:script>
-                              <div id="dialog" title="Vorschau">
-                              <div id="news_preview"></div></div>
-                           <button json:onclick="onclick" id="onclick">Vorschau</button></span>
+    "type=preview"      #> createPreviewButton &
+    "name=tooltip"      #> createTextileTooltip
   }
 
   /**
@@ -86,6 +83,5 @@ class WriteNews extends Loggable with GlobalRequests with EntryPreview {
                                     Noop } ))
       ).apply(in)
   }
-  //TODO ToolTip for textile
 
 }
