@@ -20,6 +20,17 @@ class SpiritListField[OwnerType <: SpiritRecord[OwnerType], ListType](rec: Owner
 
   def defaultValue = List[ListType]()
 
+  /**
+   * A Dirty List is considered a List with Empty Strings ( "" ).
+   * Although we could exclude them before setting this field,
+   * it is a more comfortable way to have a Method like this.
+   * @param in The List to be saved.
+   */
+  def setFromDirtyList(in: List[ListType]) {
+
+    this.set(in.filterNot(_ == ""))
+  }
+
   @deprecated("Not implemented!")
   def setFromAny(in: Any): Box[List[ListType]] = Empty
 

@@ -52,8 +52,7 @@ class WriteNews extends Loggable with GlobalRequests with EntryPreview {
      */
     def process(): JsCmd = {
 
-      //TODO Move filterNot == "" to ListField!
-      openEntry.semester.set(semesterList.filterNot(_ == "").toList)
+      openEntry.semester.setFromDirtyList(semesterList.toList)
       openEntry.save(openEntry.newEntry.value)
 
       S.redirectTo("/news/news")
