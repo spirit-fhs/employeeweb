@@ -12,6 +12,7 @@ import net.liftweb.textile._
 import scala.xml.Text
 import de.codecarving.employeeweb.model.records.{ SpiritEntry, SpiritEntryComments }
 import model.{blockUI, GlobalRequests}
+import precaching.CacheHandler._
 
 class ListEntries extends Loggable with blockUI {
 
@@ -52,7 +53,7 @@ class ListEntries extends Loggable with blockUI {
           _.id.value == entry.id.value
           ).flatMap( sec =>
         <tr>
-          <td colspan="4">Kommentar von {sec.user.value} :
+          <td colspan="4">Kommentar von { getDisplayName(sec.user.value).open_! } :
           <br />{ sec.comment.value }</td>
         </tr>
         )}
