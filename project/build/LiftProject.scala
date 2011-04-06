@@ -1,7 +1,7 @@
 import sbt._
 
 class LiftProject(info: ProjectInfo) extends DefaultWebProject(info) {
-  val liftVersion = "2.2"
+  val liftVersion = "2.3"
 
   override def compileOptions = super.compileOptions ++ Seq(Unchecked)
 

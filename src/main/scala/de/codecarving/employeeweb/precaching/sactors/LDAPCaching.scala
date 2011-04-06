@@ -1,5 +1,6 @@
 package de.codecarving.employeeweb
 package precaching
+package sactors
 
 import actors.Actor
 import de.codecarving.fhsldap.model.LDAPUtils

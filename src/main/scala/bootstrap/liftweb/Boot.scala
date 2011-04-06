@@ -11,7 +11,6 @@ import Loc._
 
 import de.codecarving.fhsldap.fhsldap
 import de.codecarving.employeeweb.model.{GlobalRequests, MenuBuilder, DBChooser, Spitter}
-import de.codecarving.employeeweb.precaching.LDAPCaching
 
 class Boot extends Loggable with DBChooser[Boot] with MenuBuilder[Boot] with GlobalRequests {
   def boot {
@@ -57,7 +56,6 @@ class Boot extends Loggable with DBChooser[Boot] with MenuBuilder[Boot] with Glo
 
     // Starting our Actors
     Spitter.start()
-    LDAPCaching.start()
 
     val useLDAP = Props.get("ldap.server.auth.use", "") == "true"
     if(!useLDAP && H2DB == db) {
