@@ -1,5 +1,5 @@
 $(function() {
-  $( "#expires_id_field" ).datepicker($.datepicker.regional['de']);
+  $( "#expires_id" ).datepicker($.datepicker.regional['de']);
 });
 
 // increase the default animation speed to exaggerate the effect

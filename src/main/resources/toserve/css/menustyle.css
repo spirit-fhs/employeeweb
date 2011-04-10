@@ -1,3 +1,7 @@
+tbody tr:nth-child(even) td, tbody tr.even td {
+    background: transparent;
+}
+
 /* Menu style originally from a lift template */
 #lift__noticesContainer___notice {
     background-color: green;
