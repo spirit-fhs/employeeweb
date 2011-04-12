@@ -77,7 +77,7 @@ object Dummy extends Loggable {
         stat.allocatorTitle.set(sta.title.value)
         stat.talkTitle.set("Talk Nr." + i)
         stat.description.set("Description Nr. " + i)
-        stat.speakers.setFromSet(speakers)
+        stat.speakers.set(speakers.toList)
         stat.assigned.set(true)
         stat.save
       }
@@ -102,7 +102,7 @@ object Dummy extends Loggable {
         stat.allocatorTitle.set(sta2.title.value)
         stat.talkTitle.set("Talk Nr." + i)
         stat.description.set("Description Nr. " + i)
-        stat.speakers.setFromSet(speakers)
+        stat.speakers.set(speakers.toList)
         stat.assigned.set(true)
         stat.save
       }

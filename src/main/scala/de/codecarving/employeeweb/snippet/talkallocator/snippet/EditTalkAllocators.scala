@@ -47,7 +47,7 @@ class EditTalkAllocators extends Loggable with blockUI {
       <tr>
         <td>{ talk.talkTitle.value }</td>
         <td>{ talk.description.value }</td>
-        <td>{ talk.speakers.valueAsSet.mkString(" & ") }</td>
+        <td>{ talk.speakers.value.mkString(",") }</td>
         <td>{ if(talk.assigned.value) "Ja" } </td>
         <td>{deleteLink(talk)} <br />
             { SHtml.link("/talkallocator/editTalk", () => CurrentTalkAllocatorTalk(Full(talk)), Text("Ändern")) }</td>

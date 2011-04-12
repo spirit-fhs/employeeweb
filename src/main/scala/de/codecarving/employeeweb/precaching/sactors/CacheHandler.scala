@@ -2,7 +2,7 @@ package de.codecarving.employeeweb
 package precaching
 package sactors
 
-import model.records.SpiritEntryComments
+import model.records._
 import collection.mutable.HashMap
 import net.liftweb.common.{Full, Box, Loggable}
 import collection.mutable.SynchronizedMap
@@ -26,13 +26,15 @@ object CacheHandler extends Loggable {
    */
   def preFetch() {
 
-    lazy val sec = SpiritEntryComments.findAll
+    lazy val sec = SpiritTalkAllocatorTalks.findAll
 
-    sec map { s =>
-      if (!studentNames.contains(s.user.value)) {
-        lazy val newName = LDAPCaching !? (2000, s.user.value)
+    lazy val fhsids = (for(i <- sec) yield i.speakers.value).flatten.toSet
+
+    fhsids map { s =>
+      if (!studentNames.contains(s)) {
+        lazy val newName = LDAPCaching !? (2000, s)
         if (newName.isEmpty || newName.get != "")
-          studentNames += (s.user.value -> newName)
+          studentNames += (s -> newName)
       }
     }
   }

@@ -13,6 +13,7 @@ import net.liftweb.mapper.By
 import persistence.h2.{ BackendTalkAllocator => BTA, BackendTalkAllocatorTalks => BTAT}
 import persistence.mongo.{BackendEntry, BackendTalkAllocator => mongoBTA, BackendTalkAllocatorTalks => mongoBTAT}
 import net.liftweb.common.{Empty, Loggable, Box, Full}
+import spiritrecord.fields.SpiritListField
 
 object SpiritTalkAllocatorTalks extends SpiritTalkAllocatorTalks with SpiritMetaRecord[SpiritTalkAllocatorTalks] {
 
@@ -48,7 +49,7 @@ object SpiritTalkAllocatorTalks extends SpiritTalkAllocatorTalks with SpiritMeta
         stat.allocatorTitle.set(b.allocatorTitle)
         stat.description.set(b.description)
         stat.assigned.set(b.assigned)
-        stat.speakers.set(b.speakers)
+        stat.speakers.set(b.speakers.split(";").toList)
         stat
       }
     case _ =>
@@ -79,7 +80,7 @@ object SpiritTalkAllocatorTalks extends SpiritTalkAllocatorTalks with SpiritMeta
       btat.allocatorTitle.set(in.allocatorTitle.value)
       btat.description.set(in.description.value)
       btat.assigned.set(in.assigned.value)
-      btat.speakers.set(in.speakers.value)
+      btat.speakers.set(in.speakers.value.mkString(";"))
       btat.save
       true
     case _ =>
@@ -107,7 +108,7 @@ object SpiritTalkAllocatorTalks extends SpiritTalkAllocatorTalks with SpiritMeta
       btat.allocatorTitle.set(in.allocatorTitle.value)
       btat.description.set(in.description.value)
       btat.assigned.set(in.assigned.value)
-      btat.speakers.set(in.speakers.value)
+      btat.speakers.set(in.speakers.value.mkString(";"))
       btat.save
     case _ =>
       logger warn "Not Implemented yet..."
@@ -120,20 +121,7 @@ class SpiritTalkAllocatorTalks extends SpiritRecord[SpiritTalkAllocatorTalks] wi
 
   object allocatorTitle extends StringField(this,100)
   object talkTitle extends StringField(this,100)
-  object speakers extends StringField(this,100) {
-
-    def setFromSet(in: Set[String]): Box[String] = in match {
-      case set if set.nonEmpty => setFromAny(set.mkString(";"))
-      case _ => genericSetFromAny("")
-    }
-
-    def valueAsSet(): Set[String] = {
-      if(!this.valueBox.isEmpty)
-        this.value.split(";").toSet
-      else
-        Set("")
-    }
-  }
+  object speakers extends SpiritListField[SpiritTalkAllocatorTalks, String](this)
   object description extends TextareaField(this, 100000) {
 
     override def textareaRows  = 12

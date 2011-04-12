@@ -38,7 +38,7 @@ class EvaluateTalkAllocator extends Loggable with GlobalRequests with SpiritHelp
     lazy val csvBody = for(talk <- talks)
                     yield talk.talkTitle.value.replaceAll(";"," ") + ";" +
                           talk.description.value.replaceAll(";"," ") + ";" +
-                          talk.speakers.value.split(";").map(s =>
+                          talk.speakers.value.map(s =>
                             getAttribute("displayName", s).openOr("")).mkString(" - ") + ";" +
                           (if(talk.assigned.value) "Ja" else "") + "\n"
 
@@ -60,15 +60,11 @@ class EvaluateTalkAllocator extends Loggable with GlobalRequests with SpiritHelp
         <th>{ "Vergeben:" }</th>
       </tr>
     { talkAllocatorTalks.flatMap { talk =>
-      lazy val speakers = talk.speakers.valueAsSet
+      lazy val speakers = talk.speakers.value
       <tr>
         <td>{ talk.talkTitle.value }</td>
         <td>{ talk.description.value }</td>
-        <td>{ if(speakers.head == "") { }
-              else for(speaker <- speakers.toList)
-                     yield getAttribute("displayName", speaker)
-                           .openOr("Oops!") + ", " }
-        </td>
+        <td>{ talk.speakers.value.mkString(",") }</td>
         <td>{ if(talk.assigned.value) "Ja" } </td>
       </tr>
     }}
