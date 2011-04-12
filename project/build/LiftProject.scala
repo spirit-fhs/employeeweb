@@ -1,4 +1,5 @@
 import sbt._
+import eu.henkelmann.sbt.JUnitXmlTestsListener
 
 class LiftProject(info: ProjectInfo) extends DefaultWebProject(info) with AkkaProject {
   val liftVersion = "2.3"
@@ -10,6 +11,12 @@ class LiftProject(info: ProjectInfo) extends DefaultWebProject(info) with AkkaPr
   // Need to use Snapshot, since it is for Scala 2.8.1!
   val scalazCore = "org.scalaz" %% "scalaz-core" % "6.0-SNAPSHOT"
   val scalazHttp = "org.scalaz" %% "scalaz-http" % "6.0-SNAPSHOT"
+
+  //create a listener that writes to the normal output directory
+  def junitXmlListener: TestReportListener = new JUnitXmlTestsListener(outputPath.toString)
+
+  //add the new listener to the already configured ones
+  override def testListeners: Seq[TestReportListener] = super.testListeners ++ Seq(junitXmlListener)
 
   override def libraryDependencies = Set(
     "net.databinder" %% "dispatch" % "0.7.8",
@@ -27,4 +34,5 @@ class LiftProject(info: ProjectInfo) extends DefaultWebProject(info) with AkkaPr
     "ch.qos.logback" % "logback-classic" % "0.9.26",
     "org.scala-tools.testing" %% "specs" % "1.6.7" % "test->default"
   ) ++ super.libraryDependencies
+
 }
