@@ -6,19 +6,18 @@ import akka.actor.Actor
 import akka.actor.Actor._
 import de.codecarving.fhsldap.model.LDAPUtils
 
-object LDAPCacher {
+object LDAPCaching {
 
-  val myActor = actorOf[LDAPCaching].start
+  val cachingActor = actorOf[LDAPCaching].start
 }
 
 class LDAPCaching extends Actor {
 
   def receive = {
-    case fhsid: String => {
+    case fhsid: String =>
       self.reply(LDAPUtils.getAttribute("displayName", fhsid).openOr(fhsid))
-    }
-    case _ => {
-      println("received unknown message")
-    }
+
+    case _ =>
+
   }
 }

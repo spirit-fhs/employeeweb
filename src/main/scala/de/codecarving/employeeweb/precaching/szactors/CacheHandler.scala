@@ -2,8 +2,6 @@ package de.codecarving.employeeweb
 package precaching
 package szactors
 
-import scalaz.concurrent.Actor
-
 import scalaz.Scalaz._
 import scalaz.concurrent.Actor
 import de.codecarving.fhsldap.model.LDAPUtils
@@ -30,17 +28,15 @@ object CacheHandler extends Loggable {
    */
   def preFetch() {
 
-    lazy val sec = SpiritTalkAllocatorTalks.findAll
+    val sec = SpiritTalkAllocatorTalks.findAll
 
-    lazy val fhsids =
+    val fhsids =
       (for(i <- sec)
         yield i.speakers.value).flatten.toSet.filter(_ != "")
 
     fhsids map { s =>
-      if (!studentNames.contains(s)) {
-        println(s)
+      if (!studentNames.contains(s))
         LDAPCaching.myActor ! s
-      }
     }
   }
 
@@ -49,14 +45,16 @@ object CacheHandler extends Loggable {
 
   object LDAPCaching {
 
-    lazy val myActor: Actor[String] = actor {
-      case fhsid: String if (fhsid.nonEmpty) =>
+    val myActor: Actor[String] = actor {
+      case fhsid if (fhsid.nonEmpty) =>
         lazy val newName =
           LDAPUtils.getAttribute("displayName", fhsid).openOr(fhsid)
         if (newName != fhsid)
           studentNames += (fhsid -> newName)
+
       case _ =>
 
     }
- }
+  }
+
 }

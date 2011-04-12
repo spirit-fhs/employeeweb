@@ -3,9 +3,8 @@ package precaching
 package sactors
 
 import model.records._
-import collection.mutable.HashMap
+import collection.mutable.{ HashMap, SynchronizedMap }
 import net.liftweb.common.{Full, Box, Loggable}
-import collection.mutable.SynchronizedMap
 
 /**
  * CacheHandler with scala Actors!
@@ -28,25 +27,27 @@ object CacheHandler extends Loggable {
    */
   def preFetch() {
 
-    lazy val sec = SpiritTalkAllocatorTalks.findAll
+    val sec = SpiritTalkAllocatorTalks.findAll
 
-    lazy val fhsids = (for(i <- sec) yield i.speakers.value).flatten.toSet.filter(_ != "")
+    val fhsids =
+      (for(i <- sec)
+        yield i.speakers.value).flatten.toSet.filter(_ != "")
 
     fhsids map { s =>
       if (!studentNames.contains(s)) {
-        println(s)
+
         val newName = LDAPCaching !? (2000, s)
+
         newName match {
           case Some(name) =>
             println(name)
             if (name != s) studentNames += (s -> newName)
-          case None =>
+
           case _ =>
         }
       }
     }
   }
-
 
   /**
    * Returning PreFetched Data or PreFetching it.
@@ -70,6 +71,7 @@ object CacheHandler extends Loggable {
             } else {
               Full(fhsid)
             }
+
           case None =>
             Full(fhsid)
         }

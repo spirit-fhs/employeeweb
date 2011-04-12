@@ -26,19 +26,22 @@ object CacheHandler extends Loggable {
    */
   def preFetch() {
 
-    lazy val sec = SpiritTalkAllocatorTalks.findAll
+    val sec = SpiritTalkAllocatorTalks.findAll
 
-    lazy val fhsids = (for(i <- sec) yield i.speakers.value).flatten.toSet.filter(_ != "")
+    val fhsids =
+      (for(i <- sec)
+        yield i.speakers.value).flatten.toSet.filter(_ != "")
 
     fhsids map { s =>
       if (!studentNames.contains(s)) {
-        println(s)
-        val newName = LDAPCacher.myActor !! (s, 2000)
+
+        val newName = LDAPCaching.cachingActor !! (s, 2000)
+
         newName match {
           case Some(name) =>
             println(name)
             if (name != s) studentNames += (s -> newName)
-          case None =>
+
           case _ =>
         }
       }
@@ -59,7 +62,7 @@ object CacheHandler extends Loggable {
 
       case b =>
         logger warn "Fetching from LDAP!"
-        LDAPCacher.myActor !! (fhsid, 2000) match {
+        LDAPCaching.cachingActor !! (fhsid, 2000) match {
           case Some(newName) =>
             if (newName != "" && newName != fhsid) {
               studentNames += (fhsid -> newName)
@@ -67,6 +70,7 @@ object CacheHandler extends Loggable {
             } else {
               Full(fhsid)
             }
+
           case None =>
             Full(fhsid)
         }
