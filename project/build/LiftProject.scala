@@ -1,4 +1,5 @@
 import sbt._
+import eu.henkelmann.sbt.JUnitXmlTestsListener
 
 class LiftProject(info: ProjectInfo) extends DefaultWebProject(info) {
   val liftVersion = "2.3"
@@ -21,4 +22,10 @@ class LiftProject(info: ProjectInfo) extends DefaultWebProject(info) {
     "ch.qos.logback" % "logback-classic" % "0.9.26",
     "org.scala-tools.testing" %% "specs" % "1.6.7" % "test->default"
   ) ++ super.libraryDependencies
+
+  //create a listener that writes to the normal output directory
+  def junitXmlListener: TestReportListener = new JUnitXmlTestsListener(outputPath.toString)
+
+  //add the new listener to the already configured ones
+  override def testListeners: Seq[TestReportListener] = super.testListeners ++ Seq(junitXmlListener)
 }
