@@ -1,9 +1,15 @@
 import sbt._
 
-class LiftProject(info: ProjectInfo) extends DefaultWebProject(info) {
+class LiftProject(info: ProjectInfo) extends DefaultWebProject(info) with AkkaProject {
   val liftVersion = "2.3"
 
   override def compileOptions = super.compileOptions ++ Seq(Unchecked)
+
+  val scalaToolsSnapshots = "Scala Tools Snapshots" at "http://scala-tools.org/repo-snapshots/"
+
+  // Need to use Snapshot, since it is for Scala 2.8.1!
+  val scalazCore = "org.scalaz" %% "scalaz-core" % "6.0-SNAPSHOT"
+  val scalazHttp = "org.scalaz" %% "scalaz-http" % "6.0-SNAPSHOT"
 
   override def libraryDependencies = Set(
     "net.databinder" %% "dispatch" % "0.7.8",

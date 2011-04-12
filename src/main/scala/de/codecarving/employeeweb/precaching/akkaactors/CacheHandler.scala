@@ -1,6 +1,6 @@
 package de.codecarving.employeeweb
 package precaching
-package sactors
+package akkaactors
 
 import model.records._
 import collection.mutable.HashMap
@@ -8,11 +8,9 @@ import net.liftweb.common.{Full, Box, Loggable}
 import collection.mutable.SynchronizedMap
 
 /**
- * CacheHandler with scala Actors!
+ * CacheHandler with akka Actors!
  */
 object CacheHandler extends Loggable {
-
-  LDAPCaching.start
 
   /**
    * PreCached names go into this SynchronizedMap.
@@ -35,7 +33,7 @@ object CacheHandler extends Loggable {
     fhsids map { s =>
       if (!studentNames.contains(s)) {
         println(s)
-        val newName = LDAPCaching !? (2000, s)
+        val newName = LDAPCacher.myActor !! (s, 2000)
         newName match {
           case Some(name) =>
             println(name)
@@ -46,7 +44,6 @@ object CacheHandler extends Loggable {
       }
     }
   }
-
 
   /**
    * Returning PreFetched Data or PreFetching it.
@@ -62,7 +59,7 @@ object CacheHandler extends Loggable {
 
       case b =>
         logger warn "Fetching from LDAP!"
-        LDAPCaching !? (1000, fhsid) match {
+        LDAPCacher.myActor !! (fhsid, 2000) match {
           case Some(newName) =>
             if (newName != "" && newName != fhsid) {
               studentNames += (fhsid -> newName)

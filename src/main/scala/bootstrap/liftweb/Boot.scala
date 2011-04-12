@@ -65,10 +65,5 @@ class Boot extends Loggable with DBChooser[Boot] with MenuBuilder[Boot] with Glo
       Dummy.createDummyEntrys
     }
 
-    /**
-     * Activate this to Cache all realnames from students that may be needed.
-     */
-    // CacheHandler.preFetch
-
   }
 }
