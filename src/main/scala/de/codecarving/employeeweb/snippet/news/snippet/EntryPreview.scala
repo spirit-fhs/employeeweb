@@ -36,7 +36,7 @@ trait EntryPreview {
   def mkPreview(in: NodeSeq): NodeSeq = {
     bind("json", in,
       "script" -> Script(jsonPreview.jsCmd),
-      AttrBindParam("onclick", Text(jsonPreview.call("preview", ElemById("news_id_field")~>Value).toJsCmd), "onclick"))
+      AttrBindParam("onclick", Text(jsonPreview.call("preview", ElemById("news_id")~>Value).toJsCmd), "onclick"))
   }
 
   /**
