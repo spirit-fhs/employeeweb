@@ -1,5 +1,5 @@
 package de.codecarving.employeeweb
-package model
+package lib
 
 import net.liftweb.util.Props
 import net.liftweb.common.Empty

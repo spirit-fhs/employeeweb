@@ -10,7 +10,8 @@ import sitemap._
 import Loc._
 
 import de.codecarving.fhsldap.fhsldap
-import de.codecarving.employeeweb.model.{GlobalRequests, MenuBuilder, DBChooser, Spitter}
+import de.codecarving.employeeweb.lib.{ MenuBuilder, DBChooser }
+import de.codecarving.employeeweb.model.{ Spitter, GlobalRequests }
 
 class Boot extends Loggable with DBChooser[Boot] with MenuBuilder[Boot] with GlobalRequests {
   def boot {

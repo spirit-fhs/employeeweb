@@ -1,5 +1,5 @@
 package de.codecarving.employeeweb
-package model
+package lib
 
 import bootstrap.liftweb.Boot
 import net.liftweb.sitemap._
