@@ -56,6 +56,7 @@ SS_Ma=MAI2;MAI4
 
 ###################################################################
 # Stuff for Lift-Mailer
+mail.host.type=smtp
 mail.smtp.host=smtp.fh-schmalkalden.de
 # Set this to true to use emailing function.
 spirit.employeeweb.mailer.active=false

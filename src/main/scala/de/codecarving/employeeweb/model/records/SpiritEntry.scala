@@ -146,7 +146,7 @@ class SpiritEntry extends SpiritRecord[SpiritEntry] with SpiritHelpers with Logg
   object twitterBool extends BooleanField(this, true)
     with LifecycleCallbacks {
       override def beforeSave() = {
-        if(this.value && newEntry.value) {
+        if (this.value && newEntry.value) {
           Spitter ! TweetNews(subject.value, semester.value.map(" #"+_).mkString, id.value.toString)
         } else if(this.value && !newEntry.value) {
           Spitter ! TweetNews("[Update] " + subject.value, semester.value.map(" #"+_).mkString, id.value.toString)
@@ -156,29 +156,24 @@ class SpiritEntry extends SpiritRecord[SpiritEntry] with SpiritHelpers with Logg
 
   object emailBool extends BooleanField(this, false)
     with LifecycleCallbacks {
-      //TODO If mailing fails send a notice to User.
-      //TODO Maybe replace this with a own java mail wrapper?!
-      override def beforeSave() = {
-        if(this.value && mailerActive) {
-           sendMail(From(User.ldapAttributes.displayName.openOr("") +
-                    "<" + User.ldapAttributes.email.openOr("") + ">"),
-                    Subject(subject.value),
-                    (CC(User.ldapAttributes.email.openOr("")) ::
-                     xmlToMailBodyType(scala.xml.Unparsed(TextileParser.toHtml(news.value) + footer)) ::
-                     semester.value.map(x =>
-                       To(x + Props.get("SemesterMailTail", "")))) :_* )
-        } else if(this.value && !mailerActive) {
-          logger warn "Mailing ist not Active! Sending Dummy email to " +
-            Props.get("spirit.employeeweb.mailer.testEmail","")
+      import lib.SpiritMailer
+      import scala.collection.mutable.Set
 
-            sendMail(From(User.ldapAttributes.displayName.openOr("") +
-                     "<" + Props.get("spirit.employeeweb.mailer.testEmail","") + ">"),
-                     Subject(subject.value),
-                     (To(Props.get("spirit.employeeweb.mailer.testEmail","")) ::
-                      xmlToMailBodyType(scala.xml.Unparsed(semester.value.toString +
-                       TextileParser.toHtml(news.value) +
-                       footer)) ::
-                      Nil) :_* )
+      //TODO Maybe move this to afterSave?!
+      override def beforeSave() = {
+
+        if (this.value && mailerActive) {
+          SpiritMailer.send(TextileParser.toHtml(news.value).toString,
+                      subject.value,
+                      semester.value./:(Set[String]()) {
+                        (o, u) => o += (u + Props.get("SemesterMailTail", ""))
+                      }.toArray )
+        } else if (this.value && !mailerActive) {
+          logger warn "Mailing ist not Active! Sending Dummy email defined at: " +
+            "spirit.employeeweb.mailer.testEmail"
+          SpiritMailer.send(TextileParser.toHtml(news.value).toString,
+                      subject.value,
+                      Array(Props.get("spirit.employeeweb.mailer.testEmail","")))
         } else { }
     }
   }
@@ -186,8 +181,9 @@ class SpiritEntry extends SpiritRecord[SpiritEntry] with SpiritHelpers with Logg
   object id extends IntField(this) with LifecycleCallbacks {
 
     override def beforeSave() = {
+
       super.beforeSave
-      if(newEntry.value) {
+      if (newEntry.value) {
         this.setFromAny(EntryCounter.newNumber)
       } else {
         this.setFromAny(EntryCounter.updateNumber(twitterBool.value,this.value))
@@ -199,6 +195,7 @@ class SpiritEntry extends SpiritRecord[SpiritEntry] with SpiritHelpers with Logg
 
   object displayName extends StringField(this, 100, User.ldapAttributes.displayName.openOr("Mr. Default"))
 
+  //TODO Set Subject if User leaves it blank.
   object subject extends StringField(this, 100)
 
   object crdate extends StringField(this, ((new SimpleDateFormat("dd.MM.yyyy")).format(new Date)))
