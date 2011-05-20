@@ -11,6 +11,7 @@ trait DBChooser[T <: Boot] {
   lazy val db = Props.get("spirit.admin.record.backentry").openOr((""))
   lazy val MONGODB = "mongodb"
   lazy val H2DB = "h2db"
+  lazy val REST = "rest"
 
   db match {
     case MONGODB =>

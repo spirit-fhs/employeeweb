@@ -21,6 +21,7 @@ class LiftProject(info: ProjectInfo) extends DefaultWebProject(info) with AkkaPr
   override def libraryDependencies = Set(
     "net.databinder" %% "dispatch" % "0.7.8",
     "com.googlecode.charts4j" % "charts4j" % "1.3" % "compile->default" withSources(),
+    "net.liftweb" %% "lift-json" % liftVersion % "compile->default" withSources(),
     "net.liftweb" %% "lift-textile" % liftVersion % "compile->default" withSources(),
     "net.liftweb" %% "lift-util" % liftVersion % "compile->default" withSources(),
     "net.liftweb" %% "lift-webkit" % liftVersion % "compile->default" withSources(),

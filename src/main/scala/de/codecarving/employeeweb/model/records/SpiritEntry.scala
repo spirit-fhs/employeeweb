@@ -14,13 +14,12 @@ import net.liftweb.util.Props
 import persistence.mongo.{BackendEntryCounter => BEC, BackendEntry => BE, BackendEntryComments => BECO}
 import persistence.EntryCounter
 import net.liftweb.mapper.By._
-import persistence.h2.{BackendEntryComments, BackendEntry => h2BE, BackendEntryCounter => h2BEC}
 import net.liftweb.common.Logger._
 import net.liftweb.common.{Loggable, Box, Full}
 import model.Spitter
 import model.tweetCases.TweetNews
-import net.liftweb.util.Mailer._
 import net.liftweb.textile.TextileParser
+import persistence.h2.{BackendEntryComments, BackendEntry => h2BE, BackendEntryCounter => h2BEC}
 
 /**
  * The Record which will be used for the backend implementation of the persistence layer.
@@ -64,25 +63,12 @@ object SpiritEntry extends SpiritEntry with SpiritMetaRecord[SpiritEntry] {
         se.subject.set(b.subject.value)
         se
       }
-
     case this.h2db =>
-      lazy val be = h2BE.findAll
-      be map { b =>
-        lazy val se = SpiritEntry.createRecord
-        se.id.set(b._id_)
-        se.user.set(b.user)
-        se.displayName.set(b.displayName)
-        se.crdate.set(b.crdate)
-        se.expires.set(b.expires)
-        se.news.set(b.news)
-        se.semester.set(b.semester.split(";").toList)
-        se.subject.set(b.subject)
-        se
-      }
-
-    case _ =>
-      println("not implemented yet")
-      Nil
+      import persistence.h2.Methods
+      Methods.findAll(this).asInstanceOf[List[SpiritEntry]]
+    case this.rest =>
+      import persistence.rest.Methods
+      Methods.findAll(this).asInstanceOf[List[SpiritEntry]]
   }
 
   /**

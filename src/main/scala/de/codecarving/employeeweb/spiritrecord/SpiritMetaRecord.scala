@@ -33,5 +33,6 @@ trait SpiritMetaRecord[BaseRecord <: SpiritRecord[BaseRecord]] extends MetaRecor
   lazy val db = Props.get("spirit.admin.record.backentry").openOr((""))
   lazy val mongodb = "mongodb"
   lazy val h2db = "h2db"
+  lazy val rest = "rest"
 
 }

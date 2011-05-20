@@ -38,28 +38,8 @@ object SpiritEntryComments extends SpiritEntryComments with SpiritMetaRecord[Spi
   /**
    * Returning a List of all Comments.
    */
-  override def findAll: List[SpiritEntryComments] = db match {
-    case this.mongodb =>
-      lazy val bec = BEC.findAll
-      bec map { b =>
-        lazy val sec = SpiritEntryComments.createRecord
-        sec.user.set(b.user.value)
-        sec.id.set(b._id_.value)
-        sec.comment.set(b.comment.value)
-        sec
-      }
-    case this.h2db =>
-      lazy val bec = h2BEC.findAll
-      bec map { b =>
-        lazy val sec = SpiritEntryComments.createRecord
-        sec.user.set(b.user)
-        sec.id.set(b._id_)
-        sec.comment.set(b.comment)
-        sec
-      }
-    case _ =>
-      println("not implemented yet")
-      Nil
+  override def findAll: List[SpiritEntryComments] = {
+    Nil
   }
 
   /**
