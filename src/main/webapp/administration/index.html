@@ -7,26 +7,20 @@
 
   <body class="lift:content_id=main">
     <div id="main" class="lift:surround?with=default;at=content">
-    <link type="text/css" href="/classpath/jquery/css/cupertino/jquery-ui-1.8.10.custom.css" rel="Stylesheet" />
-    <script type="text/javascript" src="/classpath/jquery/js/jquery-1.4.4.min.js"></script>
-    <script type="text/javascript" src="/classpath/jquery/js/jquery-ui-1.8.10.custom.min.js"></script>
-    <script type="text/javascript" src="/classpath/js/spirit.js"></script>
+    <link type="text/css" href="/spiritstyle/jquery/css/cupertino/jquery-ui-1.8.10.custom.css" rel="Stylesheet" />
+    <script type="text/javascript" src="/spiritstyle/jquery/js/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="/spiritstyle/jquery/js/jquery-ui-1.8.10.custom.min.js"></script>
+    <script type="text/javascript" src="/spiritstyle/js/spirit.js"></script>
     <div id="tabs">
 	    <ul>
-		    <li><a href="#tabs-1">Echtzeit Daten</a></li>
-		    <li><a href="#tabs-2">Anwender Rollen</a></li>
-		    <li><a href="#tabs-3">Einstellungen</a></li>
+		    <li><a href="#tabs-1">Anwender Rollen</a></li>
+		    <li><a href="#tabs-2">Einstellungen</a></li>
 	    </ul>
 	<div id="tabs-1">
-        <div class="lift:RealTimeData"></div>
-    </div>
-	<div id="tabs-2">
         <div class="lift:UserRoles"></div>
     </div>
-	<div id="tabs-3">
-        <form class="lift:Settings">
-         <input value="Benchmark" type="submit" name="benchmark" id="do_submit">
-        </form>
+	<div id="tabs-2">
+        <div class="lift:Settings"></div>
     </div>
 </div>
 

@@ -34,18 +34,18 @@ class ListEntries extends Loggable with blockUI {
 			</thead>
 			<tbody>
 				<tr>
-					<td>Semester: {entry.semester.value.mkString(" ")}</td>
-					<td>Verfasser: {entry.displayName.value}</td>
-					<td>Vom: {entry.crdate.value}</td>
-					<td>Nr: {entry.id.value}</td>
+					<td>Semester: { entry.semester.value.mkString(" ") }</td>
+					<td>Verfasser: { entry.displayName.value }</td>
+					<td>Vom: { entry.crdate.value }</td>
+					<td>Nr: { entry.id.value }</td>
 				</tr>
 				<tr>
 					<td colspan="4">{TextileParser.toHtml(entry.news.value)}</td>
 				</tr>
         <tr>
-          <td colspan="4">Optionen: {link("/news/edit", () => CurrentEntry(Full(entry)), Text("Editieren"))}
-                                    {deleteLink(entry)}
-                                    {link("/news/comment", () => CurrentEntry(Full(entry)), Text("Kommentieren"))}
+          <td colspan="4">Optionen: { link("/news/edit", () => CurrentEntry(Full(entry)), Text("Editieren")) }
+                                    { deleteLink(entry) }
+                                    { link("/news/comment", () => CurrentEntry(Full(entry)), Text("Kommentieren")) }
           </td>
         </tr>
         { SpiritEntryComments.findAll.filter(

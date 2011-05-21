@@ -65,7 +65,7 @@ class EvaluateTalkAllocator extends Loggable with GlobalRequests with SpiritHelp
         <td>{ talk.talkTitle.value }</td>
         <td>{ talk.description.value }</td>
         <td>{ talk.speakers.value.mkString(",") }</td>
-        <td>{ if(talk.assigned.value) "Ja" } </td>
+        <td>{ if (talk.assigned.value) "Ja" } </td>
       </tr>
     }}
     </table>

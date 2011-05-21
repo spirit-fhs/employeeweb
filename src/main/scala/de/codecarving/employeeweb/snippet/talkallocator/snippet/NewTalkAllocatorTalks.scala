@@ -33,7 +33,7 @@ class NewTalkAllocatorTalks extends Loggable with GlobalRequests {
       //TODO Multispeakers
 
       for(cur <- talkSet) {
-        if(cur.talkTitle.value == "") {
+        if (cur.talkTitle.value == "") {
           logger warn "Throwing away a Talk since its empty!"
         }
         else {
