@@ -2,17 +2,21 @@ package de.codecarving.employeeweb
 package persistence
 package h2
 
-import spiritrecord.SpiritRecord
 import model.records.{ SpiritEntry, SpiritEntryComments }
+import spiritrecord.{SpiritMethods, SpiritRecord}
 
-object Methods extends Methods
+class Methods extends SpiritMethods {
 
-class Methods {
+  def delete_![T <: SpiritRecord[T]](inst: SpiritRecord[T]): Boolean = true
+
+  def save[T <: SpiritRecord[T]](inst: SpiritRecord[T]): Boolean = true
+
+  def update[T <: SpiritRecord[T]](inst: SpiritRecord[T]): Boolean = true
 
   /**
    * Building a List[SpiritRecord[_]] out of the H2 database.
    */
-  def findAll(inst: SpiritEntry): List[SpiritRecord[_]] = {
+  def findAll(): List[SpiritEntry] = {
 
     lazy val be = BackendEntry.findAll
 

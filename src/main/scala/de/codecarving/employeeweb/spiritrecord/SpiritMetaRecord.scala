@@ -18,7 +18,7 @@ trait SpiritMetaRecord[BaseRecord <: SpiritRecord[BaseRecord]] extends MetaRecor
   def delete_!(inst: BaseRecord): Boolean
 
   // Override in implementation!
-  def findAll: List[Any]
+  def findAll: List[_]
 
   // Override in implementation!
   def save(inst: BaseRecord): Boolean
@@ -34,5 +34,10 @@ trait SpiritMetaRecord[BaseRecord <: SpiritRecord[BaseRecord]] extends MetaRecor
   lazy val mongodb = "mongodb"
   lazy val h2db = "h2db"
   lazy val rest = "rest"
+
+  val methods = db match {
+    case this.rest => new persistence.rest.Methods
+    case this.h2db => new persistence.h2.Methods
+  }
 
 }

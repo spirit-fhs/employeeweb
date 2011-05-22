@@ -2,17 +2,21 @@ package de.codecarving.employeeweb
 package persistence
 package rest
 
-import spiritrecord.SpiritRecord
 import model.records.{ SpiritEntry, SpiritEntryComments }
 import dispatch.Http
 import dispatch.Http._
 import net.liftweb.json._
 import net.liftweb.util.Props
 import de.codecarving.fhsldap.model.User
+import spiritrecord.{SpiritRecord, SpiritMethods}
 
-object Methods extends Methods
+class Methods extends SpiritMethods {
 
-class Methods {
+  def delete_![T <: SpiritRecord[T]](inst: SpiritRecord[T]): Boolean = true
+
+  def save[T <: SpiritRecord[T]](inst: SpiritRecord[T]): Boolean = true
+
+  def update[T <: SpiritRecord[T]](inst: SpiritRecord[T]): Boolean = true
 
   implicit val formats = DefaultFormats
 
@@ -22,7 +26,7 @@ class Methods {
   /**
    * Using lift-json to extract the rawJson data into case classes and into SpiritRecords.
    */
-  def findAll(inst: SpiritEntry): List[SpiritRecord[_]] = {
+  def findAll(): List[SpiritEntry] = {
 
     val rawJson = http((restURL + "news?owner=" + User.currentUserId.open_!).as_str)
 

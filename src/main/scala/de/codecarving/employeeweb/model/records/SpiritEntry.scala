@@ -26,101 +26,10 @@ import persistence.h2.{BackendEntryComments, BackendEntry => h2BE, BackendEntryC
  */
 object SpiritEntry extends SpiritEntry with SpiritMetaRecord[SpiritEntry] {
 
-  /**
-   * Deleting the Entry by it's Number.
-   */
-  override def delete_!(inst: SpiritEntry): Boolean = db match {
-    case this.mongodb =>
-      BE.findAll("_id_", inst.id.value).map(_.delete_!)
-      BECO.findAll("_id_", inst.id.value).map(_.delete_!)
-      true
-    case this.h2db =>
-      import net.liftweb.mapper._
-      h2BE.findAll(By(h2BE._id_,inst.id.value)).map(_.delete_!)
-      //TODO Comments should actually not be deleted here! Need an idea?!
-      BackendEntryComments.findAll.filter(_._id_ == inst.id.value).map(_.delete_!)
-      true
-    case _=>
-      println("not implemented yet")
-      false
-  }
-
-  /**
-   * Returning a List of all Entries.
-   */
-  override def findAll: List[SpiritEntry] = db match {
-    case this.mongodb =>
-      lazy val be = BE.findAll
-      be map { b =>
-        lazy val se = SpiritEntry.createRecord
-        se.id.set(b._id_.value)
-        se.user.set(b.user.value)
-        se.displayName.set(b.displayName.value)
-        se.crdate.set(b.crdate.value)
-        se.expires.set(b.expires.value)
-        se.news.set(b.news.value)
-        se.semester.set(b.semester.value)
-        se.subject.set(b.subject.value)
-        se
-      }
-    case this.h2db =>
-      import persistence.h2.Methods
-      Methods.findAll(this).asInstanceOf[List[SpiritEntry]]
-    case this.rest =>
-      import persistence.rest.Methods
-      Methods.findAll(this).asInstanceOf[List[SpiritEntry]]
-  }
-
-  /**
-   * Saving the Entry.
-   */
-  override def save(inst: SpiritEntry): Boolean = db match {
-    case this.mongodb =>
-      foreachCallback(inst, _.beforeSave)
-      val in = inst.asInstanceOf[SpiritEntry]
-      lazy val be = BE.createRecord
-      be.user.set(in.user.value)
-      be._id_.set(in.id.value)
-      be.displayName.set(in.displayName.value)
-      be.semester.set(in.semester.value)
-      be.crdate.set(in.crdate.value)
-      be.expires.set(in.expires.value)
-      be.news.set(in.news.value)
-      be.subject.set(in.subject.value)
-      be.save
-      true
-
-    case this.h2db =>
-      foreachCallback(inst, _.beforeSave)
-      val in = inst.asInstanceOf[SpiritEntry]
-      lazy val be = h2BE.create
-      be.user.set(in.user.value)
-      be._id_.set(in.id.value)
-      be.displayName.set(in.displayName.value)
-      be.semester.set(in.semester.value.mkString(";"))
-      be.crdate.set(in.crdate.value)
-      be.expires.set(in.expires.value)
-      be.news.set(in.news.value)
-      be.subject.set(in.subject.value)
-      be.save
-      true
-
-    case _ =>
-      println("not implemented")
-      false
-    }
-
-  override def update(inst: SpiritEntry): Boolean = db match {
-    case this.mongodb =>
-      logger warn "Not Implemented yet..."
-      false
-    case this.h2db =>
-      logger warn "Not Implemented yet..."
-      false
-    case _ =>
-      logger warn "Not Implemented yet..."
-      false
-  }
+  override def save(inst: SpiritEntry): Boolean = methods.save(this)
+  override def update(inst: SpiritEntry): Boolean = methods.update(this)
+  override def delete_!(inst: SpiritEntry): Boolean = methods.delete_!(this)
+  override def findAll(): List[SpiritEntry] = methods.findAll()
 }
 
 class SpiritEntry extends SpiritRecord[SpiritEntry] with SpiritHelpers with Loggable {
