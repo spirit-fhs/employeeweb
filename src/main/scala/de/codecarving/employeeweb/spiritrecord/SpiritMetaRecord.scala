@@ -7,37 +7,23 @@ import net.liftweb.common.{Box, Empty, Full}
 import net.liftweb.json.{Formats, JsonParser}
 import net.liftweb.record.{MetaRecord, Record}
 import net.liftweb.util.Props
+import lib.MethodFactory
 
 /**
  * Mixin providing Record capabilities.
  */
-trait SpiritMetaRecord[BaseRecord <: SpiritRecord[BaseRecord]] extends MetaRecord[BaseRecord] {
+trait SpiritMetaRecord[BaseRecord <: SpiritRecord[BaseRecord]] extends MetaRecord[BaseRecord]
+  with SpiritMethods[BaseRecord] {
   self: BaseRecord =>
 
-  // Override in implementation!
-  def delete_!(inst: BaseRecord): Boolean
-
-  // Override in implementation!
-  def findAll: List[_]
-
-  // Override in implementation!
-  def save(inst: BaseRecord): Boolean
-
-  // Override in implementation!
-  def update(inst: BaseRecord): Boolean
+  val methods = MethodFactory()
 
   /**
-   * Use these vals to check which Database shall be used.
-   * Match them in the implementation for a Record.
+   * @todo Need to remove these, but first refactor SpiritRecords implementations.
    */
   lazy val db = Props.get("spirit.admin.record.backentry").openOr((""))
   lazy val mongodb = "mongodb"
   lazy val h2db = "h2db"
   lazy val rest = "rest"
-
-  val methods = db match {
-    case this.rest => new persistence.rest.Methods
-    case this.h2db => new persistence.h2.Methods
-  }
 
 }
