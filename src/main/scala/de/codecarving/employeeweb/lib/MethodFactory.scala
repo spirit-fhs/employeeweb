@@ -3,9 +3,8 @@ package lib
 
 import net.liftweb.util.Props
 import de.codecarving.employeeweb.persistence
-import model.records.{SpiritEntryComments, SpiritEntry}
 import spiritrecord.{SpiritMethods, SpiritRecord}
-import javax.swing.text.TabableView
+import model.records._
 
 object MethodFactory {
 
@@ -17,11 +16,36 @@ object MethodFactory {
     case (this.rest, in: SpiritEntryComments) =>
       new persistence.rest.SpiritEntryCommentsMethods[T]
 
+    case (this.rest, in: SpiritPoll) =>
+      new persistence.rest.SpiritPollMethods[T]
+
+    case (this.rest, in: SpiritPollAnswers) =>
+      new persistence.rest.SpiritPollAnswerMethods[T]
+
+    case (this.rest, in: SpiritTalkAllocator) =>
+      new persistence.rest.SpiritTalkAllocatorMethods[T]
+
+    case (this.rest, in: SpiritTalkAllocatorTalks) =>
+      new persistence.rest.SpiritTalkAllocatorTalkMethods[T]
+
     case (this.h2db, in: SpiritEntry) =>
       new persistence.h2.SpiritEntryMethods[T]
 
     case (this.h2db, in: SpiritEntryComments) =>
       new persistence.h2.SpiritEntryCommentsMethods[T]
+
+    case (this.h2db, in: SpiritPoll) =>
+      new persistence.h2.SpiritPollMethods[T]
+
+    case (this.h2db, in: SpiritPollAnswers) =>
+      new persistence.h2.SpiritPollAnswerMethods[T]
+
+    case (this.h2db, in: SpiritTalkAllocator) =>
+      new persistence.h2.SpiritTalkAllocatorMethods[T]
+
+    case (this.h2db, in: SpiritTalkAllocatorTalks) =>
+      new persistence.h2.SpiritTalkAllocatorTalkMethods[T]
+
   }
 
   /**

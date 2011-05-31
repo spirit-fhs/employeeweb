@@ -11,24 +11,23 @@ import java.text.SimpleDateFormat
 import net.liftweb.record.LifecycleCallbacks
 import de.codecarving.fhsldap.model.User
 import net.liftweb.util.Props
-import persistence.mongo.{BackendEntryCounter => BEC, BackendEntry => BE, BackendEntryComments => BECO}
-import persistence.EntryCounter
-import net.liftweb.mapper.By._
-import net.liftweb.common.Logger._
 import net.liftweb.common.{Loggable, Box, Full}
 import model.Spitter
 import model.tweetCases.TweetNews
 import net.liftweb.textile.TextileParser
-import persistence.h2.{BackendEntryComments, BackendEntry => h2BE, BackendEntryCounter => h2BEC}
+import persistence.EntryCounter
 
 /**
  * The Record which will be used for the backend implementation of the persistence layer.
  */
 object SpiritEntry extends SpiritEntry with SpiritMetaRecord[SpiritEntry] {
 
-  override def save(inst: SpiritEntry): Boolean = methods.save(this)
-  override def update(inst: SpiritEntry): Boolean = methods.update(this)
-  override def delete_!(inst: SpiritEntry): Boolean = methods.delete_!(this)
+  override def save(inst: SpiritEntry): Boolean = {
+    this.foreachCallback(inst, _.beforeSave)
+    methods.save(inst)
+  }
+  override def update(inst: SpiritEntry): Boolean = methods.update(inst)
+  override def delete_!(inst: SpiritEntry): Boolean = methods.delete_!(inst)
   override def findAll(): List[SpiritEntry] = methods.findAll()
 }
 

@@ -7,104 +7,18 @@ import spiritrecord.{SpiritMetaRecord, SpiritRecord}
 
 import net.liftweb.record.LifecycleCallbacks
 import de.codecarving.fhsldap.model.User
-import net.liftweb.util.Props
 import java.text.SimpleDateFormat
 import net.liftweb.common.{Loggable, Box, Full}
-import xml.NodeSeq
-import net.liftweb.mapper.By
-import persistence.h2.{ BackendTalkAllocator => BTA, BackendTalkAllocatorTalks => BTAT }
-import persistence.mongo.{BackendEntry, BackendTalkAllocator => mongoBTA, BackendTalkAllocatorTalks => mongoBTAT}
 
 object SpiritTalkAllocator extends SpiritTalkAllocator with SpiritMetaRecord[SpiritTalkAllocator] {
 
-  override def delete_!(inst: SpiritTalkAllocator): Boolean = db match {
-    case this.mongodb =>
-      mongoBTA.findAll("title", inst.title.value).map(_.delete_!)
-      mongoBTAT.findAll("allocatorTitle", inst.title.value).map(_.delete_!)
-      true
-    case this.h2db =>
-      BTA.findAll(By(BTA.title,inst.title.value)).map(_.delete_!)
-      BTAT.findAll(By(BTAT.allocatorTitle,inst.title.value)).map(_.delete_!)
-      true
-    case _=>
-      logger warn "Not Implemented yet..."
-      false
+  override def save(inst: SpiritTalkAllocator): Boolean = {
+    this.foreachCallback(inst, _.beforeSave)
+    methods.save(inst)
   }
-
-  override def findAll: List[SpiritTalkAllocator] = db match {
-    case this.mongodb =>
-      lazy val bta = mongoBTA.findAll
-      bta map { b =>
-        lazy val sta = SpiritTalkAllocator.createRecord
-        sta.user.set(b.user.value)
-        sta.displayName.set(b.displayName.value)
-        sta.title.set(b.title.value)
-        sta.description.set(b.description.value)
-        sta.released.set(b.released.value)
-        sta.expires.set(b.expires.value)
-        sta
-      }
-    case this.h2db =>
-      lazy val bta = BTA.findAll
-      bta map { b =>
-        lazy val sta = SpiritTalkAllocator.createRecord
-        sta.user.set(b.user)
-        sta.displayName.set(b.displayName)
-        sta.title.set(b.title)
-        sta.description.set(b.description)
-        sta.released.set(b.released)
-        sta.expires.set(b.expires)
-        sta
-      }
-    case _ =>
-      logger warn "Not Implemented yet..."
-      Nil
-  }
-
-  /**
-   * Saving the TalkAllocator.
-   */
-  override def save(inst: SpiritTalkAllocator): Boolean = db match {
-    case this.mongodb =>
-      foreachCallback(inst, _.beforeSave)
-      val in = inst.asInstanceOf[SpiritTalkAllocator]
-      lazy val bta = mongoBTA.createRecord
-      bta.user.set(in.user.value)
-      bta.displayName.set(in.displayName.value)
-      bta.title.set(in.title.value)
-      bta.description.set(in.description.value)
-      bta.released.set(in.released.value)
-      bta.expires.set(in.expires.value)
-      bta.save
-      true
-    case this.h2db =>
-      foreachCallback(inst, _.beforeSave)
-      val in = inst.asInstanceOf[SpiritTalkAllocator]
-      lazy val bta = BTA.create
-      bta.user.set(in.user.value)
-      bta.displayName.set(in.displayName.value)
-      bta.title.set(in.title.value)
-      bta.description.set(in.description.value)
-      bta.released.set(in.released.value)
-      bta.expires.set(in.expires.value)
-      bta.save
-      true
-    case _ =>
-      logger warn "Not Implemented yet..."
-      false
-   }
-
-  override def update(inst: SpiritTalkAllocator): Boolean = db match {
-    case this.mongodb =>
-      logger warn "Not Implemented yet..."
-      false
-    case this.h2db =>
-      logger warn "Not Implemented yet..."
-      false
-    case _ =>
-      logger warn "Not Implemented yet..."
-      false
-  }
+  override def update(inst: SpiritTalkAllocator): Boolean = methods.update(inst)
+  override def delete_!(inst: SpiritTalkAllocator): Boolean = methods.delete_!(inst)
+  override def findAll(): List[SpiritTalkAllocator] = methods.findAll()
 }
 
 class SpiritTalkAllocator extends SpiritRecord[SpiritTalkAllocator] with SpiritHelpers with Loggable {

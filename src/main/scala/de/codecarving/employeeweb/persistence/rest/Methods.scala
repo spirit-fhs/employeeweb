@@ -8,9 +8,10 @@ import net.liftweb.json._
 import net.liftweb.util.Props
 import de.codecarving.fhsldap.model.User
 import spiritrecord.SpiritMethods
-import model.records.{SpiritEntryComments, SpiritEntry}
 
 class SpiritEntryMethods[T] extends SpiritMethods[T] {
+
+  import model.records.SpiritEntry
 
   def delete_!(inst: T): Boolean = true
 
@@ -60,6 +61,58 @@ class SpiritEntryMethods[T] extends SpiritMethods[T] {
 }
 
 class SpiritEntryCommentsMethods[T] extends SpiritMethods[T] {
+
+  def delete_!(inst: T): Boolean = true
+
+  def save(inst: T): Boolean = true
+
+  def update(inst: T): Boolean = true
+
+  def findAll(): List[T] = {
+    Nil
+  }
+}
+
+class SpiritPollMethods[T] extends SpiritMethods[T] {
+
+  def delete_!(inst: T): Boolean = true
+
+  def save(inst: T): Boolean = true
+
+  def update(inst: T): Boolean = true
+
+  def findAll(): List[T] = {
+    Nil
+  }
+}
+
+class SpiritPollAnswerMethods[T] extends SpiritMethods[T] {
+
+  def delete_!(inst: T): Boolean = true
+
+  def save(inst: T): Boolean = true
+
+  def update(inst: T): Boolean = true
+
+  def findAll(): List[T] = {
+    Nil
+  }
+}
+
+class SpiritTalkAllocatorMethods[T] extends SpiritMethods[T] {
+
+  def delete_!(inst: T): Boolean = true
+
+  def save(inst: T): Boolean = true
+
+  def update(inst: T): Boolean = true
+
+  def findAll(): List[T] = {
+    Nil
+  }
+}
+
+class SpiritTalkAllocatorTalkMethods[T] extends SpiritMethods[T] {
 
   def delete_!(inst: T): Boolean = true
 

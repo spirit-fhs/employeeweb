@@ -31,7 +31,7 @@ default.displayName=Mr. TestUser
 ##################################################################
 # Spirit Admin MD Props
 # mongodb, h2db, etc.
-spirit.admin.record.backentry=rest
+spirit.admin.record.backentry=h2db
 
 # Rest-Service URL
 spirit.admin.record.rest.service=http://spiritdev.fh-schmalkalden.de/database/

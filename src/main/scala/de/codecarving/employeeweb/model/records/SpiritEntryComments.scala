@@ -4,10 +4,7 @@ package records
 
 import net.liftweb.record.field._
 import spiritrecord.{SpiritMetaRecord, SpiritRecord}
-import net.liftweb.util.Props
 import net.liftweb.common.{Loggable, Box, Full}
-import persistence.mongo.{BackendEntry, BackendEntryComments => BEC}
-import persistence.h2.{BackendEntry, BackendEntryComments => h2BEC}
 import de.codecarving.fhsldap.model.User
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -17,9 +14,9 @@ import java.util.Date
  */
 object SpiritEntryComments extends SpiritEntryComments with SpiritMetaRecord[SpiritEntryComments] {
 
-  override def save(inst: SpiritEntryComments): Boolean = methods.save(this)
-  override def update(inst: SpiritEntryComments): Boolean = methods.update(this)
-  override def delete_!(inst: SpiritEntryComments): Boolean = methods.delete_!(this)
+  override def save(inst: SpiritEntryComments): Boolean = methods.save(inst)
+  override def update(inst: SpiritEntryComments): Boolean = methods.update(inst)
+  override def delete_!(inst: SpiritEntryComments): Boolean = methods.delete_!(inst)
   override def findAll(): List[SpiritEntryComments] = methods.findAll()
 
 }
