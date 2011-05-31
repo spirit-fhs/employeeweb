@@ -16,7 +16,7 @@ trait SpiritMetaRecord[BaseRecord <: SpiritRecord[BaseRecord]] extends MetaRecor
   with SpiritMethods[BaseRecord] {
   self: BaseRecord =>
 
-  val methods = MethodFactory()
+  lazy val methods: SpiritMethods[BaseRecord] = MethodFactory(this)
 
   /**
    * @todo Need to remove these, but first refactor SpiritRecords implementations.

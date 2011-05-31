@@ -17,74 +17,11 @@ import java.util.Date
  */
 object SpiritEntryComments extends SpiritEntryComments with SpiritMetaRecord[SpiritEntryComments] {
 
-  //TODO Implement mongodb features for Concept of Proof ?!
+  override def save(inst: SpiritEntryComments): Boolean = methods.save(this)
+  override def update(inst: SpiritEntryComments): Boolean = methods.update(this)
+  override def delete_!(inst: SpiritEntryComments): Boolean = methods.delete_!(this)
+  override def findAll(): List[SpiritEntryComments] = methods.findAll()
 
-  /**
-   * SpiritEntryComments shall not be deleted from here.
-   */
-  override def delete_!(inst: SpiritEntryComments): Boolean = db match {
-    case this.mongodb =>
-      BEC.findAll("_id_", inst.id.value).map(_.delete_!)
-      true
-    case this.h2db =>
-      import net.liftweb.mapper._
-      h2BEC.findAll(By(h2BEC.id,inst.id.value)).map(_.delete_!)
-      true
-    case _=>
-      println("not implemented yet")
-      false
-  }
-
-  /**
-   * Returning a List of all Comments.
-   */
-  override def findAll: List[SpiritEntryComments] = {
-    Nil
-  }
-
-  /**
-   * Saving SpiritEntryComments.
-   */
-  override def save(inst: SpiritEntryComments): Boolean = db match {
-    case this.mongodb =>
-      foreachCallback(inst, _.beforeSave)
-      val in = inst.asInstanceOf[SpiritEntryComments]
-      lazy val be = BEC.createRecord
-      be.user.set(in.user.value)
-      be._id_.set(in.id.value)
-      be.crdate.set(in.crdate.value)
-      be.comment.set(in.comment.value)
-      be.save
-      true
-    case this.h2db =>
-      foreachCallback(inst, _.beforeSave)
-      val in = inst.asInstanceOf[SpiritEntryComments]
-      lazy val be = h2BEC.create
-      be.user.set(in.user.value)
-      be._id_.set(in.id.value)
-      be.crdate.set(in.crdate.value)
-      be.comment.set(in.comment.value)
-      be.save
-      true
-    case _ =>
-      println("not implemented")
-      false
-   }
-
-  /**
-   * Updating shall not happen.
-   */
-  override def update(inst: SpiritEntryComments): Boolean = db match {
-    case this.mongodb =>
-      logger warn "Not Implemented yet..."
-      false
-    case this.h2db =>
-      logger warn "Not Implemented yet..."
-      false
-    case _ =>
-      logger warn "Not Implemented yet..."
-      false
-  }
 }
 
 class SpiritEntryComments extends SpiritRecord[SpiritEntryComments] with Loggable {

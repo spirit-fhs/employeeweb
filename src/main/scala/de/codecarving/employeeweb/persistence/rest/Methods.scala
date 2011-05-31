@@ -2,17 +2,15 @@ package de.codecarving.employeeweb
 package persistence
 package rest
 
-import model.records.SpiritEntry
 import dispatch.Http
 import dispatch.Http._
 import net.liftweb.json._
 import net.liftweb.util.Props
 import de.codecarving.fhsldap.model.User
 import spiritrecord.SpiritMethods
+import model.records.{SpiritEntryComments, SpiritEntry}
 
-class Methods extends SpiritMethods[SpiritEntry] {
-
-  type T = SpiritEntry
+class SpiritEntryMethods[T] extends SpiritMethods[T] {
 
   def delete_!(inst: T): Boolean = true
 
@@ -44,7 +42,7 @@ class Methods extends SpiritMethods[SpiritEntry] {
       newSE.displayName.set(nl.displayedName)
       newSE.crdate.set(nl.creationDate)
       newSE.semester.set(nl.classes map { _.title })
-      newSE
+      newSE.asInstanceOf[T]
     }
   }
 
@@ -59,4 +57,17 @@ class Methods extends SpiritMethods[SpiritEntry] {
   case class newsComment(id: Int, content: String,
                          displayedName: String, creationDate: String)
 
+}
+
+class SpiritEntryCommentsMethods[T] extends SpiritMethods[T] {
+
+  def delete_!(inst: T): Boolean = true
+
+  def save(inst: T): Boolean = true
+
+  def update(inst: T): Boolean = true
+
+  def findAll(): List[T] = {
+    Nil
+  }
 }

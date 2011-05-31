@@ -3,12 +3,25 @@ package lib
 
 import net.liftweb.util.Props
 import de.codecarving.employeeweb.persistence
+import model.records.{SpiritEntryComments, SpiritEntry}
+import spiritrecord.{SpiritMethods, SpiritRecord}
+import javax.swing.text.TabableView
 
 object MethodFactory {
 
-  def apply() = db match {
-    case this.rest => new persistence.rest.Methods
-    case this.h2db => new persistence.h2.Methods
+  def apply[T <: SpiritRecord[T]](in: T): SpiritMethods[T] = (db, in) match {
+
+    case (this.rest, in: SpiritEntry) =>
+      new persistence.rest.SpiritEntryMethods[T]
+
+    case (this.rest, in: SpiritEntryComments) =>
+      new persistence.rest.SpiritEntryCommentsMethods[T]
+
+    case (this.h2db, in: SpiritEntry) =>
+      new persistence.h2.SpiritEntryMethods[T]
+
+    case (this.h2db, in: SpiritEntryComments) =>
+      new persistence.h2.SpiritEntryCommentsMethods[T]
   }
 
   /**

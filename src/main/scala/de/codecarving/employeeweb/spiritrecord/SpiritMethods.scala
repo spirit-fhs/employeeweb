@@ -1,6 +1,6 @@
 package de.codecarving.employeeweb.spiritrecord
 
-trait SpiritMethods[T <: SpiritRecord[T]] {
+trait SpiritMethods[T] {
 
   def delete_!(inst: T): Boolean
   def save(inst: T): Boolean

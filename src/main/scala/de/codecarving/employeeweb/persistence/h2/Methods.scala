@@ -2,12 +2,10 @@ package de.codecarving.employeeweb
 package persistence
 package h2
 
-import model.records.SpiritEntry
 import spiritrecord.SpiritMethods
+import model.records.{SpiritEntryComments, SpiritEntry}
 
-class Methods extends SpiritMethods[SpiritEntry] {
-
-  type T = SpiritEntry
+class SpiritEntryMethods[T] extends SpiritMethods[T] {
 
   def delete_!(inst: T): Boolean = true
 
@@ -32,7 +30,20 @@ class Methods extends SpiritMethods[SpiritEntry] {
       se.news.set(b.news)
       se.semester.set(b.semester.split(";").toList)
       se.subject.set(b.subject)
-      se
+      se.asInstanceOf[T]
     }
+  }
+}
+
+class SpiritEntryCommentsMethods[T] extends SpiritMethods[T] {
+
+  def delete_!(inst: T): Boolean = true
+
+  def save(inst: T): Boolean = true
+
+  def update(inst: T): Boolean = true
+
+  def findAll(): List[T] = {
+    Nil
   }
 }
