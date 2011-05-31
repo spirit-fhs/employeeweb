@@ -45,8 +45,8 @@ object Spitter extends Actor with Loggable {
           case TweetNews(subject,semester,nr) =>
             try {
               val http = new Http
-              val longUrl = "http://is.gd/api.php?longurl=http://spirit.fh-schmalkalden.de/entry/" + nr
-              val tinyurl = http(longUrl.as_str)
+              val longUrl = new Request("http://is.gd/api.php?longurl=http://spirit.fh-schmalkalden.de/entry/" + nr)
+              val tinyurl = http(longUrl as_str)
               if(active) {
                 http(Status.update(mkTweet(subject, tinyurl, semester), consumer, token).>|)
               } else {
