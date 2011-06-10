@@ -59,8 +59,8 @@ class Boot extends Loggable with DBChooser[Boot] with MenuBuilder[Boot] with Glo
     Spitter.start()
 
     val useLDAP = Props.get("ldap.server.auth.use", "") == "true"
-    if(!useLDAP && H2DB == db) {
-      import de.codecarving.employeeweb.model.dummydata.Dummy
+    if (!useLDAP && H2DB == db) {
+      import de.codecarving.employeeweb.dummydata.Dummy
       Dummy.createDummyPolls
       Dummy.createDummyTalkAllocator
       Dummy.createDummyEntrys

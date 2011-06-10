@@ -49,9 +49,9 @@ class SpiritEntryMethods[T] extends SpiritMethods[T] {
       newSE.id.set(nl.news_id)
       newSE.subject.set(nl.title)
       newSE.news.set(nl.content)
-      newSE.displayName.set(nl.displayedName)
+      newSE.displayName.set(nl.owner.displayedName)
       newSE.crdate.set(nl.creationDate)
-      newSE.semester.set(nl.classes map { _.title })
+      newSE.semester.set(nl.degreeClass.map(_.title))
       newSE.asInstanceOf[T]
     }
   }
@@ -74,11 +74,11 @@ class SpiritEntryCommentsMethods[T] extends SpiritMethods[T] {
 
   def findAll(): List[T] = {
 
-    val req = new Request(restURL + "news/comments")
+    val req = new Request(restURL + "news/comment")
     val rawJson = h(req.as_str)
 
     val commentList = for {
-      i <- (parse(rawJson) \ "newsComments" ).children
+      i <- (parse(rawJson) \ "newsComment" ).children
     } yield i.extract[newsComments]
 
     commentList map { ncl =>
@@ -87,7 +87,7 @@ class SpiritEntryCommentsMethods[T] extends SpiritMethods[T] {
       newSEC.comment.set(ncl.content)
       newSEC.crdate.set(ncl.creationDate)
       newSEC.entryId.set(ncl.news_id)
-      newSEC.user.set(ncl.owner)
+      newSEC.user.set(ncl.owner.fhs_id)
       newSEC.asInstanceOf[T]
     }
   }
@@ -148,11 +148,16 @@ class SpiritTalkAllocatorTalkMethods[T] extends SpiritMethods[T] {
 /**
  * Case classes which represent the Database Model from the REST-DB Service.
  */
+case class owner(fhs_id: String, displayedName: String)
+
 case class news(news_id: Int, title: String,
-                  content: String, displayedName: String,
-                  creationDate: String, classes: List[semester])
+                  content: String, owner: owner,
+                  creationDate: String, degreeClass: List[degreeClass])
 
 case class semester(title: String)
 
-case class newsComments(comment_id: Int, news_id: Int, content: String, owner: String,
-                         displayedName: String, creationDate: String)
+case class newsComments(comment_id: Int, news_id: Int, content: String,
+                        owner: owner, creationDate: String)
+
+case class degreeClass(title: String, class_id: Int, mail: String)
+
