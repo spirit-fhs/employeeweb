@@ -16,7 +16,6 @@ import net.liftweb.http.{LiftRules, S, LiftSession}
 import persistence.mongo.{ BackendEntry, BackendEntryCounter }
 
 class EntrySpecs extends Specification with Contexts with SpecDBChooser {
-  //TODO clean this mess up!
 
   /* This is from the Lift Wiki! https://www.assembla.com/wiki/show/liftweb/Unit_Testing_Snippets_With_A_Logged_In_User! THANKS!*/
   val session = new LiftSession("", StringHelpers.randomString(20), Empty)

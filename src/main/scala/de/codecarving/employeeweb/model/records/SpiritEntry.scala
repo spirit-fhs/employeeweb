@@ -51,8 +51,17 @@ class SpiritEntry extends SpiritRecord[SpiritEntry] with SpiritHelpers with Logg
 
   object displayName extends StringField(this, 100, User.ldapAttributes.displayName.openOr("Mr. Default"))
 
-  //TODO Set Subject if User leaves it blank.
-  object subject extends StringField(this, 100)
+  object subject extends StringField(this, 100) with LifecycleCallbacks {
+
+    override def beforeSave() {
+      if (this.value.isEmpty) {
+        this.set(news.value./:(("", 20)) { (output, input) =>
+          if (output._2 == 0) output
+          else (output._1 + input, output._2 - 1)
+        }._1 + "...")
+      }
+    }
+  }
 
   object crdate extends StringField(this, ((new SimpleDateFormat("dd.MM.yyyy")).format(new Date)))
 
