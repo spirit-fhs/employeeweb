@@ -49,7 +49,7 @@ class SpiritEntryMethods[T] extends SpiritMethods[T] {
 
     be map { b =>
       val se = SpiritEntry.createRecord
-      se.id.set(b._id_)
+      se.id.set(b.id.toString().toInt)
       se.user.set(b.user)
       se.displayName.set(b.displayName)
       se.crdate.set(b.crdate)

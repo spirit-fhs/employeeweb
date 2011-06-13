@@ -3,7 +3,6 @@ package specs
 
 import org.specs._
 import model.records.SpiritEntry
-import persistence.EntryCounter
 import snippet._
 import net.liftweb.mapper.BaseMetaMapper
 import net.liftweb.util._
@@ -34,12 +33,10 @@ class EntrySpecs extends Specification with Contexts with SpecDBChooser {
   new SpecContext {
     beforeExample {
       dbInit()
-      EntryCounter.setCounter(0)
       SpiritEntry.findAll.foreach(_.delete_!)
       loginUser
     }
     afterExample {
-      EntryCounter.setCounter(0)
       SpiritEntry.findAll.foreach(_.delete_!)
     }
     aroundExpectations(inSession(_))
@@ -54,7 +51,7 @@ class EntrySpecs extends Specification with Contexts with SpecDBChooser {
     "create and store one Entry." in {
       newNews.openEntry.save(true)
       SpiritEntry.findAll.filter(e =>
-        e.id.value == (EntryCounter.getCounter - 1)
+        e.id.value == 1
       ).size mustEqual 1
     }
 

@@ -3,7 +3,6 @@ package dummydata
 
 import net.liftweb.common.Loggable
 import model.records._
-import de.codecarving.employeeweb.persistence.EntryCounter
 import de.codecarving.employeeweb.snippet.news.snippet.WriteNews
 import de.codecarving.employeeweb.persistence.h2.BackendEntryComments
 
@@ -126,13 +125,10 @@ object Dummy extends Loggable {
       newNews.openEntry.save(true)
 
 
-      val id = SpiritEntry.findAll.filter(e =>
-        e.id.value == (EntryCounter.getCounter - 1)
-      ).head.id.value
 
       for(com <- 1 to 10) {
         val comment = BackendEntryComments.create
-        comment._id_.set(id)
+        comment._id_.set(0)
         comment.user.set("denison")
         comment.comment.set("Dummy Comment Nr. " + com)
         comment.save
@@ -144,13 +140,9 @@ object Dummy extends Loggable {
       newNews2.openEntry.news.set("Dummy News")
       newNews2.openEntry.save(true)
 
-      val id2 = SpiritEntry.findAll.filter(e =>
-        e.id.value == (EntryCounter.getCounter - 1)
-      ).head.id.value
-
       for(com <- 1 to 10) {
         val comment = BackendEntryComments.create
-        comment._id_.set(id2)
+        comment._id_.set(1)
         comment.user.set("denison")
         comment.comment.set("Dummy Comment Nr. " + com)
         comment.save

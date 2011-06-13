@@ -5,13 +5,12 @@ package snippet
 
 import de.codecarving.fhsldap.model.User
 import net.liftweb.http.SHtml._
-import net.liftweb.http.S
 import net.liftweb.common.{Box, Empty, Full, Loggable}
 import net.liftweb.textile._
 
 import scala.xml.Text
 import de.codecarving.employeeweb.model.records.{ SpiritEntry, SpiritEntryComments }
-import model.{blockUI, GlobalRequests}
+import model.blockUI
 
 class ListEntries extends Loggable with blockUI {
 

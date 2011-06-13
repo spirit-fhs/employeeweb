@@ -2,16 +2,14 @@ package bootstrap.liftweb
 
 import net.liftweb._
 import util._
-import Helpers._
 
 import common._
 import http._
 import sitemap._
-import Loc._
 
 import de.codecarving.fhsldap.fhsldap
 import de.codecarving.employeeweb.lib.{ MenuBuilder, DBChooser }
-import de.codecarving.employeeweb.model.{ Spitter, GlobalRequests }
+import de.codecarving.employeeweb.model.GlobalRequests
 
 class Boot extends Loggable with DBChooser[Boot] with MenuBuilder[Boot] with GlobalRequests {
   def boot {
@@ -54,9 +52,6 @@ class Boot extends Loggable with DBChooser[Boot] with MenuBuilder[Boot] with Glo
 
     // Starting the FhS LDAP Module
     fhsldap.init
-
-    // Starting our Actors
-    Spitter.start()
 
     val useLDAP = Props.get("ldap.server.auth.use", "") == "true"
     if (!useLDAP && H2DB == db) {

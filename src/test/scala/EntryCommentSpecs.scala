@@ -2,7 +2,6 @@ package de.codecarving.employeeweb
 package specs
 
 import org.specs._
-import persistence.EntryCounter
 import snippet._
 import net.liftweb.mapper.BaseMetaMapper
 import net.liftweb.util._
@@ -34,12 +33,10 @@ class EntryCommentSpecs extends Specification with Contexts with SpecDBChooser {
   new SpecContext {
       beforeExample {
         dbInit()
-        EntryCounter.setCounter(0)
         SpiritEntry.findAll.foreach(_.delete_!)
         loginUser
       }
       afterExample {
-        EntryCounter.setCounter(0)
         SpiritEntry.findAll.foreach(_.delete_!)
       }
       aroundExpectations(inSession(_))
@@ -53,19 +50,15 @@ class EntryCommentSpecs extends Specification with Contexts with SpecDBChooser {
     "create and store three comments to a news." in {
       newNews.openEntry.save(true)
 
-      val id = SpiritEntry.findAll.filter(e =>
-        e.id.value == (EntryCounter.getCounter - 1)
-      ).head.id.value
-
       for(sec <- 1 to 3) {
         val newSec = SpiritEntryComments.createRecord
-        newSec.id.set(id)
+        newSec.id.set(1)
         newSec.comment("comment :" + sec)
         newSec.save
       }
 
       SpiritEntryComments.findAll.filter(
-        _.id.value == id
+        _.id.value == 1
       ).size mustEqual 3
     }
 
