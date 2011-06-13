@@ -14,11 +14,11 @@ class SpiritEntryMethods[T] extends SpiritMethods[T] {
     val in = inst.asInstanceOf[SpiritEntry]
 
     BackendEntry.findAll(
-      By(BackendEntry._id_,in.id.value)
+      By(BackendEntry.id,in.id.value)
     ).map(_.delete_!)
 
     //TODO Comments should actually not be deleted here! Need an idea?!
-    BackendEntryComments.findAll.filter(_._id_ == in.id.value).map(_.delete_!)
+    BackendEntryComments.findAll.filter(_.entryId == in.id.value).map(_.delete_!)
     true
   }
 
@@ -78,7 +78,7 @@ class SpiritEntryCommentsMethods[T] extends SpiritMethods[T] {
     val in = inst.asInstanceOf[SpiritEntryComments]
     lazy val be = BackendEntryComments.create
     be.user.set(in.user.value)
-    be._id_.set(in.id.value)
+    be.entryId.set(in.id.value)
     be.crdate.set(in.crdate.value)
     be.comment.set(in.comment.value)
     be.save
@@ -92,7 +92,7 @@ class SpiritEntryCommentsMethods[T] extends SpiritMethods[T] {
     bec map { b =>
       lazy val sec = SpiritEntryComments.createRecord
       sec.user.set(b.user)
-      sec.id.set(b._id_)
+      sec.id.set(b.entryId)
       sec.comment.set(b.comment)
       sec.asInstanceOf[T]
     }

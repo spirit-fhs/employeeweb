@@ -50,15 +50,17 @@ class EntryCommentSpecs extends Specification with Contexts with SpecDBChooser {
     "create and store three comments to a news." in {
       newNews.openEntry.save(true)
 
+      val id = SpiritEntry.findAll().head.id
+
       for(sec <- 1 to 3) {
         val newSec = SpiritEntryComments.createRecord
-        newSec.id.set(1)
+        newSec.id.set(id.toString().toInt)
         newSec.comment("comment :" + sec)
         newSec.save
       }
 
       SpiritEntryComments.findAll.filter(
-        _.id.value == 1
+        _.id.value == id.toString().toInt
       ).size mustEqual 3
     }
 

@@ -50,9 +50,7 @@ class EntrySpecs extends Specification with Contexts with SpecDBChooser {
     val updateNews = new WriteNews
     "create and store one Entry." in {
       newNews.openEntry.save(true)
-      SpiritEntry.findAll.filter(e =>
-        e.id.value == 1
-      ).size mustEqual 1
+      SpiritEntry.findAll.size mustEqual 1
     }
 
     "create and store ten Entrys" in {
@@ -78,34 +76,6 @@ class EntrySpecs extends Specification with Contexts with SpecDBChooser {
       SpiritEntry.findAll.filter(e =>
         e.user.value == User.currentUserId.openOr("")
       ).size mustEqual 0
-    }
-
-    "update an existing Entry with inc its number (Needed for Twitter)." in {
-      newNews.openEntry.save(true)
-
-      val oldEntry = SpiritEntry.findAll.head
-      val oldNr = oldEntry.id.value + 1
-
-      updateNews.CurrentEntry(Full(oldEntry))
-      updateNews.openEntry.save(false)
-
-      SpiritEntry.findAll.head.id.value mustEqual oldNr
-    }
-
-    "update an existing Entry without inc its number (If not Tweeting Update)." in {
-
-      newNews.openEntry.save(true)
-
-      val oldEntry = SpiritEntry.findAll.head
-      val oldNr = oldEntry.id.value
-
-      updateNews.CurrentEntry(Full(oldEntry))
-      updateNews.openEntry.twitterBool.set(false)
-      //TODO this should be already set during line 133
-      updateNews.openEntry.newEntry.set(false)
-      updateNews.openEntry.save(false)
-
-      SpiritEntry.findAll.head.id.value mustEqual oldNr
     }
 
     "create an Entry for three semesters" in {

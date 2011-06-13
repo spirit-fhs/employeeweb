@@ -124,11 +124,11 @@ object Dummy extends Loggable {
       newNews.openEntry.news.set("Dummy News")
       newNews.openEntry.save(true)
 
-
+      val id = SpiritEntry.findAll().head.id
 
       for(com <- 1 to 10) {
         val comment = BackendEntryComments.create
-        comment._id_.set(0)
+        comment.entryId.set(id.toString().toInt)
         comment.user.set("denison")
         comment.comment.set("Dummy Comment Nr. " + com)
         comment.save
@@ -142,7 +142,7 @@ object Dummy extends Loggable {
 
       for(com <- 1 to 10) {
         val comment = BackendEntryComments.create
-        comment._id_.set(1)
+        comment.entryId.set(id.toString().toInt + 1)
         comment.user.set("denison")
         comment.comment.set("Dummy Comment Nr. " + com)
         comment.save
