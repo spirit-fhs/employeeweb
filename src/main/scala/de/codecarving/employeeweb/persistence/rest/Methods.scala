@@ -20,6 +20,7 @@ class Https extends BlockingHttp with HttpsLeniency {
   def pack[T](req: { def abort() }, result: => T) = result
 }
 
+//TODO Refactorings needed!!!!
 class SpiritEntryMethods[T] extends SpiritMethods[T] {
 
   import model.records.SpiritEntry
@@ -37,8 +38,11 @@ class SpiritEntryMethods[T] extends SpiritMethods[T] {
 
   def findAll(): List[T] = {
 
+    val asJson = Map("Accept" -> "application/json").toMap
+
     val req = new Request(restURL + "news?owner=" + User.currentUserId.open_!)
-    val rawJson = h(req.as_str)
+
+    val rawJson = h(req <:< asJson as_str)
 
     val newsList = for {
       i <- (parse(rawJson) \ "news" ).children
@@ -74,8 +78,11 @@ class SpiritEntryCommentsMethods[T] extends SpiritMethods[T] {
 
   def findAll(): List[T] = {
 
+    val asJson = Map("Accept" -> "application/json").toMap
+
     val req = new Request(restURL + "news/comment")
-    val rawJson = h(req.as_str)
+
+    val rawJson = h(req <:< asJson as_str)
 
     val commentList = for {
       i <- (parse(rawJson) \ "newsComment" ).children
@@ -86,7 +93,7 @@ class SpiritEntryCommentsMethods[T] extends SpiritMethods[T] {
       newSEC.id.set(ncl.comment_id)
       newSEC.comment.set(ncl.content)
       newSEC.crdate.set(ncl.creationDate)
-      newSEC.entryId.set(ncl.news_id)
+      newSEC.entryId.set(ncl.news.news_id)
       newSEC.user.set(ncl.owner.fhs_id)
       newSEC.asInstanceOf[T]
     }
@@ -156,8 +163,9 @@ case class news(news_id: Int, title: String,
 
 case class semester(title: String)
 
-case class newsComments(comment_id: Int, news_id: Int, content: String,
+case class newsComments(comment_id: Int, news: newsid, content: String,
                         owner: owner, creationDate: String)
 
 case class degreeClass(title: String, class_id: Int, mail: String)
 
+case class newsid(news_id: Int)
