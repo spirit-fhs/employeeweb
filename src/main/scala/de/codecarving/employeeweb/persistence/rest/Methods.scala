@@ -32,7 +32,30 @@ class SpiritEntryMethods[T] extends SpiritMethods[T] {
 
   def delete_!(inst: T): Boolean = true
 
-  def save(inst: T): Boolean = true
+  def save(inst: T): Boolean = {
+
+    val in = inst.asInstanceOf[SpiritEntry]
+
+    val asJson = Map("Accept" -> "application/json",
+                     "Content-Type" -> "application/json").toMap
+
+    val newNews = """{ "news": {
+          "title" : """" + in.subject.value.toString + """",
+          "content" : """" + in.news.value.toString + """",
+          "expireDate" : "2011-12-24 12:00:00",
+          "degreeClass" : [{
+            "class_id" : 5
+          }],
+          "owner" : {
+            "fhs_id" : """" + in.user.value.toString + """"
+          }}}"""
+
+    val req = new Request(restURL + "news") <<< newNews
+
+    val answer = h(req <:< asJson as_str)
+
+    true
+  }
 
   def update(inst: T): Boolean = true
 
