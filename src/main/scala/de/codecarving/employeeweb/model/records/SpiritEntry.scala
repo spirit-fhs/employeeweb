@@ -82,4 +82,21 @@ class SpiritEntry extends SpiritRecord[SpiritEntry] with SpiritHelpers with Logg
 
   object semester extends SpiritListField[SpiritEntry, String](this)
 
+
+  /**
+    * Creating a JSON in order to send it to the RESTful DB Service.
+    * See Specs @
+    * https://pads.fh-schmalkalden.de/wiki/spirit/database/specification/createNews
+    * @TODO Implement this properly, maybe a different function name? ;)!
+    */
+   def :-* = """{ "news": {
+           "title" : """" + this.subject.value.toString + """",
+           "content" : """" + this.news.value.toString + """",
+           "expireDate" : "2011-12-24 12:00:00",
+           "degreeClass" : [{
+             "class_id" : 5
+           }],
+           "owner" : {
+             "fhs_id" : """" + this.user.value.toString + """"
+           }}}"""
 }
