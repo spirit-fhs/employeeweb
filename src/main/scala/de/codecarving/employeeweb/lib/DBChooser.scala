@@ -38,6 +38,16 @@ trait DBChooser[T <: Boot] {
         BackendTalkAllocator, BackendTalkAllocatorTalks,
         BackendEntryComments)
 
+    case REST =>
+      import de.codecarving.employeeweb.persistence.rest.RESTfulDB
+
+      RESTfulDB.defineDbAuth(
+        Props.get("spirit.admin.record.rest.host", ""),
+        Props.get("spirit.admin.record.rest.port", ""),
+        Props.get("spirit.admin.record.rest.user", ""),
+        Props.get("spirit.admin.record.rest.password", "")
+      )
+
     case _ =>
   }
 }

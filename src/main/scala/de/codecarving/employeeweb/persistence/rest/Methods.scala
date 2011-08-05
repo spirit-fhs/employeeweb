@@ -30,8 +30,17 @@ class SpiritEntryMethods[T] extends SpiritMethods[T] {
   val restURL = Props.get("spirit.admin.record.rest.service", "")
   val h = new Https
 
+  /**
+   * Not implemented yet.
+   * After implementing please change comment.
+   */
   def delete_!(inst: T): Boolean = true
 
+  /**
+   * Saving a SpiritEntry to the RESTful DB-Service.
+   * @param inst The SpiritEntry to be saved.
+   * @return Boolean Saving was successful or not.
+   */
   def save(inst: T): Boolean = {
 
     val in = inst.asInstanceOf[SpiritEntry]
@@ -46,8 +55,16 @@ class SpiritEntryMethods[T] extends SpiritMethods[T] {
     true
   }
 
+  /**
+   * Not implemented yet.
+   * After implementing please change comment.
+   */
   def update(inst: T): Boolean = true
 
+  /**
+   * Fetching all News from RESTful DB-Service for the current user.
+   * @return List[SpiritEntry]
+   */
   def findAll(): List[T] = {
 
     val asJson = Map("Accept" -> "application/json").toMap
@@ -82,12 +99,28 @@ class SpiritEntryCommentsMethods[T] extends SpiritMethods[T] {
   val restURL = Props.get("spirit.admin.record.rest.service", "")
   val h = new Https
 
+  /**
+   * Not implemented yet.
+   * After implementing please change comment.
+   */
   def delete_!(inst: T): Boolean = true
 
+  /**
+   * Not implemented yet.
+   * After implementing please change comment.
+   */
   def save(inst: T): Boolean = true
 
+  /**
+   * Not implemented yet.
+   * After implementing please change comment.
+   */
   def update(inst: T): Boolean = true
 
+  /**
+   * Not implemented yet.
+   * After implementing please change comment.
+   */
   def findAll(): List[T] = {
 
     val asJson = Map("Accept" -> "application/json").toMap
@@ -113,26 +146,53 @@ class SpiritEntryCommentsMethods[T] extends SpiritMethods[T] {
 }
 
 class SpiritPollMethods[T] extends SpiritMethods[T] {
-
+  /**
+   * Not implemented yet.
+   * After implementing please change comment.
+   */
   def delete_!(inst: T): Boolean = true
-
+  /**
+   * Not implemented yet.
+   * After implementing please change comment.
+   */
   def save(inst: T): Boolean = true
-
+  /**
+   * Not implemented yet.
+   * After implementing please change comment.
+   */
   def update(inst: T): Boolean = true
-
+  /**
+   * Not implemented yet.
+   * After implementing please change comment.
+   */
   def findAll(): List[T] = {
     Nil
   }
 }
 
 class SpiritPollAnswerMethods[T] extends SpiritMethods[T] {
-
+  /**
+   * Not implemented yet.
+   * After implementing please change comment.
+   */
   def delete_!(inst: T): Boolean = true
 
+  /**
+   * Not implemented yet.
+   * After implementing please change comment.
+   */
   def save(inst: T): Boolean = true
 
+  /**
+   * Not implemented yet.
+   * After implementing please change comment.
+   */
   def update(inst: T): Boolean = true
 
+  /**
+   * Not implemented yet.
+   * After implementing please change comment.
+   */
   def findAll(): List[T] = {
     Nil
   }
@@ -140,12 +200,28 @@ class SpiritPollAnswerMethods[T] extends SpiritMethods[T] {
 
 class SpiritTalkAllocatorMethods[T] extends SpiritMethods[T] {
 
+  /**
+   * Not implemented yet.
+   * After implementing please change comment.
+   */
   def delete_!(inst: T): Boolean = true
 
+  /**
+   * Not implemented yet.
+   * After implementing please change comment.
+   */
   def save(inst: T): Boolean = true
 
+  /**
+   * Not implemented yet.
+   * After implementing please change comment.
+   */
   def update(inst: T): Boolean = true
 
+  /**
+   * Not implemented yet.
+   * After implementing please change comment.
+   */
   def findAll(): List[T] = {
     Nil
   }
@@ -153,19 +229,35 @@ class SpiritTalkAllocatorMethods[T] extends SpiritMethods[T] {
 
 class SpiritTalkAllocatorTalkMethods[T] extends SpiritMethods[T] {
 
+  /**
+   * Not implemented yet.
+   * After implementing please change comment.
+   */
   def delete_!(inst: T): Boolean = true
 
+  /**
+   * Not implemented yet.
+   * After implementing please change comment.
+   */
   def save(inst: T): Boolean = true
 
+  /**
+   * Not implemented yet.
+   * After implementing please change comment.
+   */
   def update(inst: T): Boolean = true
 
+  /**
+   * Not implemented yet.
+   * After implementing please change comment.
+   */
   def findAll(): List[T] = {
     Nil
   }
 }
 
 /**
- * Case classes which represent the Database Model from the REST-DB Service.
+ * Case classes which represent the Database Model from the RESTful DB-Service.
  */
 case class owner(fhs_id: String, displayedName: String)
 

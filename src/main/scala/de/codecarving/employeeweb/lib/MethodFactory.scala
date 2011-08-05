@@ -6,6 +6,10 @@ import de.codecarving.employeeweb.persistence
 import spiritrecord.{SpiritMethods, SpiritRecord}
 import model.records._
 
+/**
+ * This MethodFactory is used in order to create the methods which are going to be used
+ * for the defined database within the configuration file.
+ */
 object MethodFactory {
 
   def apply[T <: SpiritRecord[T]](in: T): SpiritMethods[T] = (db, in) match {
