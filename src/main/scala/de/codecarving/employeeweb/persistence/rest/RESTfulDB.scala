@@ -2,6 +2,7 @@ package de.codecarving.employeeweb.persistence.rest
 
 import java.util.concurrent.ConcurrentHashMap
 import net.liftweb.common.{Empty, Box, Full}
+import dispatch._
 
 /**
  * Object for configuration of the RESTful DB-Service.
@@ -46,6 +47,23 @@ object RESTfulDB {
   def getCredentials(): Box[(String, String)] = config.get(CREDS) match {
     case null => None
     case host => Full(host._1, host._2)
+  }
+
+  /**
+   * Testing credentials.
+   * @return Boolean if authenticated or not.
+   * @todo Provide better case then "yeah!", return code by DB-Service should be a little better!
+   */
+  def isAuthenticated(): Boolean = {
+    val creds = config.get(CREDS)
+    val auth = new Request(getURL().openTheBox + "protected")
+    val h = new Https
+    val answer = h(auth as(creds._1,creds._2) as_str)
+
+    answer match {
+      case answer if (answer.contains("yeah!")) => true
+      case _ => false
+    }
   }
 
   /**
