@@ -36,7 +36,7 @@ object RESTfulDB {
    * @return Box[(Host, Port)]
    */
   def getHost(): Box[(String, String)] = config.get(HOST) match {
-    case null => None
+    case null => Empty
     case host => Full(host._1, host._2)
   }
 
@@ -45,7 +45,7 @@ object RESTfulDB {
    * @return Box[(Username, Password)]
    */
   def getCredentials(): Box[(String, String)] = config.get(CREDS) match {
-    case null => None
+    case null => Empty
     case host => Full(host._1, host._2)
   }
 
