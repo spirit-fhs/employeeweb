@@ -27,7 +27,7 @@ class SpiritEntryMethods[T] extends SpiritMethods[T] {
 
   implicit val formats = DefaultFormats
 
-  val restURL = Props.get("spirit.admin.record.rest.service", "")
+  val restURL = RESTfulDB.getURL().openTheBox
   val h = new Https
 
   /**

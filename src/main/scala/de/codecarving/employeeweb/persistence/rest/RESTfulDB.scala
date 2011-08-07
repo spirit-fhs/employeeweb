@@ -1,7 +1,7 @@
 package de.codecarving.employeeweb.persistence.rest
 
 import java.util.concurrent.ConcurrentHashMap
-import net.liftweb.common.{ Box, Full }
+import net.liftweb.common.{Empty, Box, Full}
 
 /**
  * Object for configuration of the RESTful DB-Service.
@@ -18,6 +18,16 @@ object RESTfulDB {
   def defineDbAuth(host: String, port: String, username: String, password: String) {
     config.put(CREDS, (username, password))
     config.put(HOST, (host, port))
+  }
+
+  /**
+   * Returns complete URL with Port for RESTful DB-Service.
+   * @return Box[String]
+   * @todo Remove hardcoded /fhs-spirit/ and use proper solution.
+   */
+  def getURL(): Box[String] = config.get(HOST) match {
+    case null => Empty
+    case host => Full(host._1 + ":" + host._2 + "/fhs-spirit/")
   }
 
   /*
