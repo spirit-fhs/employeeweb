@@ -58,12 +58,12 @@ class WriteNews extends Loggable with GlobalRequests with EntryPreview with Spir
       S.redirectTo("/news/news")
     }
 
-    "name=twitterBool"  #> openEntry.twitterBool.toForm.open_! &
-    "name=emailBool"    #> openEntry.emailBool.toForm.open_! &
-    "name=displayName"  #> openEntry.displayName.toForm.open_! &
-    "name=subject"      #> openEntry.subject.toForm.open_! &
-    "name=news"         #> openEntry.news.toForm.open_! &
-    "name=expires"      #> (openEntry.expires.toForm.open_! ++ SHtml.hidden(process)) &
+    "name=twitterBool"  #> openEntry.twitterBool.toForm.map { x => x } &
+    "name=emailBool"    #> openEntry.emailBool.toForm.map { x => x } &
+    "name=displayName"  #> openEntry.displayName.toForm.map { x => x } &
+    "name=subject"      #> openEntry.subject.toForm.map { x => x } &
+    "name=news"         #> openEntry.news.toForm.map { x => x } &
+    "name=expires"      #> (openEntry.expires.toForm.map { x => x } ++ SHtml.hidden(process)) &
     "type=preview"      #> createPreviewButton &
     "name=tooltip"      #> createTextileTooltip
   }
@@ -73,7 +73,7 @@ class WriteNews extends Loggable with GlobalRequests with EntryPreview with Spir
    * If Crudentry contains any semester, the checkbox is set to true.
    */
   def makecheckboxlist(in: NodeSeq): NodeSeq = {
-      (".checkbox_row" #> Props.get(Props.get("Semester","") + "_" + S.attr("semester").open_!, "").split(";").toList
+      (".checkbox_row" #> Props.get(Props.get("Semester","") + "_" + S.attr("semester").openOr(""), "").split(";").toList
         .map ( sem =>
       ".title" #> sem &
       ".checkbox" #> SHtml.ajaxCheckbox(semesterList contains sem,
