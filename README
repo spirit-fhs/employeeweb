@@ -15,7 +15,7 @@ Features:
 
 * Implemented Record for Persistence.
 
-* Working against MongoDB and H2 Database, switchable via TAG in the prop files.
+* Working against H2 Database and partially against the RESTful DB-Service, switchable via TAG in the prop files.
 
 * Using charts4j http://code.google.com/p/charts4j/ for Poll evaluation.
 
@@ -42,18 +42,9 @@ Using EmployeeWeb with H2 Database simply set
 spirit.admin.record.backentry=h2db
 in the default.props file.
 
-Using EmployeeWeb with MongoDB it is necessary to do following on the mongo shell:
-spirit.admin.record.backentry=mongodb
-for specs:
-> use spirit_admin_test
-> db.addUser("spirit_admin_test","spirit_admin_test")
-for production:
-> use spirit_admin_employeeweb
-> db.addUser("spirit_admin_employeeweb","spirit_admin_employeeweb")
-
 Running
 $ sbt test
-should pass all tests with both Databases.
+should pass all tests with the H2 Database.
 
 After everything is set up, run:
 $ sbt ~jetty-run
