@@ -1,3 +1,6 @@
+.scala_dependencies
+.history
+
 # use glob syntax.
 syntax: glob
 *.ser

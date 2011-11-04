@@ -5,7 +5,7 @@ http://pads.fh-schmalkalden.de/spirit.html
 
 It will act as the frontend for employees.
 
-It is/will be developed with Scala 2.8.1 and Lift 2.2.
+It is/will be developed with Scala 2.9.1 and Lift 2.4-M4.
 
 http://www.scala-lang.org
 http://www.liftweb.net
@@ -20,13 +20,11 @@ Features:
 * Using charts4j http://code.google.com/p/charts4j/ for Poll evaluation.
 
 Hints:
-* The fhsldap_2.8.1-1.0.jar which is located in the lib/ folder 
+* The fhsldap_2.9.1-1.0.jar which is located in the lib/ folder 
   is the module found at https://github.com/mdenison/FhS-LDAP-Module.
   Of course it is possible to use the module as described in its README.
 
-* Working SBT 0.7.4 installation is needed http://code.google.com/p/simple-build-tool/.
-
-* Not fully functional yet....
+* Working SBT 0.11.0 is needed to build and run this project. Please see: https://github.com/harrah/xsbt/wiki/Getting-Started-Setup.
 
 * PollPalSpecs only work with H2 Database at the momemt.
 
@@ -34,7 +32,7 @@ Getting Started:
 
 Clone this repository.
 run:
-$ sbt update compile
+$ sbt 
 
 If this works without any errors go on with editing the Prop file as needed.
 
@@ -43,11 +41,13 @@ spirit.admin.record.backentry=h2db
 in the default.props file.
 
 Running
-$ sbt test
+$ sbt 
+> test
 should pass all tests with the H2 Database.
 
 After everything is set up, run:
-$ sbt ~jetty-run
+$ sbt 
+> ~container:start
 should give a Welcome screen at http://localhost:8080
 
 Log In with the User "default" to see some DummyData on the PollPal stuff.
