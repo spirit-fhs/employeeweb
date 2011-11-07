@@ -16,6 +16,8 @@ seq(webSettings :_*)
 // if you have issues pulling dependencies from the scala-tools repositories (checksums don't match), you can disable checksums
 //checksums := Nil
 
+parallelExecution in Test := false
+
 libraryDependencies ++= {
   val liftVersion = "2.4-M4" // Put the current/latest lift version here
   Seq(
