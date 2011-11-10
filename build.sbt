@@ -19,7 +19,7 @@ seq(webSettings :_*)
 parallelExecution in Test := false
 
 libraryDependencies ++= {
-  val liftVersion = "2.4-M4" // Put the current/latest lift version here
+  val liftVersion = "2.4-M5" // Put the current/latest lift version here
   Seq(
     "net.liftweb" %% "lift-json" % liftVersion % "compile->default" withSources(),
     "net.liftweb" %% "lift-textile" % liftVersion % "compile->default" withSources(),
